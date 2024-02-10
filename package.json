@@ -5,13 +5,14 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "npm run build:lib -- --watch",
+    "dev": "npm run build:diagon && npm run build:lib -- --watch",
     "build": "npm run build:diagon && npm run build:lib",
     "build:lib": "tsup",
     "build:diagon": "sh ./scripts/build-diagon.sh",
     "test": "vitest --watch false",
     "test:watch": "vitest",
-    "format": "prettier --write .",
+    "format": "prettier --write . --ignore-path .gitignore --ignore-path .prettierignore",
+    "lint": "eslint --fix . --ignore-path .gitignore",
     "postinstall": "npm run build:diagon"
   },
   "keywords": [],
@@ -19,6 +20,9 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.11.17",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
     "glob": "^10.3.10",
     "prettier": "^3.2.5",
     "tsup": "^8.0.1",
