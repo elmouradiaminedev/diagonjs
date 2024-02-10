@@ -2,5 +2,8 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   name: "diagonjs",
-  dts: true,
+  entry: ["src"],
+  dts: {
+    entry: "src/index.ts",
+  },
 });
