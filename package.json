@@ -1,6 +1,6 @@
 {
   "name": "diagonjs",
-  "version": "1.0.0",
+  "version": "0.0.0-semantic",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
