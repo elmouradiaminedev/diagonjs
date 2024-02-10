@@ -4,4 +4,4 @@ export function cwrap(
   operation: string,
   outputTypes: string,
   inputTypes: string[],
-): Function;
+): (...args) => string;
