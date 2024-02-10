@@ -8,7 +8,7 @@ export type BaseTranslateStyle = "Unicode" | "ASCII" | "Latex";
 type _TranslateFunction = (
   operation: TranslateOperation,
   statement: string,
-  options: string
+  options: string,
 ) => string;
 
 export type TranslateMathOptions = {
@@ -38,7 +38,7 @@ const Diagon = {
       return Diagon._translate(
         "Math",
         statement,
-        Diagon._stringifyOptions(options)
+        Diagon._stringifyOptions(options),
       );
     },
   },
