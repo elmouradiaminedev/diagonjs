@@ -12,8 +12,7 @@
     "test": "vitest --watch false",
     "test:watch": "vitest",
     "format": "prettier --write . --ignore-path .gitignore --ignore-path .prettierignore",
-    "lint": "eslint --fix . --ignore-path .gitignore",
-    "postinstall": "npm run build:diagon"
+    "lint": "eslint --fix . --ignore-path .gitignore"
   },
   "keywords": [],
   "author": "",
