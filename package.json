@@ -4,10 +4,33 @@
   "description": "A library for converting Markdown-style expressions into visually appealing ASCII, Unicode and LaTeX representations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["/dist"],
+  "files": [
+    "/dist"
+  ],
   "repository": {
     "url": "https://github.com/elmouradiaminedev/diagonjs.git"
   },
+  "keywords": [
+    "Diagon",
+    "interpreter",
+    "markdown",
+    "ascii-art",
+    "unicode",
+    "latex",
+    "math",
+    "visualization",
+    "interactive",
+    "javascript",
+    "typescript",
+    "npm",
+    "package",
+    "library",
+    "development",
+    "tools",
+    "programming"
+  ],
+  "author": "Amine Elmouradi <elmouradi.amine.dev@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "dev": "npm run build:diagon && npm run build:lib -- --watch",
     "build": "npm run build:diagon && npm run build:lib",
@@ -18,9 +41,6 @@
     "format": "prettier --write . --ignore-path .gitignore --ignore-path .prettierignore",
     "lint": "eslint --fix . --ignore-path .gitignore"
   },
-  "keywords": [],
-  "author": "Amine Elmouradi <elmouradi.amine.dev@gmail.com>",
-  "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.11.17",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
