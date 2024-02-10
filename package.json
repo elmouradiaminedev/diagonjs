@@ -1,9 +1,13 @@
 {
   "name": "diagonjs",
-  "version": "0.0.0-semantic",
-  "description": "",
+  "version": "0.0.0-semantic-release",
+  "description": "A library for converting Markdown-style expressions into visually appealing ASCII, Unicode and LaTeX representations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": ["/dist"],
+  "repository": {
+    "url": "https://github.com/elmouradiaminedev/diagonjs.git"
+  },
   "scripts": {
     "dev": "npm run build:diagon && npm run build:lib -- --watch",
     "build": "npm run build:diagon && npm run build:lib",
@@ -15,7 +19,7 @@
     "lint": "eslint --fix . --ignore-path .gitignore"
   },
   "keywords": [],
-  "author": "",
+  "author": "Amine Elmouradi <elmouradi.amine.dev@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.11.17",
