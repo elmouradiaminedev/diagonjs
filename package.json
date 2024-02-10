@@ -9,7 +9,9 @@
     "build": "npm run build:diagon && npm run build:lib",
     "build:lib": "tsup",
     "build:diagon": "sh ./scripts/build-diagon.sh",
-    "test": "vitest",
+    "test": "vitest --watch false",
+    "test:watch": "vitest",
+    "format": "prettier --write .",
     "postinstall": "npm run build:diagon"
   },
   "keywords": [],
@@ -18,6 +20,7 @@
   "devDependencies": {
     "@types/node": "^20.11.17",
     "glob": "^10.3.10",
+    "prettier": "^3.2.5",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3",
     "vite-tsconfig-paths": "^4.3.1",
