@@ -8,7 +8,7 @@
     "dev": "npm run build:diagon && npm run build:lib -- --watch",
     "build": "npm run build:diagon && npm run build:lib",
     "build:lib": "tsup",
-    "build:diagon": "sh ./scripts/build-diagon.sh",
+    "build:diagon": "sh ./scripts/diagon/build-diagon.sh",
     "test": "vitest --watch false",
     "test:watch": "vitest",
     "format": "prettier --write . --ignore-path .gitignore --ignore-path .prettierignore",
