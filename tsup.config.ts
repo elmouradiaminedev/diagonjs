@@ -5,6 +5,7 @@ export default defineConfig({
   target: "esnext",
   entry: ["src"],
   dts: {
-    entry: "src/index.ts",
+    resolve: true,
+    entry: "./src/index.ts",
   },
 });
