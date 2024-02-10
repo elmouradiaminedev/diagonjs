@@ -34,7 +34,7 @@ type _TranslateFunction = (
 ) => string;
 
 /**
- * The Diagon object for translation operations.
+ * The Diagon Module for translation operations.
  */
 const Diagon = (() => {
   /**
@@ -62,7 +62,7 @@ const Diagon = (() => {
         result += `${underscoreKey}\n${value}\n`;
       }
     }
-    console.log(result);
+
     return result;
   };
 
