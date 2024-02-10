@@ -73,3 +73,7 @@ export const translate = {
     return _translate("Math", expression, _stringifyOptions(options));
   },
 };
+
+export default {
+  translate,
+};
