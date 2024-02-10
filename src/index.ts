@@ -44,7 +44,7 @@ const Diagon = (() => {
   const _translate: _TranslateFunction = DiagonCore.cwrap(
     "translate",
     "string",
-    ["string", "string", "number"],
+    ["string", "string", "string"],
   );
 
   /**
@@ -62,6 +62,7 @@ const Diagon = (() => {
         result += `${underscoreKey}\n${value}\n`;
       }
     }
+    console.log(result);
     return result;
   };
 
