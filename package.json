@@ -4,12 +4,12 @@
   "description": "A library for converting Markdown-style expressions into visually appealing ASCII, Unicode and LaTeX representations.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "url": "git+https://github.com/elmouradiaminedev/diagonjs.git"
+  },
   "files": [
     "/dist"
   ],
-  "repository": {
-    "url": "https://github.com/elmouradiaminedev/diagonjs.git"
-  },
   "keywords": [
     "Diagon",
     "interpreter",
