@@ -5,17 +5,22 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "npm run build -- --watch",
+    "dev": "npm run build:lib -- --watch",
     "build": "npm run build:diagon && npm run build:lib",
-    "build:lib": "tsup src",
-    "build:diagon": "sh ./scripts/build-diagon.sh"
+    "build:lib": "tsup",
+    "build:diagon": "sh ./scripts/build-diagon.sh",
+    "test": "vitest",
+    "postinstall": "npm run build:diagon"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "rimraf": "^5.0.5",
+    "@types/node": "^20.11.17",
+    "glob": "^10.3.10",
     "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vite-tsconfig-paths": "^4.3.1",
+    "vitest": "^1.2.2"
   }
 }
