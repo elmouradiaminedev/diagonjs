@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.1.3...v1.2.0) (2024-02-11)
+
+
+### Bug Fixes
+
+* bump upload artifact to v4 ([d87c4ae](https://github.com/elmouradiaminedev/diagonjs/commit/d87c4ae6a303fe129716c269537c6a4ca2db7ec9))
+
+
+### Features
+
+* add  sequence expression translation ([1023d12](https://github.com/elmouradiaminedev/diagonjs/commit/1023d122678b2090ed93d717fe7f36a3e26add6b))
+
 ## [1.1.3](https://github.com/elmouradiaminedev/diagonjs/compare/v1.1.2...v1.1.3) (2024-02-11)
 
 
