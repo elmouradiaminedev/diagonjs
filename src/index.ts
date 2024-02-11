@@ -74,27 +74,17 @@ const _stringifyOptions = (options: TranslationOptions): string => {
 };
 
 /**
- * Close that creates a translation function based on the specified tool type .
+ * Closure that creates a translation function based on the specified translation tool.
  *
  * @param tool - The type of translation tool.
  * @returns A translation function for the specified tool.
  */
 const _createTranslationFunction =
   <T extends TranslationOptions>(tool: TranslationTool) =>
-  /**
-   * Translates the given expression with optional translation options.
-   *
-   * @param expression - The expression to be translated.
-   * @param options - Options for translation.
-   * @returns The translated expression.
-   */
   (expression: string, options?: T): string => {
     return _translate(tool, expression, _stringifyOptions(options || {}));
   };
 
-/**
- * Object containing translation functions for different translation tools
- */
 export const translate = {
   /**
    * Translation function for mathematical expressions.
@@ -105,7 +95,7 @@ export const translate = {
    * @example
    * const translatedMathExpression = translate.math("f(x) = 1 + x / (1 + x)", { style: "Unicode" });
    * console.log(translatedMathExpression)
-   * //               x  
+   * //               x
    * // f(x) = 1 + ─────
    * //            1 + x
    */
@@ -123,17 +113,16 @@ export const translate = {
    * // ┌─────┐       ┌───┐
    * // │Alice│       │Bob│
    * // └──┬──┘       └─┬─┘
-   * //    │            │  
-   * //    │ Hello Bob! │  
-   * //    │───────────>│  
-   * //    │            │  
-   * //    │Hello Alice!│  
-   * //    │<───────────│  
+   * //    │            │
+   * //    │ Hello Bob! │
+   * //    │───────────>│
+   * //    │            │
+   * //    │Hello Alice!│
+   * //    │<───────────│
    * // ┌──┴──┐       ┌─┴─┐
    * // │Alice│       │Bob│
-   * // └─────┘       └───┘            
+   * // └─────┘       └───┘
    */
-
   sequence: _createTranslationFunction<SequenceTranslationOptions>("Sequence"),
 };
 
