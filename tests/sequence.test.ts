@@ -1,5 +1,4 @@
 import { expect, describe, it } from "vitest";
-
 import Diagon, { SequenceTranslationOptions } from "../dist";
 
 function generateAllOptions(): SequenceTranslationOptions[] {
