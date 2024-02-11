@@ -1,14 +1,14 @@
 import { expect, describe, it } from "vitest";
-import Diagon, { MathTranslationStyle, MathTranslationOptions } from "../dist";
+import Diagon, {
+  MATH_TRANSLATION_STYLES,
+  MathTranslationOptions,
+} from "../dist";
 
 function generateAllOptions(): MathTranslationOptions[] {
-  const styles: MathTranslationStyle[] = ["Unicode", "ASCII", "Latex"];
-  const transformMathLettersOptions: boolean[] = [true, false];
-
   const allOptions: MathTranslationOptions[] = [];
 
-  for (const style of styles) {
-    for (const transformMathLetters of transformMathLettersOptions) {
+  for (const style of MATH_TRANSLATION_STYLES) {
+    for (const transformMathLetters of [true, false]) {
       allOptions.push({
         style,
         transformMathLetters,

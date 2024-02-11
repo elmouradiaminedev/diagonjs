@@ -2,13 +2,10 @@ import { expect, describe, it } from "vitest";
 import Diagon, { SequenceTranslationOptions } from "../dist";
 
 function generateAllOptions(): SequenceTranslationOptions[] {
-  const asciiOnlyOptions: boolean[] = [true, false];
-  const interpretBackSlashNOptions: boolean[] = [true, false];
-
   const allOptions: SequenceTranslationOptions[] = [];
 
-  for (const asciiOnly of asciiOnlyOptions) {
-    for (const interpretBackSlashN of interpretBackSlashNOptions) {
+  for (const asciiOnly of [true, false]) {
+    for (const interpretBackSlashN of [true, false]) {
       allOptions.push({
         asciiOnly,
         interpretBackSlashN,

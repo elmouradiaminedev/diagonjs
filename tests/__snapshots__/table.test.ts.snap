@@ -1,0 +1,194 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Table expression translation > With options {"style":"ascii light border"} > should translate a simple table 1`] = `
+"+----------------------------+
+|Column 1   Column 2 Column 3|
+|C++        Web      Assembly|
+|Javascript CSS      HTML    |
++----------------------------+
+"
+`;
+
+exports[`Table expression translation > With options {"style":"ascii light header"} > should translate a simple table 1`] = `
+"Column 1   Column 2 Column 3
+---------- -------- --------
+C++        Web      Assembly
+Javascript CSS      HTML    
+"
+`;
+
+exports[`Table expression translation > With options {"style":"ascii light header/separator"} > should translate a simple table 1`] = `
+"Column 1  |Column 2|Column 3
+----------|--------|--------
+C++       |Web     |Assembly
+Javascript|CSS     |HTML    
+"
+`;
+
+exports[`Table expression translation > With options {"style":"ascii light header/separator/border"} > should translate a simple table 1`] = `
+"+----------+--------+--------+
+|Column 1  |Column 2|Column 3|
++----------+--------+--------|
+|C++       |Web     |Assembly|
+|Javascript|CSS     |HTML    |
++----------+--------+--------+
+"
+`;
+
+exports[`Table expression translation > With options {"style":"ascii light separator/border"} > should translate a simple table 1`] = `
+"+----------+--------+--------+
+|Column 1  |Column 2|Column 3|
+|C++       |Web     |Assembly|
+|Javascript|CSS     |HTML    |
++----------+--------+--------+
+"
+`;
+
+exports[`Table expression translation > With options {"style":"ascii rounded"} > should translate a simple table 1`] = `
+".----------+--------+--------.
+|Column 1  |Column 2|Column 3|
+|----------+--------+--------|
+|C++       |Web     |Assembly|
+|----------+--------+--------|
+|Javascript|CSS     |HTML    |
+'----------+--------+--------'
+"
+`;
+
+exports[`Table expression translation > With options {"style":"ascii with header 1"} > should translate a simple table 1`] = `
+"|==============================|
+| Column 1  |Column 2|Column 3 |
+|==============================|
+ |C++       |Web     |Assembly| 
+ +----------+--------+--------+ 
+ |Javascript|CSS     |HTML    | 
+ +----------+--------+--------+ 
+"
+`;
+
+exports[`Table expression translation > With options {"style":"ascii with header 2"} > should translate a simple table 1`] = `
+"==============================
+|Column 1  |Column 2|Column 3|
+==============================
+|C++       |Web     |Assembly|
++----------+--------+--------+
+|Javascript|CSS     |HTML    |
++----------+--------+--------+
+"
+`;
+
+exports[`Table expression translation > With options {"style":"ascii"} > should translate a simple table 1`] = `
+"+----------+--------+--------+
+|Column 1  |Column 2|Column 3|
++----------+--------+--------+
+|C++       |Web     |Assembly|
++----------+--------+--------+
+|Javascript|CSS     |HTML    |
++----------+--------+--------+
+"
+`;
+
+exports[`Table expression translation > With options {"style":"conceptual"} > should translate a simple table 1`] = `
+" __________  ________  ________ 
+/Column 1  \\/Column 2\\/Column 3\\
+\\__________/\\________/\\________/
+/C++       \\/Web     \\/Assembly\\
+\\__________/\\________/\\________/
+/Javascript\\/CSS     \\/HTML    \\
+\\__________/\\________/\\________/
+"
+`;
+
+exports[`Table expression translation > With options {"style":"unicode bold"} > should translate a simple table 1`] = `
+"┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━┓
+┃Column 1  ┃Column 2┃Column 3┃
+┣━━━━━━━━━━╋━━━━━━━━╋━━━━━━━━┫
+┃C++       ┃Web     ┃Assembly┃
+┣━━━━━━━━━━╋━━━━━━━━╋━━━━━━━━┫
+┃Javascript┃CSS     ┃HTML    ┃
+┗━━━━━━━━━━┻━━━━━━━━┻━━━━━━━━┛
+"
+`;
+
+exports[`Table expression translation > With options {"style":"unicode cells 2"} > should translate a simple table 1`] = `
+"╭────────────────────────────────╮
+│╭──────────╮╭────────╮╭────────╮│
+││Column 1  ││Column 2││Column 3││
+│╰──────────╯╰────────╯╰────────╯│
+│╭──────────╮╭────────╮╭────────╮│
+││C++       ││Web     ││Assembly││
+│╰──────────╯╰────────╯╰────────╯│
+│╭──────────╮╭────────╮╭────────╮│
+││Javascript││CSS     ││HTML    ││
+│╰──────────╯╰────────╯╰────────╯│
+╰────────────────────────────────╯
+"
+`;
+
+exports[`Table expression translation > With options {"style":"unicode cells"} > should translate a simple table 1`] = `
+"╭──────────╮╭────────╮╭────────╮
+│Column 1  ││Column 2││Column 3│
+╰──────────╯╰────────╯╰────────╯
+╭──────────╮╭────────╮╭────────╮
+│C++       ││Web     ││Assembly│
+╰──────────╯╰────────╯╰────────╯
+╭──────────╮╭────────╮╭────────╮
+│Javascript││CSS     ││HTML    │
+╰──────────╯╰────────╯╰────────╯
+"
+`;
+
+exports[`Table expression translation > With options {"style":"unicode double"} > should translate a simple table 1`] = `
+"╔══════════╦════════╦════════╗
+║Column 1  ║Column 2║Column 3║
+╠══════════╬════════╬════════╣
+║C++       ║Web     ║Assembly║
+╠══════════╬════════╬════════╣
+║Javascript║CSS     ║HTML    ║
+╚══════════╩════════╩════════╝
+"
+`;
+
+exports[`Table expression translation > With options {"style":"unicode rounded"} > should translate a simple table 1`] = `
+"╭──────────┬────────┬────────╮
+│Column 1  │Column 2│Column 3│
+├──────────┼────────┼────────┤
+│C++       │Web     │Assembly│
+├──────────┼────────┼────────┤
+│Javascript│CSS     │HTML    │
+╰──────────┴────────┴────────╯
+"
+`;
+
+exports[`Table expression translation > With options {"style":"unicode with bold header"} > should translate a simple table 1`] = `
+"┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━┓
+┃Column 1  ┃Column 2┃Column 3┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━┩
+│C++       │Web     │Assembly│
+├──────────┼────────┼────────┤
+│Javascript│CSS     │HTML    │
+└──────────┴────────┴────────┘
+"
+`;
+
+exports[`Table expression translation > With options {"style":"unicode with double header"} > should translate a simple table 1`] = `
+"╒══════════╤════════╤════════╕
+│Column 1  │Column 2│Column 3│
+╞══════════╪════════╪════════╡
+│C++       │Web     │Assembly│
+├──────────┼────────┼────────┤
+│Javascript│CSS     │HTML    │
+└──────────┴────────┴────────┘
+"
+`;
+
+exports[`Table expression translation > With options {"style":"unicode"} > should translate a simple table 1`] = `
+"┌──────────┬────────┬────────┐
+│Column 1  │Column 2│Column 3│
+├──────────┼────────┼────────┤
+│C++       │Web     │Assembly│
+├──────────┼────────┼────────┤
+│Javascript│CSS     │HTML    │
+└──────────┴────────┴────────┘
+"
+`;
