@@ -8,6 +8,5 @@ export type SequenceTranslationOptions = {
   interpretBackSlashN?: boolean;
 };
 
-
 export const sequence =
   createTranslationFunction<SequenceTranslationOptions>("Sequence");
