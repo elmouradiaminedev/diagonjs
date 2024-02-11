@@ -2,54 +2,66 @@ import DiagonCore from "@vendors/diagon";
 import { camelToUnderscore } from "./utils";
 
 /**
- * Represents the available translation operations.
+ * Represents the translation tool type.
  */
-export type TranslateOperation = "Math";
+export type TranslationTool = "Math" | "Sequence";
 
 /**
- * Represents the base styles for translation.
+ * Represents the style of mathematical translation.
  */
-export type BaseTranslateStyle = "Unicode" | "ASCII" | "Latex";
+export type MathTranslationStyle = "Unicode" | "ASCII" | "Latex";
 
 /**
- * Represents the options for mathematical translation.
+ * Options for mathematical translation.
  */
-export type TranslateMathOptions = {
-  style?: BaseTranslateStyle;
+export type MathTranslationOptions = {
+  style?: MathTranslationStyle;
   transformMathLetters?: boolean;
 };
 
 /**
- * Represents options for translation with dynamic keys and various value types.
+ * Options for sequence translation.
  */
-export type TranslateOptions = { [key: string]: string | number | boolean };
+export type SequenceTranslationOptions = {
+  asciiOnly?: boolean;
+  interpretBackSlashN?: boolean;
+};
 
 /**
- * Represents the internal translation function type.
+ * Options for translation, allowing string, number, or boolean values.
  */
-type _TranslateFunction = (
-  operation: TranslateOperation,
+export type TranslationOptions = { [key: string]: string | number | boolean };
+
+/**
+ * Represents the type of translation function.
+ *
+ * @param operation - The type of translation operation, either "Math" or "Sequence".
+ * @param expression - The expression to be translated.
+ * @param options - Options for translation in string format.
+ * @returns The translated expression.
+ */
+type _TranslationFunction = (
+  tool: TranslationTool,
   expression: string,
   options: string,
 ) => string;
 
 /**
- * The core translation function that wraps the cpp function
- * @private
+ * Calls the C function "translate" from DiagonCore.
  */
-const _translate: _TranslateFunction = DiagonCore.cwrap("translate", "string", [
+const _translate: _TranslationFunction = DiagonCore.cwrap(
+  "translate",
   "string",
-  "string",
-  "string",
-]);
+  ["string", "string", "string"],
+);
 
 /**
- * Converts translation options to a string.
- * @param options - The options to stringify.
- * @returns The string representation of the options.
- * @private
+ * Converts options object to a string representation.
+ *
+ * @param options - Options for translation.
+ * @returns A string representation of translation options.
  */
-const _stringifyOptions = (options: TranslateOptions): string => {
+const _stringifyOptions = (options: TranslationOptions): string => {
   let result = "";
   for (const key in options) {
     if (Object.prototype.hasOwnProperty.call(options, key)) {
@@ -58,20 +70,71 @@ const _stringifyOptions = (options: TranslateOptions): string => {
       result += `${underscoreKey}\n${value}\n`;
     }
   }
-
   return result;
 };
 
+/**
+ * Close that creates a translation function based on the specified tool type .
+ *
+ * @param tool - The type of translation tool.
+ * @returns A translation function for the specified tool.
+ */
+const _createTranslationFunction =
+  <T extends TranslationOptions>(tool: TranslationTool) =>
+  /**
+   * Translates the given expression with optional translation options.
+   *
+   * @param expression - The expression to be translated.
+   * @param options - Options for translation.
+   * @returns The translated expression.
+   */
+  (expression: string, options?: T): string => {
+    return _translate(tool, expression, _stringifyOptions(options || {}));
+  };
+
+/**
+ * Object containing translation functions for different translation tools
+ */
 export const translate = {
   /**
-   * Translates a mathematical expression.
-   * @param expression - The mathematical expression to translate.
-   * @param options - The translation options.
-   * @returns The translated string.
+   * Translation function for mathematical expressions.
+   *
+   * @param expression - The expression to be translated.
+   * @param options - Options for translation.
+   * @returns The translated expression.
+   * @example
+   * const translatedMathExpression = translate.math("f(x) = 1 + x / (1 + x)", { style: "Unicode" });
+   * console.log(translatedMathExpression)
+   * //               x  
+   * // f(x) = 1 + ─────
+   * //            1 + x
    */
-  math: (expression: string, options: TranslateMathOptions = {}): string => {
-    return _translate("Math", expression, _stringifyOptions(options));
-  },
+  math: _createTranslationFunction<MathTranslationOptions>("Math"),
+
+  /**
+   * Translation function for sequence expressions.
+   *
+   * @param expression - The expression to be translated.
+   * @param options - Options for translation.
+   * @returns The translated expression.
+   * @example
+   * const translatedSequenceExpression = translate.sequence("Alice -> Bob: Hello Bob!\nAlice <- Bob: Hello Alice!", { "asciiOnly":false })
+   * console.log(translatedSequenceExpression)
+   * // ┌─────┐       ┌───┐
+   * // │Alice│       │Bob│
+   * // └──┬──┘       └─┬─┘
+   * //    │            │  
+   * //    │ Hello Bob! │  
+   * //    │───────────>│  
+   * //    │            │  
+   * //    │Hello Alice!│  
+   * //    │<───────────│  
+   * // ┌──┴──┐       ┌─┴─┐
+   * // │Alice│       │Bob│
+   * // └─────┘       └───┘            
+   */
+
+  sequence: _createTranslationFunction<SequenceTranslationOptions>("Sequence"),
 };
 
 export default {
