@@ -13,5 +13,4 @@ export type MathTranslationOptions = {
   transformMathLetters?: boolean;
 };
 
-
 export const math = createTranslationFunction<MathTranslationOptions>("Math");
