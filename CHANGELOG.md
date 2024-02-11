@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.2.0...v1.3.0) (2024-02-11)
+
+
+### Features
+
+* add tree translator ([2ef1d66](https://github.com/elmouradiaminedev/diagonjs/commit/2ef1d66fa44aba0e5e5f779eb7ad70d64c71c8e3))
+
 # [1.2.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.1.3...v1.2.0) (2024-02-11)
 
 
