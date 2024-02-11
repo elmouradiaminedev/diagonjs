@@ -36,7 +36,7 @@ jobs:
           check-latest: true
 
       - name: "Setup Emscripten"
-        uses: mymindstorm/setup-emsdk@v7
+        uses: mymindstorm/setup-emsdk@v14
 
       - name: "Install Linux Dependencies"
         run: sudo apt install libboost-graph-dev uuid-dev
