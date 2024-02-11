@@ -26,6 +26,8 @@ import {
   GrammarTranslationOutputs,
   grammar,
 } from "./translators/grammar";
+import { FrameTranslationOptions, frame } from "./translators/frame";
+import { graphDAG } from "./translators/graph-dag";
 
 type Translator = {
   /**
@@ -121,7 +123,7 @@ type Translator = {
    * //                   ╭────>─────╮  ╭───────>────────╮  ╭──────>───────╮
    * //                   │          │  │                │  │              │
    * //     │├── domain ──╯── path ──╰──╯── attributes ──╰──╯── fragment ──╰──┤│
-   * // 
+   * //
    * //  domain:
    * //                            ╭───────>────────╮          ╭────>─────╮
    * //                            │                │          │          │
@@ -136,15 +138,15 @@ type Translator = {
    * //                     ╭──────────>──────────╮
    * //                     │                     │
    * //     │├── username ──╯── ":" ── password ──╰── "@" ──┤│
-   * // 
+   * //
    * // host:
    * //     │├──╭── subdomain ── "." ──╮── domain ──┤│
    * //         │                      │
    * //         ╰──────────<───────────╯
-   * // 
+   * //
    * // port:
    * //     │├── ":" ── number ──┤│
-   * // 
+   * //
    * // path:
    * //     │├── "/" ──┤│
    * //
@@ -159,14 +161,60 @@ type Translator = {
    * //     │├── key ──╯── "=" ── value ──╰──┤│
    */
   grammar: (expression: string, options?: GrammarTranslationOptions) => string;
+  /**
+   * Translation function for Frame expressions.
+   *
+   * @param expression - The Frame expression to be translated.
+   * @param options - Options for frame translation.
+   * @returns The translated frame expression.
+   * @example
+   * const translatedFrameExpression = frame("#include <iostream>\nusing namespace std;\n\nint main() \n{\n    cout << \"Hello, World!\";\n    return 0;\n}", { asciiOnly: false, lineNumber: true });
+   * console.log(translatedFrameExpression)
+   * // ┌─┬────────────────────────────┐
+   * // │1│#include <iostream>         │
+   * // │2│using namespace std;        │
+   * // │3│                            │
+   * // │4│int main()                  │
+   * // │5│{                           │
+   * // │6│    cout << "Hello, World!";│
+   * // │7│    return 0;               │
+   * // │8│}                           │
+   * // └─┴────────────────────────────┘
+   */
+  frame: (expression: string, options?: FrameTranslationOptions) => string;
+  /**
+   * Translation function for DAG expressions.
+   *
+   * @param expression - The DAG expression to be translated.
+   * @param options - Options for DAG translation.
+   * @returns The translated DAG expression.
+   * @example
+   * const translatedDAGExpression = tree("socks -> shoes\nunderwear -> shoes\nunderwear -> pants\npants -> shoes\npants -> belt\nbelt -> jacket\nshirt -> belt\nshirt -> tie\ntie -> jacket\n" });
+   * console.log(translatedDAGExpression)
+   * // ┌─────┐┌─────────┐┌─────┐
+   * // │socks││underwear││shirt│
+   * // └┬────┘└┬─┬──────┘└┬─┬──┘
+   * //  │      │┌▽─────┐  │┌▽───────┐
+   * //  │      ││pants │  ││tie     │
+   * //  │      │└┬──┬──┘  │└┬───────┘
+   * // ┌▽──────▽─▽┐┌▽─────▽┐│
+   * // │shoes     ││belt   ││
+   * // └──────────┘└┬──────┘│
+   * // ┌────────────▽───────▽┐
+   * // │jacket               │
+   * // └─────────────────────┘
+   */
+  graphDAG: (expression: string) => string;
 };
 
 export const translate: Translator = {
   math,
   sequence,
-  tree,
   table,
+  tree,
   grammar,
+  frame,
+  graphDAG,
 };
 
 export type {
@@ -180,6 +228,7 @@ export type {
   GrammarTranslationOptions,
   GrammarTranslationInputs,
   GrammarTranslationOutputs,
+  FrameTranslationOptions,
   TranslationTool,
 };
 

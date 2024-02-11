@@ -9,7 +9,9 @@ export type TranslationTool =
   | "Sequence"
   | "Tree"
   | "Table"
-  | "Grammar";
+  | "Grammar"
+  | "Frame"
+  | "GraphDAG";
 
 /**
  * Represents the type of translation function.
