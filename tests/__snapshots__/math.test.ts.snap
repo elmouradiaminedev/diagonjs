@@ -1,6 +1,16 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Math expression translation > With options {"style":"ASCII","transformMathLetters":false} > should translate braces vs parenthesis 1`] = `""`;
+exports[`Math expression translation > With options {"style":"ASCII","transformMathLetters":false} > should translate braces vs parenthesis 1`] = `
+"A       
+ (1 + 2)
+        
+A       
+ 1 + 2  
+        
+ 1 + 2  
+A       
+"
+`;
 
 exports[`Math expression translation > With options {"style":"ASCII","transformMathLetters":false} > should translate continued fraction 1`] = `
 "                   1         
@@ -131,7 +141,17 @@ exports[`Math expression translation > With options {"style":"ASCII","transformM
 "
 `;
 
-exports[`Math expression translation > With options {"style":"ASCII","transformMathLetters":true} > should translate braces vs parenthesis 1`] = `""`;
+exports[`Math expression translation > With options {"style":"ASCII","transformMathLetters":true} > should translate braces vs parenthesis 1`] = `
+"A       
+ (1 + 2)
+        
+A       
+ 1 + 2  
+        
+ 1 + 2  
+A       
+"
+`;
 
 exports[`Math expression translation > With options {"style":"ASCII","transformMathLetters":true} > should translate continued fraction 1`] = `
 "                 1         
@@ -262,7 +282,14 @@ exports[`Math expression translation > With options {"style":"ASCII","transformM
 "
 `;
 
-exports[`Math expression translation > With options {"style":"Latex","transformMathLetters":false} > should translate braces vs parenthesis 1`] = `""`;
+exports[`Math expression translation > With options {"style":"Latex","transformMathLetters":false} > should translate braces vs parenthesis 1`] = `
+"A_{\\left(1 + 2\\right)} \\\\
+\\\\
+A_{1 + 2} \\\\
+\\\\
+A^{1 + 2}
+"
+`;
 
 exports[`Math expression translation > With options {"style":"Latex","transformMathLetters":false} > should translate continued fraction 1`] = `
 "psi = 1 + \\frac{1}{1 + \\frac{1}{1 + \\frac{1}{1 + \\frac{1}{1 + \\ldots}}}}
@@ -352,7 +379,14 @@ exports[`Math expression translation > With options {"style":"Latex","transformM
 "
 `;
 
-exports[`Math expression translation > With options {"style":"Latex","transformMathLetters":true} > should translate braces vs parenthesis 1`] = `""`;
+exports[`Math expression translation > With options {"style":"Latex","transformMathLetters":true} > should translate braces vs parenthesis 1`] = `
+"A_{\\left(1 + 2\\right)} \\\\
+\\\\
+A_{1 + 2} \\\\
+\\\\
+A^{1 + 2}
+"
+`;
 
 exports[`Math expression translation > With options {"style":"Latex","transformMathLetters":true} > should translate continued fraction 1`] = `
 "\\psi = 1 + \\frac{1}{1 + \\frac{1}{1 + \\frac{1}{1 + \\frac{1}{1 + \\ldots}}}}
@@ -442,7 +476,17 @@ exports[`Math expression translation > With options {"style":"Latex","transformM
 "
 `;
 
-exports[`Math expression translation > With options {"style":"Unicode","transformMathLetters":false} > should translate braces vs parenthesis 1`] = `""`;
+exports[`Math expression translation > With options {"style":"Unicode","transformMathLetters":false} > should translate braces vs parenthesis 1`] = `
+"A       
+ (1 + 2)
+        
+A       
+ 1 + 2  
+        
+ 1 + 2  
+A       
+"
+`;
 
 exports[`Math expression translation > With options {"style":"Unicode","transformMathLetters":false} > should translate continued fraction 1`] = `
 "                   1         
@@ -572,7 +616,17 @@ exports[`Math expression translation > With options {"style":"Unicode","transfor
 "
 `;
 
-exports[`Math expression translation > With options {"style":"Unicode","transformMathLetters":true} > should translate braces vs parenthesis 1`] = `""`;
+exports[`Math expression translation > With options {"style":"Unicode","transformMathLetters":true} > should translate braces vs parenthesis 1`] = `
+"A       
+ (1 + 2)
+        
+A       
+ 1 + 2  
+        
+ 1 + 2  
+A       
+"
+`;
 
 exports[`Math expression translation > With options {"style":"Unicode","transformMathLetters":true} > should translate continued fraction 1`] = `
 "                 1         

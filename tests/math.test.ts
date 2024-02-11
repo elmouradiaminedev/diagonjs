@@ -1,8 +1,5 @@
 import { expect, describe, it } from "vitest";
-import Diagon, {
-  MATH_TRANSLATION_STYLES,
-  MathTranslationOptions,
-} from "../dist";
+import Diagon, { MATH_TRANSLATION_STYLES, MathTranslationOptions } from "src";
 
 function generateAllOptions(): MathTranslationOptions[] {
   const allOptions: MathTranslationOptions[] = [];
@@ -90,7 +87,7 @@ describe("Math expression translation", () => {
 
       it("should translate braces vs parenthesis", () => {
         expect(
-          Diagon.translate.math("A_(1+2)\n\nA_{1+2,}\n\nA^{1+2,}\n", options),
+          Diagon.translate.math("A_(1+2)\n\nA_{1+2}\n\nA^{1+2}\n", options),
         ).toMatchSnapshot();
       });
 

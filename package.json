@@ -36,8 +36,9 @@
     "build": "npm run build:diagon && npm run build:lib",
     "build:lib": "tsup",
     "build:diagon": "sh ./scripts/diagon/build-diagon.sh",
-    "test": "vitest --watch false",
+    "test": "vitest run",
     "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
     "format": "prettier --write . --ignore-path .gitignore --ignore-path .prettierignore",
     "lint": "eslint --fix . --ignore-path .gitignore"
   },
@@ -45,6 +46,7 @@
     "@types/node": "^20.11.17",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "@vitest/coverage-v8": "^1.2.2",
     "eslint": "^8.56.0",
     "glob": "^10.3.10",
     "prettier": "^3.2.5",

@@ -2,7 +2,7 @@ import { expect, describe, it } from "vitest";
 import Diagon, {
   GRAMMAR_TRANSLATION_OUTPUTS,
   GrammarTranslationOptions,
-} from "../dist";
+} from "src";
 
 function generateAllOptions(): GrammarTranslationOptions[] {
   const allOptions: GrammarTranslationOptions[] = [];
@@ -43,7 +43,7 @@ describe("Grammar expression translation", () => {
         ).toMatchSnapshot();
       });
 
-      it("should translate a simple ABNF - URL", () => {
+      it("should translate a ISO - EBNF", () => {
         expect(
           Diagon.translate.grammar(
             '\nletter = "A" | "B" | "C" | "D" | "E" | "F" | "G"\n       | "H" | "I" | "J" | "K" | "L" | "M" | "N"\n       | "O" | "P" | "Q" | "R" | "S" | "T" | "U"\n       | "V" | "W" | "X" | "Y" | "Z" | "a" | "b"\n       | "c" | "d" | "e" | "f" | "g" | "h" | "i"\n       | "j" | "k" | "l" | "m" | "n" | "o" | "p"\n       | "q" | "r" | "s" | "t" | "u" | "v" | "w"\n       | "x" | "y" | "z" ;\ndigit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;\nsymbol = "[" | "]" | "{" | "}" | "(" | ")" | "<" | ">"\n       | "\'" | \'"\' | "=" | "|" | "." | "," | ";" ;\ncharacter = letter | digit | symbol | "_" ;\n \nidentifier = letter , { letter | digit | "_" } ;\nterminal = "\'" , character , { character } , "\'" \n         | \'"\' , character , { character } , \'"\' ;\n \nlhs = identifier ;\nrhs = identifier\n     | terminal\n     | "[" , rhs , "]"\n     | "{" , rhs , "}"\n     | "(" , rhs , ")"\n     | rhs , "|" , rhs\n     | rhs , "," , rhs ;\n\nrule = lhs , "=" , rhs , ";" ;\ngrammar = { rule } ;\n',

@@ -1,5 +1,5 @@
 import { expect, describe, it } from "vitest";
-import Diagon from "../dist";
+import Diagon from "src";
 
 describe("GraphDAG expression translation", () => {
   it("should translate clothes DAG", () => {

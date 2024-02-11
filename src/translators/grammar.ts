@@ -17,11 +17,6 @@ export const GRAMMAR_TRANSLATION_OUTPUTS = [
   "ebnfhtml5",
   "ebnfxhtml5",
   "abnf",
-  "blab",
-  "bnf",
-  "iso-ebnf",
-  "rbnf",
-  "wsn",
 ] as const;
 
 export type GrammarTranslationInputs =

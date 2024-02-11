@@ -1,8 +1,5 @@
 import { expect, describe, it } from "vitest";
-import Diagon, {
-  TABLE_TRANSLATION_STYLES,
-  TableTranslationOptions,
-} from "../dist";
+import Diagon, { TABLE_TRANSLATION_STYLES, TableTranslationOptions } from "src";
 
 function generateAllOptions(): TableTranslationOptions[] {
   const allOptions: TableTranslationOptions[] = [];
