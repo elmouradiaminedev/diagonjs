@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.3.0...v1.4.0) (2024-02-11)
+
+
+### Features
+
+* add support to table expression translation ([559c5ee](https://github.com/elmouradiaminedev/diagonjs/commit/559c5ee838c7791cef37781f8e3ce247eb9004d8))
+
 # [1.3.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.2.0...v1.3.0) (2024-02-11)
 
 
