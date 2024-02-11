@@ -4,7 +4,12 @@ import { camelToUnderscore } from "../utils";
 /**
  * Represents the translation tool.
  */
-export type TranslationTool = "Math" | "Sequence" | "Tree" | "Table";
+export type TranslationTool =
+  | "Math"
+  | "Sequence"
+  | "Tree"
+  | "Table"
+  | "Grammar";
 
 /**
  * Represents the type of translation function.

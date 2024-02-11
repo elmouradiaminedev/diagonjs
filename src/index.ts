@@ -18,6 +18,14 @@ import {
   table,
 } from "./translators/table";
 import { TranslationTool } from "./lib/internal";
+import {
+  GRAMMAR_TRANSLATION_INPUTS,
+  GRAMMAR_TRANSLATION_OUTPUTS,
+  GrammarTranslationInputs,
+  GrammarTranslationOptions,
+  GrammarTranslationOutputs,
+  grammar,
+} from "./translators/grammar";
 
 type Translator = {
   /**
@@ -100,6 +108,57 @@ type Translator = {
    * // ╚══════════╩════════╩════════╝
    */
   table: (expression: string, options?: TableTranslationOptions) => string;
+  /**
+   * Translation function for Grammar expressions.
+   *
+   * @param expression - The grammar expression to be translated.
+   * @param options - Options for grammar translation.
+   * @returns The translated grammar expression.
+   * @example
+   * const translatedGrammarExpression = grammar(`\nURL = domain [path] [attributes] [fragment]\n\ndomain = scheme "://" [credential] host [port] \n\nscheme = "http" / "https"\n\ncredential = username [":" password]"@"\n\nhost = 1*(subdomain ".") domain\n\nport = ":" number\n\npath = "/" \n\nattributes = "?" attribute-key-value *("&" attribute-key-value)\n\nattribute-key-pair = key ["=" value]\n`, { input: "abnf", output: "unicode" });
+   * console.log(translatedGrammarExpression)
+   * //  URL:
+   * //                   ╭────>─────╮  ╭───────>────────╮  ╭──────>───────╮
+   * //                   │          │  │                │  │              │
+   * //     │├── domain ──╯── path ──╰──╯── attributes ──╰──╯── fragment ──╰──┤│
+   * // 
+   * //  domain:
+   * //                            ╭───────>────────╮          ╭────>─────╮
+   * //                            │                │          │          │
+   * //     │├── scheme ── "://" ──╯── credential ──╰── host ──╯── port ──╰──┤│
+   * //
+   * //  scheme:
+   * //     │├──╮── "http"/i ───╭──┤│
+   * //         │               │
+   * //         ╰── "https"/i ──╯
+   * //
+   * //  credential:
+   * //                     ╭──────────>──────────╮
+   * //                     │                     │
+   * //     │├── username ──╯── ":" ── password ──╰── "@" ──┤│
+   * // 
+   * // host:
+   * //     │├──╭── subdomain ── "." ──╮── domain ──┤│
+   * //         │                      │
+   * //         ╰──────────<───────────╯
+   * // 
+   * // port:
+   * //     │├── ":" ── number ──┤│
+   * // 
+   * // path:
+   * //     │├── "/" ──┤│
+   * //
+   * // attributes:
+   * //     │├── "?" ──╭── attribute-key-value ──╮──┤│
+   * //                │                         │
+   * //                ╰────────── "&" ──────────╯
+   * //
+   * // attribute-key-pair:
+   * //                ╭────────>─────────╮
+   * //                │                  │
+   * //     │├── key ──╯── "=" ── value ──╰──┤│
+   */
+  grammar: (expression: string, options?: GrammarTranslationOptions) => string;
 };
 
 export const translate: Translator = {
@@ -107,6 +166,7 @@ export const translate: Translator = {
   sequence,
   tree,
   table,
+  grammar,
 };
 
 export type {
@@ -117,6 +177,9 @@ export type {
   TreeTranslationStyle,
   TableTranslationOptions,
   TableTranslationStyle,
+  GrammarTranslationOptions,
+  GrammarTranslationInputs,
+  GrammarTranslationOutputs,
   TranslationTool,
 };
 
@@ -124,4 +187,6 @@ export {
   MATH_TRANSLATION_STYLES,
   TREE_TRANSLATION_STYLES,
   TABLE_TRANSLATION_STYLES,
+  GRAMMAR_TRANSLATION_INPUTS,
+  GRAMMAR_TRANSLATION_OUTPUTS,
 };
