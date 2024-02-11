@@ -5,11 +5,18 @@ import {
 } from "./translators/math";
 import { sequence, SequenceTranslationOptions } from "./translators/sequence";
 import { TranslationTool } from "./lib/internal";
+import {
+  tree,
+  TreeTranslationOptions,
+  TreeTranslationStyle,
+} from "./translators/tree";
 
 export type {
   MathTranslationOptions,
   MathTranslationStyle,
   SequenceTranslationOptions,
+  TreeTranslationOptions,
+  TreeTranslationStyle,
   TranslationTool,
 };
 
@@ -54,9 +61,11 @@ type Translator = {
     expression: string,
     options?: SequenceTranslationOptions,
   ) => string;
+  tree: (expression: string, options?: TreeTranslationOptions) => string;
 };
 
 export const translate: Translator = {
   math,
   sequence,
+  tree,
 };
