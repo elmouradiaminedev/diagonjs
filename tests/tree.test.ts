@@ -1,21 +1,13 @@
 import { expect, describe, it } from "vitest";
-import Diagon, { TreeTranslationOptions, TreeTranslationStyle } from "../dist";
+import Diagon, {
+  TREE_TRANSLATION_STYLES,
+  TreeTranslationOptions,
+} from "../dist";
 
 function generateAllOptions(): TreeTranslationOptions[] {
-  const styles: TreeTranslationStyle[] = [
-    "unicode 1",
-    "unicode 2",
-    "ASCII 1",
-    "ASCII 2",
-    "ASCII 3",
-    "unicode right top",
-    "unicode right center",
-    "unicode right bottom",
-  ];
-
   const allOptions: TreeTranslationOptions[] = [];
 
-  for (const style of styles) {
+  for (const style of TREE_TRANSLATION_STYLES) {
     allOptions.push({
       style,
     });

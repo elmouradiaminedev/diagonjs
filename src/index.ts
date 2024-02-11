@@ -2,23 +2,22 @@ import {
   math,
   MathTranslationOptions,
   MathTranslationStyle,
+  MATH_TRANSLATION_STYLES,
 } from "./translators/math";
 import { sequence, SequenceTranslationOptions } from "./translators/sequence";
-import { TranslationTool } from "./lib/internal";
 import {
   tree,
   TreeTranslationOptions,
   TreeTranslationStyle,
+  TREE_TRANSLATION_STYLES,
 } from "./translators/tree";
-
-export type {
-  MathTranslationOptions,
-  MathTranslationStyle,
-  SequenceTranslationOptions,
-  TreeTranslationOptions,
-  TreeTranslationStyle,
-  TranslationTool,
-};
+import {
+  TableTranslationOptions,
+  TableTranslationStyle,
+  TABLE_TRANSLATION_STYLES,
+  table,
+} from "./translators/table";
+import { TranslationTool } from "./lib/internal";
 
 type Translator = {
   /**
@@ -68,7 +67,7 @@ type Translator = {
    * @param options - Options for tree translation.
    * @returns The translated tree expression.
    * @example
-   * const translatedTreeExpression = tree("expression", { style: "Unicode 2" });
+   * const translatedTreeExpression = tree("Linux\n  Android\n  Debian\n    Ubuntu\n      Lubuntu\n      Kubuntu\n      Xubuntu\n      Xubuntu\n    Mint\n  Centos\n  Fedora", { style: "Unicode 2" });
    * console.log(translatedTreeExpression)
    * //  Linux
    * //   ├──Android
@@ -83,10 +82,46 @@ type Translator = {
    * //   └──Fedora
    */
   tree: (expression: string, options?: TreeTranslationOptions) => string;
+  /**
+   * Translation function for Table expressions.
+   *
+   * @param expression - The table expression to be translated.
+   * @param options - Options for table translation.
+   * @returns The translated table expression.
+   * @example
+   * const translatedTableExpression = tree("Column 1,Column 2,Column 3\nC++,Web,Assembly\nJavascript,CSS,HTML", { style: "Unicode double" });
+   * console.log(translatedTableExpression)
+   * // ╔══════════╦════════╦════════╗
+   * // ║Column 1  ║Column 2║Column 3║
+   * // ╠══════════╬════════╬════════╣
+   * // ║C++       ║Web     ║Assembly║
+   * // ╠══════════╬════════╬════════╣
+   * // ║Javascript║CSS     ║HTML    ║
+   * // ╚══════════╩════════╩════════╝
+   */
+  table: (expression: string, options?: TableTranslationOptions) => string;
 };
 
 export const translate: Translator = {
   math,
   sequence,
   tree,
+  table,
+};
+
+export type {
+  MathTranslationOptions,
+  MathTranslationStyle,
+  SequenceTranslationOptions,
+  TreeTranslationOptions,
+  TreeTranslationStyle,
+  TableTranslationOptions,
+  TableTranslationStyle,
+  TranslationTool,
+};
+
+export {
+  MATH_TRANSLATION_STYLES,
+  TREE_TRANSLATION_STYLES,
+  TABLE_TRANSLATION_STYLES,
 };
