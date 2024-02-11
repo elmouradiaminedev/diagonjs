@@ -3,14 +3,14 @@ import Diagon, { TreeTranslationOptions, TreeTranslationStyle } from "../dist";
 
 function generateAllOptions(): TreeTranslationOptions[] {
   const styles: TreeTranslationStyle[] = [
-    "Unicode",
-    "Unicode 2",
+    "unicode 1",
+    "unicode 2",
     "ASCII 1",
     "ASCII 2",
     "ASCII 3",
-    "Unicode right top",
-    "Unicode right center",
-    "Unicode right bottom",
+    "unicode right top",
+    "unicode right center",
+    "unicode right bottom",
   ];
 
   const allOptions: TreeTranslationOptions[] = [];

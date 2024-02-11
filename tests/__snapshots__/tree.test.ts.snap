@@ -45,7 +45,22 @@ exports[`Tree expression translation > With options {"style":"ASCII 3"} > should
 "
 `;
 
-exports[`Tree expression translation > With options {"style":"Unicode 2"} > should translate a simple tree 1`] = `
+exports[`Tree expression translation > With options {"style":"unicode 1"} > should translate a simple tree 1`] = `
+"Linux
+ ├─Android
+ ├─Debian
+ │  ├─Ubuntu
+ │  │  ├─Lubuntu
+ │  │  ├─Kubuntu
+ │  │  ├─Xubuntu
+ │  │  └─Xubuntu
+ │  └─Mint
+ ├─Centos
+ └─Fedora
+"
+`;
+
+exports[`Tree expression translation > With options {"style":"unicode 2"} > should translate a simple tree 1`] = `
 "Linux
  ├──Android
  ├──Debian
@@ -60,62 +75,38 @@ exports[`Tree expression translation > With options {"style":"Unicode 2"} > shou
 "
 `;
 
-exports[`Tree expression translation > With options {"style":"Unicode right bottom"} > should translate a simple tree 1`] = `
-"Linux
- ├──Android
- ├──Debian
- │   ├──Ubuntu
- │   │   ├──Lubuntu
- │   │   ├──Kubuntu
- │   │   ├──Xubuntu
- │   │   └──Xubuntu
- │   └──Mint
- ├──Centos
- └──Fedora
+exports[`Tree expression translation > With options {"style":"unicode right bottom"} > should translate a simple tree 1`] = `
+"         ┌─Android
+         │                 ┌─Lubuntu
+         │                 ├─Kubuntu
+         │                 ├─Xubuntu
+         │        ┌─Ubuntu─┴─Xubuntu
+         ├─Debian─┴─Mint
+         ├─Centos
+───Linux─┴─Fedora
 "
 `;
 
-exports[`Tree expression translation > With options {"style":"Unicode right center"} > should translate a simple tree 1`] = `
-"Linux
- ├──Android
- ├──Debian
- │   ├──Ubuntu
- │   │   ├──Lubuntu
- │   │   ├──Kubuntu
- │   │   ├──Xubuntu
- │   │   └──Xubuntu
- │   └──Mint
- ├──Centos
- └──Fedora
+exports[`Tree expression translation > With options {"style":"unicode right center"} > should translate a simple tree 1`] = `
+"         ┌─Android
+         │                 ┌─Lubuntu
+         │                 ├─Kubuntu
+         ├─Debian─┬─Ubuntu─┼─Xubuntu
+───Linux─┤        │        └─Xubuntu
+         │        └─Mint
+         ├─Centos
+         └─Fedora
 "
 `;
 
-exports[`Tree expression translation > With options {"style":"Unicode right top"} > should translate a simple tree 1`] = `
-"Linux
- ├──Android
- ├──Debian
- │   ├──Ubuntu
- │   │   ├──Lubuntu
- │   │   ├──Kubuntu
- │   │   ├──Xubuntu
- │   │   └──Xubuntu
- │   └──Mint
- ├──Centos
- └──Fedora
-"
-`;
-
-exports[`Tree expression translation > With options {"style":"Unicode"} > should translate a simple tree 1`] = `
-"Linux
- ├──Android
- ├──Debian
- │   ├──Ubuntu
- │   │   ├──Lubuntu
- │   │   ├──Kubuntu
- │   │   ├──Xubuntu
- │   │   └──Xubuntu
- │   └──Mint
- ├──Centos
- └──Fedora
+exports[`Tree expression translation > With options {"style":"unicode right top"} > should translate a simple tree 1`] = `
+"───Linux─┬─Android
+         ├─Debian─┬─Ubuntu─┬─Lubuntu
+         │        │        ├─Kubuntu
+         │        │        ├─Xubuntu
+         │        │        └─Xubuntu
+         │        └─Mint
+         ├─Centos
+         └─Fedora
 "
 `;
