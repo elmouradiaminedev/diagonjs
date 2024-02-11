@@ -239,3 +239,7 @@ export {
   GRAMMAR_TRANSLATION_INPUTS,
   GRAMMAR_TRANSLATION_OUTPUTS,
 };
+
+export default {
+  translate,
+};

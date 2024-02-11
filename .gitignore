@@ -2,3 +2,4 @@ node_modules
 vendors
 dist
 .DS_Store
+coverage

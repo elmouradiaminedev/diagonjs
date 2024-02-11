@@ -1,5 +1,5 @@
 import { expect, describe, it } from "vitest";
-import Diagon, { SequenceTranslationOptions } from "../dist";
+import Diagon, { SequenceTranslationOptions } from "src";
 
 function generateAllOptions(): SequenceTranslationOptions[] {
   const allOptions: SequenceTranslationOptions[] = [];

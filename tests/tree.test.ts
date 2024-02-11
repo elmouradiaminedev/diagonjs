@@ -1,8 +1,5 @@
 import { expect, describe, it } from "vitest";
-import Diagon, {
-  TREE_TRANSLATION_STYLES,
-  TreeTranslationOptions,
-} from "../dist";
+import Diagon, { TREE_TRANSLATION_STYLES, TreeTranslationOptions } from "src";
 
 function generateAllOptions(): TreeTranslationOptions[] {
   const allOptions: TreeTranslationOptions[] = [];

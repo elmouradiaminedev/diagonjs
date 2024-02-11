@@ -1,5 +1,29 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Grammar expression translation > With options {"output":"abnf"} > should translate a ISO - EBNF 1`] = `
+"letter = %x41-5A / %x61-7A
+
+digit = %x30-39
+
+symbol = %x22 / "'" / "(" / ")" / "," / "." / %x3B-3E / "[" / "]" / "{" / "|" / "}"
+
+character = letter / digit / symbol / "_"
+
+identifier = letter *( (letter / digit / "_") )
+
+terminal = "'" character *( character ) "'" / %x22 character *( character ) %x22
+
+lhs = identifier
+
+rhs = identifier / terminal / "[" rhs "]" / "{" rhs "}" / "(" rhs ")" / rhs "|" rhs / rhs "," rhs
+
+rule = lhs "=" rhs ";"
+
+grammar = *( rule )
+
+"
+`;
+
 exports[`Grammar expression translation > With options {"output":"abnf"} > should translate a simple ABNF - URL 1`] = `
 "URL = domain [ path ] [ attributes ] [ fragment ]
 
@@ -59,30 +83,6 @@ port-part = ":" (1*DIGIT / "*")
 `;
 
 exports[`Grammar expression translation > With options {"output":"abnf"} > should translate a simple ABNF - URL 3`] = `
-"letter = %x41-5A / %x61-7A
-
-digit = %x30-39
-
-symbol = %x22 / "'" / "(" / ")" / "," / "." / %x3B-3E / "[" / "]" / "{" / "|" / "}"
-
-character = letter / digit / symbol / "_"
-
-identifier = letter *( (letter / digit / "_") )
-
-terminal = "'" character *( character ) "'" / %x22 character *( character ) %x22
-
-lhs = identifier
-
-rhs = identifier / terminal / "[" rhs "]" / "{" rhs "}" / "(" rhs ")" / rhs "|" rhs / rhs "," rhs
-
-rule = lhs "=" rhs ";"
-
-grammar = *( rule )
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"abnf"} > should translate a simple ABNF - URL 4`] = `
 "SYNTAX = *( PRODUCTION )
 
 PRODUCTION = IDENTIFIER "=" EXPRESSION "."
@@ -96,6 +96,112 @@ FACTOR = IDENTIFIER / LITERAL / "[" EXPRESSION "]" / "(" EXPRESSION ")" / "{" EX
 IDENTIFIER = letter *( letter )
 
 LITERAL = "" "" character *( character ) "" ""
+
+"
+`;
+
+exports[`Grammar expression translation > With options {"output":"ascii"} > should translate a ISO - EBNF 1`] = `
+"letter:
+    ||--v-- "A" -->--||
+        |         |
+        |    :    |
+        |         |
+        >-- "Z" --^
+        |         |
+        >-- "a" --^
+        |         |
+        |    :    |
+        |         |
+        \`-- "z" --'
+
+digit:
+    ||--v-- "0" -->--||
+        |         |
+        |    :    |
+        |         |
+        \`-- "9" --'
+
+symbol:
+    ||--v-- "\\"" -->--||
+        |          |
+        >-- "'" ---^
+        |          |
+        >-- "(" ---^
+        |          |
+        >-- ")" ---^
+        |          |
+        >-- "," ---^
+        |          |
+        >-- "." ---^
+        |          |
+        >-- ";" ---^
+        |          |
+        |    :     |
+        |          |
+        >-- ">" ---^
+        |          |
+        >-- "[" ---^
+        |          |
+        >-- "]" ---^
+        |          |
+        >-- "{" ---^
+        |          |
+        >-- "|" ---^
+        |          |
+        \`-- "}" ---'
+
+character:
+    ||--v-- letter -->--||
+        |            |
+        >-- digit ---^
+        |            |
+        >-- symbol --^
+        |            |
+        \`--- "_" ----'
+
+identifier:
+    ||-- letter -->------------------v--||
+                  |                  |
+                  \`--<-- letter --v--'
+                     |            |
+                     ^-- digit ---<
+                     |            |
+                     \`--- "_" ----'
+
+terminal:
+    ||--v--- "'" -->-- character --v-- "'" --->--||
+        |          |               |          |
+        |          \`-------<-------'          |
+        |                                     |
+        \`-- "\\"" -->-- character --v-- "\\"" --'
+                   |               |
+                   \`-------<-------'
+
+lhs:
+    ||-- identifier --||
+
+rhs:
+    ||--v----- identifier ------>--||
+        |                       |
+        >------ terminal -------^
+        |                       |
+        >-- "[" -- rhs -- "]" --^
+        |                       |
+        >-- "{" -- rhs -- "}" --^
+        |                       |
+        >-- "(" -- rhs -- ")" --^
+        |                       |
+        >-- rhs -- "|" -- rhs --^
+        |                       |
+        \`-- rhs -- "," -- rhs --'
+
+rule:
+    ||-- lhs -- "=" -- rhs -- ";" --||
+
+grammar:
+    ||-->----------v--||
+        |          |
+        \`-- rule --'
 
 "
 `;
@@ -252,112 +358,6 @@ port-part:
 `;
 
 exports[`Grammar expression translation > With options {"output":"ascii"} > should translate a simple ABNF - URL 3`] = `
-"letter:
-    ||--v-- "A" -->--||
-        |         |
-        |    :    |
-        |         |
-        >-- "Z" --^
-        |         |
-        >-- "a" --^
-        |         |
-        |    :    |
-        |         |
-        \`-- "z" --'
-
-digit:
-    ||--v-- "0" -->--||
-        |         |
-        |    :    |
-        |         |
-        \`-- "9" --'
-
-symbol:
-    ||--v-- "\\"" -->--||
-        |          |
-        >-- "'" ---^
-        |          |
-        >-- "(" ---^
-        |          |
-        >-- ")" ---^
-        |          |
-        >-- "," ---^
-        |          |
-        >-- "." ---^
-        |          |
-        >-- ";" ---^
-        |          |
-        |    :     |
-        |          |
-        >-- ">" ---^
-        |          |
-        >-- "[" ---^
-        |          |
-        >-- "]" ---^
-        |          |
-        >-- "{" ---^
-        |          |
-        >-- "|" ---^
-        |          |
-        \`-- "}" ---'
-
-character:
-    ||--v-- letter -->--||
-        |            |
-        >-- digit ---^
-        |            |
-        >-- symbol --^
-        |            |
-        \`--- "_" ----'
-
-identifier:
-    ||-- letter -->------------------v--||
-                  |                  |
-                  \`--<-- letter --v--'
-                     |            |
-                     ^-- digit ---<
-                     |            |
-                     \`--- "_" ----'
-
-terminal:
-    ||--v--- "'" -->-- character --v-- "'" --->--||
-        |          |               |          |
-        |          \`-------<-------'          |
-        |                                     |
-        \`-- "\\"" -->-- character --v-- "\\"" --'
-                   |               |
-                   \`-------<-------'
-
-lhs:
-    ||-- identifier --||
-
-rhs:
-    ||--v----- identifier ------>--||
-        |                       |
-        >------ terminal -------^
-        |                       |
-        >-- "[" -- rhs -- "]" --^
-        |                       |
-        >-- "{" -- rhs -- "}" --^
-        |                       |
-        >-- "(" -- rhs -- ")" --^
-        |                       |
-        >-- rhs -- "|" -- rhs --^
-        |                       |
-        \`-- rhs -- "," -- rhs --'
-
-rule:
-    ||-- lhs -- "=" -- rhs -- ";" --||
-
-grammar:
-    ||-->----------v--||
-        |          |
-        \`-- rule --'
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"ascii"} > should translate a simple ABNF - URL 4`] = `
 "SYNTAX:
     ||-->----------------v--||
         |                |
@@ -400,334 +400,399 @@ LITERAL:
 "
 `;
 
-exports[`Grammar expression translation > With options {"output":"blab"} > should translate a simple ABNF - URL 1`] = `
-"URL = domain  ( path )?  ( attributes )?  ( fragment )?
+exports[`Grammar expression translation > With options {"output":"ebnfhtml5"} > should translate a ISO - EBNF 1`] = `
+"<!DOCTYPE html>
+<html>
 
-domain = scheme  "://"  ( credential )?  host  ( port )?
+ <head>
+  <style>
+    dl.bnf span.token {
+    	text-transform: uppercase;
+    }
+    
+    dl.bnf span.cat {
+    	margin-right: 0.5ex;
+    }
+    
+    dl.bnf dd > span.pipe {
+    	float: left;
+    	width: 1ex;
+    	margin-left: -1.8ex;
+    	text-align: right;
+    	padding-right: .8ex; /* about the width of a space */
+    }
+    
+    dl.bnf dt {
+    	display: block;
+    	min-width: 8em;
+    	padding-right: 1em;
+    }
+    
+    dl.bnf a.rule {
+    	text-decoration: none;
+    }
+    
+    dl.bnf a.rule:hover {
+    	text-decoration: underline;
+    }
+    
+    /* page stuff */
+    dl.bnf { margin: 2em 4em; }
+    dl.bnf dt { margin: 0.25em 0; }
+    dl.bnf dd { margin-left: 2em; }
+  </style>
+ </head>
+ <body>
+  <dl class='bnf'>
+    <dt><a name='letter'>letter</a>:</dt>
+    <dd>
+      <span class='alt'><tt class='literal cs'>&quot;A&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;B&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;C&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;D&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;E&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;F&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;G&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;H&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;I&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;J&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;K&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;L&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;M&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;N&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;O&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;P&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;Q&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;R&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;S&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;T&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;U&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;V&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;W&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;X&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;Y&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;Z&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;a&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;b&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;c&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;d&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;e&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;f&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;g&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;h&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;i&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;j&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;k&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;l&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;m&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;n&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;o&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;p&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;q&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;r&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;s&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;t&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;u&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;v&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;w&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;x&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;y&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;z&quot;</tt></span>
+    </dd>
+  </dl>
 
-scheme = [hH][tT][tT][pP]
-	| [hH][tT][tT][pP][sS]
+  <dl class='bnf'>
+    <dt><a name='digit'>digit</a>:</dt>
+    <dd>
+      <span class='alt'><tt class='literal cs'>&quot;0&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;1&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;2&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;3&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;4&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;5&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;6&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;7&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;8&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;9&quot;</tt></span>
+    </dd>
+  </dl>
 
-credential = username  ( ":" password )?  "@"
+  <dl class='bnf'>
+    <dt><a name='symbol'>symbol</a>:</dt>
+    <dd>
+      <span class='alt'><tt class='literal cs'>&quot;[&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;]&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;{&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;}&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;(&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;)&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;&lt;&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;&gt;&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;'&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;"&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;=&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;|&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;.&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;,&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;;&quot;</tt></span>
+    </dd>
+  </dl>
 
-host = ( subdomain "." )+  domain
+  <dl class='bnf'>
+    <dt><a name='character'>character</a>:</dt>
+    <dd>
+      <span class='alt'><a href='#letter' class='rule' data-min='1' data-max='1'>letter</a></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><a href='#digit' class='rule' data-min='1' data-max='1'>digit</a></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><a href='#symbol' class='rule' data-min='1' data-max='1'>symbol</a></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;_&quot;</tt></span>
+    </dd>
+  </dl>
 
-port = ":"  number
+  <dl class='bnf'>
+    <dt><a name='identifier'>identifier</a>:</dt>
+    <dd>
+      <span class='alt'><a href='#letter' class='rule' data-min='1' data-max='1'>letter</a></span>
+<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#letter' class='rule' data-min='1' data-max='1'>letter</a></span>
+<span class='pipe'> | </span><span class='alt'><a href='#digit' class='rule' data-min='1' data-max='1'>digit</a></span>
+<span class='pipe'> | </span><span class='alt'><tt class='literal cs'>&quot;_&quot;</tt></span>
+ <span class='rep'>}</span></span>
+    </dd>
+  </dl>
 
-path = "/"
+  <dl class='bnf'>
+    <dt><a name='terminal'>terminal</a>:</dt>
+    <dd>
+      <span class='alt'><tt class='literal cs'>&quot;'&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
+<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
+ <span class='rep'>}</span></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;'&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;"&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
+<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
+ <span class='rep'>}</span></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;"&quot;</tt></span>
+    </dd>
+  </dl>
 
-attributes = "?"  attribute-key-value  ( "&" attribute-key-value )*
+  <dl class='bnf'>
+    <dt><a name='lhs'>lhs</a>:</dt>
+    <dd>
+      <span class='alt'><a href='#identifier' class='rule' data-min='1' data-max='1'>identifier</a></span>
+    </dd>
+  </dl>
 
-attribute-key-pair = key  ( "=" value )?
+  <dl class='bnf'>
+    <dt><a name='rhs'>rhs</a>:</dt>
+    <dd>
+      <span class='alt'><a href='#identifier' class='rule' data-min='1' data-max='1'>identifier</a></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><a href='#terminal' class='rule' data-min='1' data-max='1'>terminal</a></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;[&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;]&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;{&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;}&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;(&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;)&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;|&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;,&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
+    </dd>
+  </dl>
 
-"
-`;
+  <dl class='bnf'>
+    <dt><a name='rule'>rule</a>:</dt>
+    <dd>
+      <span class='alt'><a href='#lhs' class='rule' data-min='1' data-max='1'>lhs</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;=&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;;&quot;</tt></span>
+    </dd>
+  </dl>
 
-exports[`Grammar expression translation > With options {"output":"blab"} > should translate a simple ABNF - URL 2`] = `
-"nsource-list = WSP*  ( source-expression ( WSP+ source-expression )* WSP* )?
-	| WSP*  [\\'][nN][oO][nN][eE][\\']  WSP*
+  <dl class='bnf'>
+    <dt><a name='grammar'>grammar</a>:</dt>
+    <dd>
+      <span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#rule' class='rule' data-min='1' data-max='1'>rule</a></span>
+ <span class='rep'>}</span></span>
+    </dd>
+  </dl>
 
-source-expression = scheme-source
-	| host-source
-	| keyword-source
-	| nonce-source
-	| hash-source
-
-scheme-source = scheme-part  ":"
-
-host-source = ( scheme-part "://" )?  host-part  ( port-part )?  ( path-part )?
-
-keyword-source = [\\'][sS][eE][lL][fF][\\']
-	| [\\'][uU][nN][sS][aA][fF][eE][-][iI][nN][lL][iI][nN][eE][\\']
-	| [\\'][uU][nN][sS][aA][fF][eE][-][eE][vV][aA][lL][\\']
-
-base64-value = ( ALPHA | DIGIT | "+" | "/" )+  ( "=" ){0,2}
-
-nonce-value = base64-value
-
-hash-value = base64-value
-
-nonce-source = [\\'][nN][oO][nN][cC][eE][-]  nonce-value  "\\'"
-
-hash-algo = [sS][hH][aA][2][5][6]
-	| [sS][hH][aA][3][8][4]
-	| [sS][hH][aA][5][1][2]
-
-hash-source = "\\'"  hash-algo  "-"  hash-value  "\\'"
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"blab"} > should translate a simple ABNF - URL 3`] = `
-"scheme-part =letter = "A"
-	| "B"
-	| "C"
-	| "D"
-	| "E"
-	| "F"
-	| "G"
-	| "H"
-	| "I"
-	| "J"
-	| "K"
-	| "L"
-	| "M"
-	| "N"
-	| "O"
-	| "P"
-	| "Q"
-	| "R"
-	| "S"
-	| "T"
-	| "U"
-	| "V"
-	| "W"
-	| "X"
-	| "Y"
-	| "Z"
-	| "a"
-	| "b"
-	| "c"
-	| "d"
-	| "e"
-	| "f"
-	| "g"
-	| "h"
-	| "i"
-	| "j"
-	| "k"
-	| "l"
-	| "m"
-	| "n"
-	| "o"
-	| "p"
-	| "q"
-	| "r"
-	| "s"
-	| "t"
-	| "u"
-	| "v"
-	| "w"
-	| "x"
-	| "y"
-	| "z"
-
-digit = "0"
-	| "1"
-	| "2"
-	| "3"
-	| "4"
-	| "5"
-	| "6"
-	| "7"
-	| "8"
-	| "9"
-
-symbol = "["
-	| "]"
-	| "{"
-	| "}"
-	| "("
-	| ")"
-	| "<"
-	| ">"
-	| "\\'"
-	| "\\""
-	| "="
-	| "|"
-	| "."
-	| ","
-	| ";"
-
-character = letter
-	| digit
-	| symbol
-	| "_"
-
-identifier = letter  ( letter | digit | "_" )*
-
-terminal = "\\'"  character  ( character )*  "\\'"
-	| "\\""  character  ( character )*  "\\""
-
-lhs = identifier
-
-rhs = identifier
-	| terminal
-	| "["  rhs  "]"
-	| "{"  rhs  "}"
-	| "("  rhs  ")"
-	| rhs  "|"  rhs
-	| rhs  ","  rhs
-
-rule = lhs  "="  rhs  ";"
-
-grammar = ( rule )*
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"blab"} > should translate a simple ABNF - URL 4`] = `
-"SYNTAX = ( PRODUCTION )*
-
-PRODUCTION = IDENTIFIER  "="  EXPRESSION  "."
-
-EXPRESSION = TERM  ( "|" TERM )*
-
-TERM = FACTOR  ( FACTOR )*
-
-FACTOR = IDENTIFIER
-	| LITERAL
-	| "["  EXPRESSION  "]"
-	| "("  EXPRESSION  ")"
-	| "{"  EXPRESSION  "}"
-
-IDENTIFIER = letter  ( letter )*
-
-LITERAL = ""  ""  character  ( character )*  ""  ""
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"bnf"} > should translate a simple ABNF - URL 1`] = `
-"<URL> ::= <domain>
-
-<domain> ::= <scheme> "://" <host>
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"bnf"} > should translate a simple ABNF - URL 2`] = `
-"<scheme> ::=<nsource-list> ::= <WSP>
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"bnf"} > should translate a simple ABNF - URL 3`] = `
-"	| <WSP><letter> ::= "A"
-	| "B"
-	| "C"
-	| "D"
-	| "E"
-	| "F"
-	| "G"
-	| "H"
-	| "I"
-	| "J"
-	| "K"
-	| "L"
-	| "M"
-	| "N"
-	| "O"
-	| "P"
-	| "Q"
-	| "R"
-	| "S"
-	| "T"
-	| "U"
-	| "V"
-	| "W"
-	| "X"
-	| "Y"
-	| "Z"
-	| "a"
-	| "b"
-	| "c"
-	| "d"
-	| "e"
-	| "f"
-	| "g"
-	| "h"
-	| "i"
-	| "j"
-	| "k"
-	| "l"
-	| "m"
-	| "n"
-	| "o"
-	| "p"
-	| "q"
-	| "r"
-	| "s"
-	| "t"
-	| "u"
-	| "v"
-	| "w"
-	| "x"
-	| "y"
-	| "z"
-
-<digit> ::= "0"
-	| "1"
-	| "2"
-	| "3"
-	| "4"
-	| "5"
-	| "6"
-	| "7"
-	| "8"
-	| "9"
-
-<symbol> ::= "["
-	| "]"
-	| "{"
-	| "}"
-	| "("
-	| ")"
-	| "<"
-	| ">"
-	| "'"
-	| '"'
-	| "="
-	| "|"
-	| "."
-	| ","
-	| ";"
-
-<character> ::= <letter>
-	| <digit>
-	| <symbol>
-	| "_"
-
-<identifier> ::= <letter>
-
-<terminal> ::= "'" <character> "'"
-	| '"' <character> '"'
-
-<lhs> ::= <identifier>
-
-<rhs> ::= <identifier>
-	| <terminal>
-	| "[" <rhs> "]"
-	| "{" <rhs> "}"
-	| "(" <rhs> ")"
-	| <rhs> "|" <rhs>
-	| <rhs> "," <rhs>
-
-<rule> ::= <lhs> "=" <rhs> ";"
-
-<grammar> ::=
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"bnf"} > should translate a simple ABNF - URL 4`] = `
-"<SYNTAX> ::=
-
-<PRODUCTION> ::= <IDENTIFIER> "=" <EXPRESSION> "."
-
-<EXPRESSION> ::= <TERM>
-
-<TERM> ::= <FACTOR>
-
-<FACTOR> ::= <IDENTIFIER>
-	| <LITERAL>
-	| "[" <EXPRESSION> "]"
-	| "(" <EXPRESSION> ")"
-	| "{" <EXPRESSION> "}"
-
-<IDENTIFIER> ::= <letter>
-
-<LITERAL> ::= "" "" <character> "" ""
-
+ </body>
+</html>
 "
 `;
 
@@ -1148,6 +1213,142 @@ exports[`Grammar expression translation > With options {"output":"ebnfhtml5"} > 
  </head>
  <body>
   <dl class='bnf'>
+    <dt><a name='SYNTAX'>SYNTAX</a>:</dt>
+    <dd>
+      <span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#PRODUCTION' class='rule' data-min='1' data-max='1'>PRODUCTION</a></span>
+ <span class='rep'>}</span></span>
+    </dd>
+  </dl>
+
+  <dl class='bnf'>
+    <dt><a name='PRODUCTION'>PRODUCTION</a>:</dt>
+    <dd>
+      <span class='alt'><a href='#IDENTIFIER' class='rule' data-min='1' data-max='1'>IDENTIFIER</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;=&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#EXPRESSION' class='rule' data-min='1' data-max='1'>EXPRESSION</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;.&quot;</tt></span>
+    </dd>
+  </dl>
+
+  <dl class='bnf'>
+    <dt><a name='EXPRESSION'>EXPRESSION</a>:</dt>
+    <dd>
+      <span class='alt'><a href='#TERM' class='rule' data-min='1' data-max='1'>TERM</a></span>
+<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><tt class='literal cs'>&quot;|&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#TERM' class='rule' data-min='1' data-max='1'>TERM</a></span>
+ <span class='rep'>}</span></span>
+    </dd>
+  </dl>
+
+  <dl class='bnf'>
+    <dt><a name='TERM'>TERM</a>:</dt>
+    <dd>
+      <span class='alt'><a href='#FACTOR' class='rule' data-min='1' data-max='1'>FACTOR</a></span>
+<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#FACTOR' class='rule' data-min='1' data-max='1'>FACTOR</a></span>
+ <span class='rep'>}</span></span>
+    </dd>
+  </dl>
+
+  <dl class='bnf'>
+    <dt><a name='FACTOR'>FACTOR</a>:</dt>
+    <dd>
+      <span class='alt'><a href='#IDENTIFIER' class='rule' data-min='1' data-max='1'>IDENTIFIER</a></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><a href='#LITERAL' class='rule' data-min='1' data-max='1'>LITERAL</a></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;[&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#EXPRESSION' class='rule' data-min='1' data-max='1'>EXPRESSION</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;]&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;(&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#EXPRESSION' class='rule' data-min='1' data-max='1'>EXPRESSION</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;)&quot;</tt></span>
+<br/>
+      <span class='pipe'> | </span>
+      <span class='alt'><tt class='literal cs'>&quot;{&quot;</tt></span>
+<span class='cat'> </span><span class='alt'><a href='#EXPRESSION' class='rule' data-min='1' data-max='1'>EXPRESSION</a></span>
+<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;}&quot;</tt></span>
+    </dd>
+  </dl>
+
+  <dl class='bnf'>
+    <dt><a name='IDENTIFIER'>IDENTIFIER</a>:</dt>
+    <dd>
+      <span class='alt'><span class='token'>letter</span></span>
+<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#letter' class='rule' data-min='1' data-max='1'>letter</a></span>
+ <span class='rep'>}</span></span>
+    </dd>
+  </dl>
+
+  <dl class='bnf'>
+    <dt><a name='LITERAL'>LITERAL</a>:</dt>
+    <dd>
+      <span class='alt'><span class='empty'>&epsilon;</span></span>
+<span class='cat'> </span><span class='alt'><span class='empty'>&epsilon;</span></span>
+<span class='cat'> </span><span class='alt'><span class='token'>character</span></span>
+<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
+ <span class='rep'>}</span></span>
+<span class='cat'> </span><span class='alt'><span class='empty'>&epsilon;</span></span>
+<span class='cat'> </span><span class='alt'><span class='empty'>&epsilon;</span></span>
+    </dd>
+  </dl>
+
+ </body>
+</html>
+"
+`;
+
+exports[`Grammar expression translation > With options {"output":"ebnfxhtml5"} > should translate a ISO - EBNF 1`] = `
+"<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html>
+<html xml:lang='en' lang='en'
+  xmlns='http://www.w3.org/1999/xhtml'
+  xmlns:xlink='http://www.w3.org/1999/xlink'>
+
+ <head>
+  <meta charset='UTF-8'/>
+  <style>
+    dl.bnf span.token {
+    	text-transform: uppercase;
+    }
+    
+    dl.bnf span.cat {
+    	margin-right: 0.5ex;
+    }
+    
+    dl.bnf dd > span.pipe {
+    	float: left;
+    	width: 1ex;
+    	margin-left: -1.8ex;
+    	text-align: right;
+    	padding-right: .8ex; /* about the width of a space */
+    }
+    
+    dl.bnf dt {
+    	display: block;
+    	min-width: 8em;
+    	padding-right: 1em;
+    }
+    
+    dl.bnf a.rule {
+    	text-decoration: none;
+    }
+    
+    dl.bnf a.rule:hover {
+    	text-decoration: underline;
+    }
+    
+    /* page stuff */
+    dl.bnf { margin: 2em 4em; }
+    dl.bnf dt { margin: 0.25em 0; }
+    dl.bnf dd { margin-left: 2em; }
+  </style>
+ </head>
+ <body>
+  <dl class='bnf'>
     <dt><a name='letter'>letter</a>:</dt>
     <dd>
       <span class='alt'><tt class='literal cs'>&quot;A&quot;</tt></span>
@@ -1492,138 +1693,6 @@ exports[`Grammar expression translation > With options {"output":"ebnfhtml5"} > 
     <dd>
       <span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#rule' class='rule' data-min='1' data-max='1'>rule</a></span>
  <span class='rep'>}</span></span>
-    </dd>
-  </dl>
-
- </body>
-</html>
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"ebnfhtml5"} > should translate a simple ABNF - URL 4`] = `
-"<!DOCTYPE html>
-<html>
-
- <head>
-  <style>
-    dl.bnf span.token {
-    	text-transform: uppercase;
-    }
-    
-    dl.bnf span.cat {
-    	margin-right: 0.5ex;
-    }
-    
-    dl.bnf dd > span.pipe {
-    	float: left;
-    	width: 1ex;
-    	margin-left: -1.8ex;
-    	text-align: right;
-    	padding-right: .8ex; /* about the width of a space */
-    }
-    
-    dl.bnf dt {
-    	display: block;
-    	min-width: 8em;
-    	padding-right: 1em;
-    }
-    
-    dl.bnf a.rule {
-    	text-decoration: none;
-    }
-    
-    dl.bnf a.rule:hover {
-    	text-decoration: underline;
-    }
-    
-    /* page stuff */
-    dl.bnf { margin: 2em 4em; }
-    dl.bnf dt { margin: 0.25em 0; }
-    dl.bnf dd { margin-left: 2em; }
-  </style>
- </head>
- <body>
-  <dl class='bnf'>
-    <dt><a name='SYNTAX'>SYNTAX</a>:</dt>
-    <dd>
-      <span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#PRODUCTION' class='rule' data-min='1' data-max='1'>PRODUCTION</a></span>
- <span class='rep'>}</span></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='PRODUCTION'>PRODUCTION</a>:</dt>
-    <dd>
-      <span class='alt'><a href='#IDENTIFIER' class='rule' data-min='1' data-max='1'>IDENTIFIER</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;=&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#EXPRESSION' class='rule' data-min='1' data-max='1'>EXPRESSION</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;.&quot;</tt></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='EXPRESSION'>EXPRESSION</a>:</dt>
-    <dd>
-      <span class='alt'><a href='#TERM' class='rule' data-min='1' data-max='1'>TERM</a></span>
-<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><tt class='literal cs'>&quot;|&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#TERM' class='rule' data-min='1' data-max='1'>TERM</a></span>
- <span class='rep'>}</span></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='TERM'>TERM</a>:</dt>
-    <dd>
-      <span class='alt'><a href='#FACTOR' class='rule' data-min='1' data-max='1'>FACTOR</a></span>
-<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#FACTOR' class='rule' data-min='1' data-max='1'>FACTOR</a></span>
- <span class='rep'>}</span></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='FACTOR'>FACTOR</a>:</dt>
-    <dd>
-      <span class='alt'><a href='#IDENTIFIER' class='rule' data-min='1' data-max='1'>IDENTIFIER</a></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><a href='#LITERAL' class='rule' data-min='1' data-max='1'>LITERAL</a></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;[&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#EXPRESSION' class='rule' data-min='1' data-max='1'>EXPRESSION</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;]&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;(&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#EXPRESSION' class='rule' data-min='1' data-max='1'>EXPRESSION</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;)&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;{&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#EXPRESSION' class='rule' data-min='1' data-max='1'>EXPRESSION</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;}&quot;</tt></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='IDENTIFIER'>IDENTIFIER</a>:</dt>
-    <dd>
-      <span class='alt'><span class='token'>letter</span></span>
-<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#letter' class='rule' data-min='1' data-max='1'>letter</a></span>
- <span class='rep'>}</span></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='LITERAL'>LITERAL</a>:</dt>
-    <dd>
-      <span class='alt'><span class='empty'>&epsilon;</span></span>
-<span class='cat'> </span><span class='alt'><span class='empty'>&epsilon;</span></span>
-<span class='cat'> </span><span class='alt'><span class='token'>character</span></span>
-<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
- <span class='rep'>}</span></span>
-<span class='cat'> </span><span class='alt'><span class='empty'>&epsilon;</span></span>
-<span class='cat'> </span><span class='alt'><span class='empty'>&epsilon;</span></span>
     </dd>
   </dl>
 
@@ -2061,406 +2130,6 @@ exports[`Grammar expression translation > With options {"output":"ebnfxhtml5"} >
  </head>
  <body>
   <dl class='bnf'>
-    <dt><a name='letter'>letter</a>:</dt>
-    <dd>
-      <span class='alt'><tt class='literal cs'>&quot;A&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;B&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;C&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;D&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;E&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;F&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;G&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;H&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;I&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;J&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;K&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;L&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;M&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;N&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;O&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;P&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;Q&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;R&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;S&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;T&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;U&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;V&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;W&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;X&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;Y&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;Z&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;a&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;b&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;c&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;d&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;e&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;f&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;g&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;h&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;i&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;j&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;k&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;l&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;m&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;n&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;o&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;p&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;q&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;r&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;s&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;t&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;u&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;v&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;w&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;x&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;y&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;z&quot;</tt></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='digit'>digit</a>:</dt>
-    <dd>
-      <span class='alt'><tt class='literal cs'>&quot;0&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;1&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;2&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;3&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;4&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;5&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;6&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;7&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;8&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;9&quot;</tt></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='symbol'>symbol</a>:</dt>
-    <dd>
-      <span class='alt'><tt class='literal cs'>&quot;[&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;]&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;{&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;}&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;(&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;)&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;&lt;&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;&gt;&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;'&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;"&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;=&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;|&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;.&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;,&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;;&quot;</tt></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='character'>character</a>:</dt>
-    <dd>
-      <span class='alt'><a href='#letter' class='rule' data-min='1' data-max='1'>letter</a></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><a href='#digit' class='rule' data-min='1' data-max='1'>digit</a></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><a href='#symbol' class='rule' data-min='1' data-max='1'>symbol</a></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;_&quot;</tt></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='identifier'>identifier</a>:</dt>
-    <dd>
-      <span class='alt'><a href='#letter' class='rule' data-min='1' data-max='1'>letter</a></span>
-<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#letter' class='rule' data-min='1' data-max='1'>letter</a></span>
-<span class='pipe'> | </span><span class='alt'><a href='#digit' class='rule' data-min='1' data-max='1'>digit</a></span>
-<span class='pipe'> | </span><span class='alt'><tt class='literal cs'>&quot;_&quot;</tt></span>
- <span class='rep'>}</span></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='terminal'>terminal</a>:</dt>
-    <dd>
-      <span class='alt'><tt class='literal cs'>&quot;'&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
-<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
- <span class='rep'>}</span></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;'&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;"&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
-<span class='cat'> </span><span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#character' class='rule' data-min='1' data-max='1'>character</a></span>
- <span class='rep'>}</span></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;"&quot;</tt></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='lhs'>lhs</a>:</dt>
-    <dd>
-      <span class='alt'><a href='#identifier' class='rule' data-min='1' data-max='1'>identifier</a></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='rhs'>rhs</a>:</dt>
-    <dd>
-      <span class='alt'><a href='#identifier' class='rule' data-min='1' data-max='1'>identifier</a></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><a href='#terminal' class='rule' data-min='1' data-max='1'>terminal</a></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;[&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;]&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;{&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;}&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><tt class='literal cs'>&quot;(&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;)&quot;</tt></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;|&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
-<br/>
-      <span class='pipe'> | </span>
-      <span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;,&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='rule'>rule</a>:</dt>
-    <dd>
-      <span class='alt'><a href='#lhs' class='rule' data-min='1' data-max='1'>lhs</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;=&quot;</tt></span>
-<span class='cat'> </span><span class='alt'><a href='#rhs' class='rule' data-min='1' data-max='1'>rhs</a></span>
-<span class='cat'> </span><span class='alt'><tt class='literal cs'>&quot;;&quot;</tt></span>
-    </dd>
-  </dl>
-
-  <dl class='bnf'>
-    <dt><a name='grammar'>grammar</a>:</dt>
-    <dd>
-      <span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#rule' class='rule' data-min='1' data-max='1'>rule</a></span>
- <span class='rep'>}</span></span>
-    </dd>
-  </dl>
-
- </body>
-</html>
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"ebnfxhtml5"} > should translate a simple ABNF - URL 4`] = `
-"<?xml version='1.0' encoding='utf-8'?>
-<!DOCTYPE html>
-<html xml:lang='en' lang='en'
-  xmlns='http://www.w3.org/1999/xhtml'
-  xmlns:xlink='http://www.w3.org/1999/xlink'>
-
- <head>
-  <meta charset='UTF-8'/>
-  <style>
-    dl.bnf span.token {
-    	text-transform: uppercase;
-    }
-    
-    dl.bnf span.cat {
-    	margin-right: 0.5ex;
-    }
-    
-    dl.bnf dd > span.pipe {
-    	float: left;
-    	width: 1ex;
-    	margin-left: -1.8ex;
-    	text-align: right;
-    	padding-right: .8ex; /* about the width of a space */
-    }
-    
-    dl.bnf dt {
-    	display: block;
-    	min-width: 8em;
-    	padding-right: 1em;
-    }
-    
-    dl.bnf a.rule {
-    	text-decoration: none;
-    }
-    
-    dl.bnf a.rule:hover {
-    	text-decoration: underline;
-    }
-    
-    /* page stuff */
-    dl.bnf { margin: 2em 4em; }
-    dl.bnf dt { margin: 0.25em 0; }
-    dl.bnf dd { margin-left: 2em; }
-  </style>
- </head>
- <body>
-  <dl class='bnf'>
     <dt><a name='SYNTAX'>SYNTAX</a>:</dt>
     <dd>
       <span class='alt'><span class='rep'>{</span> <span class='alt'><a href='#PRODUCTION' class='rule' data-min='1' data-max='1'>PRODUCTION</a></span>
@@ -2543,6 +2212,395 @@ exports[`Grammar expression translation > With options {"output":"ebnfxhtml5"} >
 <span class='cat'> </span><span class='alt'><span class='empty'>&epsilon;</span></span>
     </dd>
   </dl>
+
+ </body>
+</html>
+"
+`;
+
+exports[`Grammar expression translation > With options {"output":"html5"} > should translate a ISO - EBNF 1`] = `
+"<!DOCTYPE html>
+<html>
+
+ <head>
+  <style>
+      rect, line, path { stroke-width: 1.5px; stroke: black; fill: transparent; }
+      rect, line, path { stroke-linecap: square; stroke-linejoin: rounded; }
+      path { fill: transparent; }
+      text.literal { font-family: monospace; }
+      a { fill: blue; }
+      a:hover rect { fill: aliceblue; }
+      h2 { font-size: inherit; font-weight: inherit; }
+      line.ellipsis { stroke-dasharray: 1 3.5; }
+      tspan.hex { font-family: monospace; font-size: 90%; }
+      path.arrow { fill: black; }
+      svg { margin-left: 30px; }
+  </style>
+ </head>
+
+ <body>
+ <section>
+  <h2><a name='letter'>letter:</a></h2>
+  <svg height='145' width='140'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>A</text>
+    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='65' text-anchor='middle' class='literal'>Z</text>
+    <rect x='60' y='80' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='95' text-anchor='middle' class='literal'>a</text>
+    <line x1='70' y1='105' x2='70' y2='115' class='ellipsis'/>    <rect x='60' y='120' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='135' text-anchor='middle' class='literal'>z</text>
+    <path d='M100 30 v90'/>
+    <path d='M80 130 h10 q10 0 10 -10'/>
+    <path d='M40 120 q0 10 10 10 h10'/>
+    <path d='M80 90 h10 q10 0 10 -10'/>
+    <path d='M40 80 q0 10 10 10 h10'/>
+    <path d='M80 60 h10 q10 0 10 -10'/>
+    <path d='M40 50 q0 10 10 10 h10'/>
+    <path d='M100 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v90'/>
+    <path d='M10 20 h50'/>
+  </svg>
+ </section>
+
+ <section>
+  <h2><a name='digit'>digit:</a></h2>
+  <svg height='75' width='140'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>0</text>
+    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='65' text-anchor='middle' class='literal'>9</text>
+    <path d='M100 30 v20'/>
+    <path d='M80 60 h10 q10 0 10 -10'/>
+    <path d='M40 50 q0 10 10 10 h10'/>
+    <path d='M100 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v20'/>
+    <path d='M10 20 h50'/>
+  </svg>
+ </section>
+
+ <section>
+  <h2><a name='symbol'>symbol:</a></h2>
+  <svg height='405' width='140'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>"</text>
+    <rect x='60' y='40' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='55' text-anchor='middle' class='literal'>'</text>
+    <rect x='60' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='85' text-anchor='middle' class='literal'>(</text>
+    <rect x='60' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='115' text-anchor='middle' class='literal'>)</text>
+    <rect x='60' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='145' text-anchor='middle' class='literal'>,</text>
+    <rect x='60' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='175' text-anchor='middle' class='literal'>.</text>
+    <rect x='60' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='205' text-anchor='middle' class='literal'>;</text>
+    <line x1='70' y1='215' x2='70' y2='225' class='ellipsis'/>    <rect x='60' y='230' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='245' text-anchor='middle' class='literal'>&gt;</text>
+    <rect x='60' y='260' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='275' text-anchor='middle' class='literal'>[</text>
+    <rect x='60' y='290' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='305' text-anchor='middle' class='literal'>]</text>
+    <rect x='60' y='320' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='335' text-anchor='middle' class='literal'>{</text>
+    <rect x='60' y='350' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='365' text-anchor='middle' class='literal'>|</text>
+    <rect x='60' y='380' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='395' text-anchor='middle' class='literal'>}</text>
+    <path d='M100 30 v350'/>
+    <path d='M80 390 h10 q10 0 10 -10'/>
+    <path d='M40 380 q0 10 10 10 h10'/>
+    <path d='M80 360 h10 q10 0 10 -10'/>
+    <path d='M40 350 q0 10 10 10 h10'/>
+    <path d='M80 330 h10 q10 0 10 -10'/>
+    <path d='M40 320 q0 10 10 10 h10'/>
+    <path d='M80 300 h10 q10 0 10 -10'/>
+    <path d='M40 290 q0 10 10 10 h10'/>
+    <path d='M80 270 h10 q10 0 10 -10'/>
+    <path d='M40 260 q0 10 10 10 h10'/>
+    <path d='M80 240 h10 q10 0 10 -10'/>
+    <path d='M40 230 q0 10 10 10 h10'/>
+    <path d='M80 200 h10 q10 0 10 -10'/>
+    <path d='M40 190 q0 10 10 10 h10'/>
+    <path d='M80 170 h10 q10 0 10 -10'/>
+    <path d='M40 160 q0 10 10 10 h10'/>
+    <path d='M80 140 h10 q10 0 10 -10'/>
+    <path d='M40 130 q0 10 10 10 h10'/>
+    <path d='M80 110 h10 q10 0 10 -10'/>
+    <path d='M40 100 q0 10 10 10 h10'/>
+    <path d='M80 80 h10 q10 0 10 -10'/>
+    <path d='M40 70 q0 10 10 10 h10'/>
+    <path d='M80 50 h10 q10 0 10 -10'/>
+    <path d='M40 40 q0 10 10 10 h10'/>
+    <path d='M100 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v350'/>
+    <path d='M10 20 h50'/>
+  </svg>
+ </section>
+
+ <section>
+  <h2><a name='character'>character:</a></h2>
+  <svg height='125' width='190'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M180.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#letter'>
+    <rect x='70' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='95' y='25' text-anchor='middle' class='rule'>letter</text>
+    </a>
+    <a href='#digit'>
+    <rect x='70' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='95' y='55' text-anchor='middle' class='rule'>digit</text>
+    </a>
+    <a href='#symbol'>
+    <rect x='60' y='70' height='20' width='70' rx='0' ry='0' class='rule'/>
+    <text x='95' y='85' text-anchor='middle' class='rule'>symbol</text>
+    </a>
+    <rect x='85' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='95' y='115' text-anchor='middle' class='literal'>_</text>
+    <path d='M150 30 v70'/>
+    <path d='M105 110 h35 q10 0 10 -10'/>
+    <path d='M40 100 q0 10 10 10 h35'/>
+    <path d='M130 80 h10 q10 0 10 -10'/>
+    <path d='M40 70 q0 10 10 10 h10'/>
+    <path d='M120 50 h20 q10 0 10 -10'/>
+    <path d='M40 40 q0 10 10 10 h20'/>
+    <path d='M150 30 q0 -10 10 -10'/>
+    <path d='M120 20 h60'/>
+    <path d='M30 20 q10 0 10 10 v70'/>
+    <path d='M10 20 h60'/>
+  </svg>
+ </section>
+
+ <section>
+  <h2><a name='identifier'>identifier:</a></h2>
+  <svg height='125' width='300'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M290.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#letter'>
+    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='55' y='25' text-anchor='middle' class='rule'>letter</text>
+    </a>
+    <a href='#letter'>
+    <rect x='160' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='185' y='55' text-anchor='middle' class='rule'>letter</text>
+    </a>
+    <a href='#digit'>
+    <rect x='160' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='185' y='85' text-anchor='middle' class='rule'>digit</text>
+    </a>
+    <rect x='175' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='185' y='115' text-anchor='middle' class='literal'>_</text>
+    <path d='M110 30 v10 q0 10 10 10 h40'/>
+    <path d='M230 60 v40'/>
+    <path d='M195 110 h25 q10 0 10 -10'/>
+    <path d='M140 100 q0 10 10 10 h25'/>
+    <path d='M210 80 h10 q10 0 10 -10'/>
+    <path d='M140 70 q0 10 10 10 h10'/>
+    <path d='M230 60 q0 -10 10 -10'/>
+    <path d='M210 50 h40 q10 0 10 -10'/>
+    <path d='M130 50 q10 0 10 10 v40'/>
+    <path d='M250 20 q10 0 10 10 v10'/>
+    <path d='M110 30 q0 -10 10 -10'/>
+    <path d='M80 20 h210'/>
+    <path d='M10 20 h20'/>
+  </svg>
+ </section>
+
+ <section>
+  <h2><a name='terminal'>terminal:</a></h2>
+  <svg height='105' width='350'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M340.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>'</text>
+    <a href='#character'>
+    <rect x='130' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='175' y='25' text-anchor='middle' class='rule'>character</text>
+    </a>
+    <path d='M173 40 l4 3 v-6 z' class='arrow'/>
+    <rect x='270' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='280' y='25' text-anchor='middle' class='literal'>'</text>
+    <rect x='60' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='75' text-anchor='middle' class='literal'>"</text>
+    <a href='#character'>
+    <rect x='130' y='60' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='175' y='75' text-anchor='middle' class='rule'>character</text>
+    </a>
+    <path d='M173 90 l4 3 v-6 z' class='arrow'/>
+    <rect x='270' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='280' y='75' text-anchor='middle' class='literal'>"</text>
+    <path d='M310 30 v30'/>
+    <path d='M290 70 h10 q10 0 10 -10'/>
+    <path d='M110 80 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
+    <path d='M230 70 q10 0 10 10'/>
+    <path d='M220 70 h50'/>
+    <path d='M110 80 q0 -10 10 -10'/>
+    <path d='M80 70 h50'/>
+    <path d='M40 60 q0 10 10 10 h10'/>
+    <path d='M310 30 q0 -10 10 -10'/>
+    <path d='M290 20 h50'/>
+    <path d='M110 30 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
+    <path d='M230 20 q10 0 10 10'/>
+    <path d='M220 20 h50'/>
+    <path d='M110 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v30'/>
+    <path d='M10 20 h50'/>
+  </svg>
+ </section>
+
+ <section>
+  <h2><a name='lhs'>lhs:</a></h2>
+  <svg height='35' width='150'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M140.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#identifier'>
+    <rect x='30' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='75' y='25' text-anchor='middle' class='rule'>identifier</text>
+    </a>
+    <path d='M120 20 h20'/>
+    <path d='M10 20 h20'/>
+  </svg>
+ </section>
+
+ <section>
+  <h2><a name='rhs'>rhs:</a></h2>
+  <svg height='215' width='280'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M270.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#identifier'>
+    <rect x='95' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='140' y='25' text-anchor='middle' class='rule'>identifier</text>
+    </a>
+    <a href='#terminal'>
+    <rect x='105' y='40' height='20' width='70' rx='0' ry='0' class='rule'/>
+    <text x='140' y='55' text-anchor='middle' class='rule'>terminal</text>
+    </a>
+    <rect x='75' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='85' y='85' text-anchor='middle' class='literal'>[</text>
+    <a href='#rhs'>
+    <rect x='115' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='140' y='85' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='185' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='195' y='85' text-anchor='middle' class='literal'>]</text>
+    <rect x='75' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='85' y='115' text-anchor='middle' class='literal'>{</text>
+    <a href='#rhs'>
+    <rect x='115' y='100' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='140' y='115' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='185' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='195' y='115' text-anchor='middle' class='literal'>}</text>
+    <rect x='75' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='85' y='145' text-anchor='middle' class='literal'>(</text>
+    <a href='#rhs'>
+    <rect x='115' y='130' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='140' y='145' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='185' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='195' y='145' text-anchor='middle' class='literal'>)</text>
+    <a href='#rhs'>
+    <rect x='60' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='85' y='175' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='130' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='140' y='175' text-anchor='middle' class='literal'>|</text>
+    <a href='#rhs'>
+    <rect x='170' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='195' y='175' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <a href='#rhs'>
+    <rect x='60' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='85' y='205' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='130' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='140' y='205' text-anchor='middle' class='literal'>,</text>
+    <a href='#rhs'>
+    <rect x='170' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='195' y='205' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <path d='M240 30 v160'/>
+    <path d='M220 200 h10 q10 0 10 -10'/>
+    <path d='M150 200 h20'/>
+    <path d='M110 200 h20'/>
+    <path d='M40 190 q0 10 10 10 h10'/>
+    <path d='M220 170 h10 q10 0 10 -10'/>
+    <path d='M150 170 h20'/>
+    <path d='M110 170 h20'/>
+    <path d='M40 160 q0 10 10 10 h10'/>
+    <path d='M205 140 h25 q10 0 10 -10'/>
+    <path d='M165 140 h20'/>
+    <path d='M95 140 h20'/>
+    <path d='M40 130 q0 10 10 10 h25'/>
+    <path d='M205 110 h25 q10 0 10 -10'/>
+    <path d='M165 110 h20'/>
+    <path d='M95 110 h20'/>
+    <path d='M40 100 q0 10 10 10 h25'/>
+    <path d='M205 80 h25 q10 0 10 -10'/>
+    <path d='M165 80 h20'/>
+    <path d='M95 80 h20'/>
+    <path d='M40 70 q0 10 10 10 h25'/>
+    <path d='M175 50 h55 q10 0 10 -10'/>
+    <path d='M40 40 q0 10 10 10 h55'/>
+    <path d='M240 30 q0 -10 10 -10'/>
+    <path d='M185 20 h85'/>
+    <path d='M30 20 q10 0 10 10 v160'/>
+    <path d='M10 20 h85'/>
+  </svg>
+ </section>
+
+ <section>
+  <h2><a name='rule'>rule:</a></h2>
+  <svg height='35' width='260'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M250.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#lhs'>
+    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='55' y='25' text-anchor='middle' class='rule'>lhs</text>
+    </a>
+    <rect x='100' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='110' y='25' text-anchor='middle' class='literal'>=</text>
+    <a href='#rhs'>
+    <rect x='140' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='165' y='25' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='210' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='220' y='25' text-anchor='middle' class='literal'>;</text>
+    <path d='M190 20 h20'/>
+    <path d='M120 20 h20'/>
+    <path d='M80 20 h20'/>
+    <path d='M230 20 h20'/>
+    <path d='M10 20 h20'/>
+  </svg>
+ </section>
+
+ <section>
+  <h2><a name='grammar'>grammar:</a></h2>
+  <svg height='55' width='170'>
+    <path d='M5.5 4 v12 m 4 0 v-12' class='station'/>
+    <path d='M160.5 4 v12 m 4 0 v-12' class='station'/>
+    <a href='#rule'>
+    <rect x='60' y='30' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='85' y='45' text-anchor='middle' class='rule'>rule</text>
+    </a>
+    <path d='M40 20 v10 q0 10 10 10 h10'/>
+    <path d='M110 40 h10 q10 0 10 -10'/>
+    <path d='M120 10 q10 0 10 10 v10'/>
+    <path d='M40 20 q0 -10 10 -10'/>
+    <path d='M10 10 h150'/>
+  </svg>
+ </section>
 
  </body>
 </html>
@@ -3306,395 +3364,6 @@ exports[`Grammar expression translation > With options {"output":"html5"} > shou
 
  <body>
  <section>
-  <h2><a name='letter'>letter:</a></h2>
-  <svg height='145' width='140'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>A</text>
-    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='65' text-anchor='middle' class='literal'>Z</text>
-    <rect x='60' y='80' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='95' text-anchor='middle' class='literal'>a</text>
-    <line x1='70' y1='105' x2='70' y2='115' class='ellipsis'/>    <rect x='60' y='120' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='135' text-anchor='middle' class='literal'>z</text>
-    <path d='M100 30 v90'/>
-    <path d='M80 130 h10 q10 0 10 -10'/>
-    <path d='M40 120 q0 10 10 10 h10'/>
-    <path d='M80 90 h10 q10 0 10 -10'/>
-    <path d='M40 80 q0 10 10 10 h10'/>
-    <path d='M80 60 h10 q10 0 10 -10'/>
-    <path d='M40 50 q0 10 10 10 h10'/>
-    <path d='M100 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v90'/>
-    <path d='M10 20 h50'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='digit'>digit:</a></h2>
-  <svg height='75' width='140'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>0</text>
-    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='65' text-anchor='middle' class='literal'>9</text>
-    <path d='M100 30 v20'/>
-    <path d='M80 60 h10 q10 0 10 -10'/>
-    <path d='M40 50 q0 10 10 10 h10'/>
-    <path d='M100 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v20'/>
-    <path d='M10 20 h50'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='symbol'>symbol:</a></h2>
-  <svg height='405' width='140'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>"</text>
-    <rect x='60' y='40' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='55' text-anchor='middle' class='literal'>'</text>
-    <rect x='60' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='85' text-anchor='middle' class='literal'>(</text>
-    <rect x='60' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='115' text-anchor='middle' class='literal'>)</text>
-    <rect x='60' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='145' text-anchor='middle' class='literal'>,</text>
-    <rect x='60' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='175' text-anchor='middle' class='literal'>.</text>
-    <rect x='60' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='205' text-anchor='middle' class='literal'>;</text>
-    <line x1='70' y1='215' x2='70' y2='225' class='ellipsis'/>    <rect x='60' y='230' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='245' text-anchor='middle' class='literal'>&gt;</text>
-    <rect x='60' y='260' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='275' text-anchor='middle' class='literal'>[</text>
-    <rect x='60' y='290' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='305' text-anchor='middle' class='literal'>]</text>
-    <rect x='60' y='320' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='335' text-anchor='middle' class='literal'>{</text>
-    <rect x='60' y='350' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='365' text-anchor='middle' class='literal'>|</text>
-    <rect x='60' y='380' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='395' text-anchor='middle' class='literal'>}</text>
-    <path d='M100 30 v350'/>
-    <path d='M80 390 h10 q10 0 10 -10'/>
-    <path d='M40 380 q0 10 10 10 h10'/>
-    <path d='M80 360 h10 q10 0 10 -10'/>
-    <path d='M40 350 q0 10 10 10 h10'/>
-    <path d='M80 330 h10 q10 0 10 -10'/>
-    <path d='M40 320 q0 10 10 10 h10'/>
-    <path d='M80 300 h10 q10 0 10 -10'/>
-    <path d='M40 290 q0 10 10 10 h10'/>
-    <path d='M80 270 h10 q10 0 10 -10'/>
-    <path d='M40 260 q0 10 10 10 h10'/>
-    <path d='M80 240 h10 q10 0 10 -10'/>
-    <path d='M40 230 q0 10 10 10 h10'/>
-    <path d='M80 200 h10 q10 0 10 -10'/>
-    <path d='M40 190 q0 10 10 10 h10'/>
-    <path d='M80 170 h10 q10 0 10 -10'/>
-    <path d='M40 160 q0 10 10 10 h10'/>
-    <path d='M80 140 h10 q10 0 10 -10'/>
-    <path d='M40 130 q0 10 10 10 h10'/>
-    <path d='M80 110 h10 q10 0 10 -10'/>
-    <path d='M40 100 q0 10 10 10 h10'/>
-    <path d='M80 80 h10 q10 0 10 -10'/>
-    <path d='M40 70 q0 10 10 10 h10'/>
-    <path d='M80 50 h10 q10 0 10 -10'/>
-    <path d='M40 40 q0 10 10 10 h10'/>
-    <path d='M100 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v350'/>
-    <path d='M10 20 h50'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='character'>character:</a></h2>
-  <svg height='125' width='190'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M180.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#letter'>
-    <rect x='70' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='95' y='25' text-anchor='middle' class='rule'>letter</text>
-    </a>
-    <a href='#digit'>
-    <rect x='70' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='95' y='55' text-anchor='middle' class='rule'>digit</text>
-    </a>
-    <a href='#symbol'>
-    <rect x='60' y='70' height='20' width='70' rx='0' ry='0' class='rule'/>
-    <text x='95' y='85' text-anchor='middle' class='rule'>symbol</text>
-    </a>
-    <rect x='85' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='95' y='115' text-anchor='middle' class='literal'>_</text>
-    <path d='M150 30 v70'/>
-    <path d='M105 110 h35 q10 0 10 -10'/>
-    <path d='M40 100 q0 10 10 10 h35'/>
-    <path d='M130 80 h10 q10 0 10 -10'/>
-    <path d='M40 70 q0 10 10 10 h10'/>
-    <path d='M120 50 h20 q10 0 10 -10'/>
-    <path d='M40 40 q0 10 10 10 h20'/>
-    <path d='M150 30 q0 -10 10 -10'/>
-    <path d='M120 20 h60'/>
-    <path d='M30 20 q10 0 10 10 v70'/>
-    <path d='M10 20 h60'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='identifier'>identifier:</a></h2>
-  <svg height='125' width='300'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M290.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#letter'>
-    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='55' y='25' text-anchor='middle' class='rule'>letter</text>
-    </a>
-    <a href='#letter'>
-    <rect x='160' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='185' y='55' text-anchor='middle' class='rule'>letter</text>
-    </a>
-    <a href='#digit'>
-    <rect x='160' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='185' y='85' text-anchor='middle' class='rule'>digit</text>
-    </a>
-    <rect x='175' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='185' y='115' text-anchor='middle' class='literal'>_</text>
-    <path d='M110 30 v10 q0 10 10 10 h40'/>
-    <path d='M230 60 v40'/>
-    <path d='M195 110 h25 q10 0 10 -10'/>
-    <path d='M140 100 q0 10 10 10 h25'/>
-    <path d='M210 80 h10 q10 0 10 -10'/>
-    <path d='M140 70 q0 10 10 10 h10'/>
-    <path d='M230 60 q0 -10 10 -10'/>
-    <path d='M210 50 h40 q10 0 10 -10'/>
-    <path d='M130 50 q10 0 10 10 v40'/>
-    <path d='M250 20 q10 0 10 10 v10'/>
-    <path d='M110 30 q0 -10 10 -10'/>
-    <path d='M80 20 h210'/>
-    <path d='M10 20 h20'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='terminal'>terminal:</a></h2>
-  <svg height='105' width='350'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M340.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>'</text>
-    <a href='#character'>
-    <rect x='130' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='175' y='25' text-anchor='middle' class='rule'>character</text>
-    </a>
-    <path d='M173 40 l4 3 v-6 z' class='arrow'/>
-    <rect x='270' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='280' y='25' text-anchor='middle' class='literal'>'</text>
-    <rect x='60' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='75' text-anchor='middle' class='literal'>"</text>
-    <a href='#character'>
-    <rect x='130' y='60' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='175' y='75' text-anchor='middle' class='rule'>character</text>
-    </a>
-    <path d='M173 90 l4 3 v-6 z' class='arrow'/>
-    <rect x='270' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='280' y='75' text-anchor='middle' class='literal'>"</text>
-    <path d='M310 30 v30'/>
-    <path d='M290 70 h10 q10 0 10 -10'/>
-    <path d='M110 80 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
-    <path d='M230 70 q10 0 10 10'/>
-    <path d='M220 70 h50'/>
-    <path d='M110 80 q0 -10 10 -10'/>
-    <path d='M80 70 h50'/>
-    <path d='M40 60 q0 10 10 10 h10'/>
-    <path d='M310 30 q0 -10 10 -10'/>
-    <path d='M290 20 h50'/>
-    <path d='M110 30 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
-    <path d='M230 20 q10 0 10 10'/>
-    <path d='M220 20 h50'/>
-    <path d='M110 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v30'/>
-    <path d='M10 20 h50'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='lhs'>lhs:</a></h2>
-  <svg height='35' width='150'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M140.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#identifier'>
-    <rect x='30' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='75' y='25' text-anchor='middle' class='rule'>identifier</text>
-    </a>
-    <path d='M120 20 h20'/>
-    <path d='M10 20 h20'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='rhs'>rhs:</a></h2>
-  <svg height='215' width='280'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M270.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#identifier'>
-    <rect x='95' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='140' y='25' text-anchor='middle' class='rule'>identifier</text>
-    </a>
-    <a href='#terminal'>
-    <rect x='105' y='40' height='20' width='70' rx='0' ry='0' class='rule'/>
-    <text x='140' y='55' text-anchor='middle' class='rule'>terminal</text>
-    </a>
-    <rect x='75' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='85' y='85' text-anchor='middle' class='literal'>[</text>
-    <a href='#rhs'>
-    <rect x='115' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='140' y='85' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='185' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='195' y='85' text-anchor='middle' class='literal'>]</text>
-    <rect x='75' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='85' y='115' text-anchor='middle' class='literal'>{</text>
-    <a href='#rhs'>
-    <rect x='115' y='100' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='140' y='115' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='185' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='195' y='115' text-anchor='middle' class='literal'>}</text>
-    <rect x='75' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='85' y='145' text-anchor='middle' class='literal'>(</text>
-    <a href='#rhs'>
-    <rect x='115' y='130' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='140' y='145' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='185' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='195' y='145' text-anchor='middle' class='literal'>)</text>
-    <a href='#rhs'>
-    <rect x='60' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='85' y='175' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='130' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='140' y='175' text-anchor='middle' class='literal'>|</text>
-    <a href='#rhs'>
-    <rect x='170' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='195' y='175' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <a href='#rhs'>
-    <rect x='60' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='85' y='205' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='130' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='140' y='205' text-anchor='middle' class='literal'>,</text>
-    <a href='#rhs'>
-    <rect x='170' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='195' y='205' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <path d='M240 30 v160'/>
-    <path d='M220 200 h10 q10 0 10 -10'/>
-    <path d='M150 200 h20'/>
-    <path d='M110 200 h20'/>
-    <path d='M40 190 q0 10 10 10 h10'/>
-    <path d='M220 170 h10 q10 0 10 -10'/>
-    <path d='M150 170 h20'/>
-    <path d='M110 170 h20'/>
-    <path d='M40 160 q0 10 10 10 h10'/>
-    <path d='M205 140 h25 q10 0 10 -10'/>
-    <path d='M165 140 h20'/>
-    <path d='M95 140 h20'/>
-    <path d='M40 130 q0 10 10 10 h25'/>
-    <path d='M205 110 h25 q10 0 10 -10'/>
-    <path d='M165 110 h20'/>
-    <path d='M95 110 h20'/>
-    <path d='M40 100 q0 10 10 10 h25'/>
-    <path d='M205 80 h25 q10 0 10 -10'/>
-    <path d='M165 80 h20'/>
-    <path d='M95 80 h20'/>
-    <path d='M40 70 q0 10 10 10 h25'/>
-    <path d='M175 50 h55 q10 0 10 -10'/>
-    <path d='M40 40 q0 10 10 10 h55'/>
-    <path d='M240 30 q0 -10 10 -10'/>
-    <path d='M185 20 h85'/>
-    <path d='M30 20 q10 0 10 10 v160'/>
-    <path d='M10 20 h85'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='rule'>rule:</a></h2>
-  <svg height='35' width='260'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M250.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#lhs'>
-    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='55' y='25' text-anchor='middle' class='rule'>lhs</text>
-    </a>
-    <rect x='100' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='110' y='25' text-anchor='middle' class='literal'>=</text>
-    <a href='#rhs'>
-    <rect x='140' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='165' y='25' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='210' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='220' y='25' text-anchor='middle' class='literal'>;</text>
-    <path d='M190 20 h20'/>
-    <path d='M120 20 h20'/>
-    <path d='M80 20 h20'/>
-    <path d='M230 20 h20'/>
-    <path d='M10 20 h20'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='grammar'>grammar:</a></h2>
-  <svg height='55' width='170'>
-    <path d='M5.5 4 v12 m 4 0 v-12' class='station'/>
-    <path d='M160.5 4 v12 m 4 0 v-12' class='station'/>
-    <a href='#rule'>
-    <rect x='60' y='30' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='85' y='45' text-anchor='middle' class='rule'>rule</text>
-    </a>
-    <path d='M40 20 v10 q0 10 10 10 h10'/>
-    <path d='M110 40 h10 q10 0 10 -10'/>
-    <path d='M120 10 q10 0 10 10 v10'/>
-    <path d='M40 20 q0 -10 10 -10'/>
-    <path d='M10 10 h150'/>
-  </svg>
- </section>
-
- </body>
-</html>
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"html5"} > should translate a simple ABNF - URL 4`] = `
-"<!DOCTYPE html>
-<html>
-
- <head>
-  <style>
-      rect, line, path { stroke-width: 1.5px; stroke: black; fill: transparent; }
-      rect, line, path { stroke-linecap: square; stroke-linejoin: rounded; }
-      path { fill: transparent; }
-      text.literal { font-family: monospace; }
-      a { fill: blue; }
-      a:hover rect { fill: aliceblue; }
-      h2 { font-size: inherit; font-weight: inherit; }
-      line.ellipsis { stroke-dasharray: 1 3.5; }
-      tspan.hex { font-family: monospace; font-size: 90%; }
-      path.arrow { fill: black; }
-      svg { margin-left: 30px; }
-  </style>
- </head>
-
- <body>
- <section>
   <h2><a name='SYNTAX'>SYNTAX:</a></h2>
   <svg height='55' width='230'>
     <path d='M5.5 4 v12 m 4 0 v-12' class='station'/>
@@ -3870,184 +3539,326 @@ exports[`Grammar expression translation > With options {"output":"html5"} > shou
 "
 `;
 
-exports[`Grammar expression translation > With options {"output":"iso-ebnf"} > should translate a simple ABNF - URL 1`] = `
-"URL = domain, [ path ] , [ attributes ] , [ fragment ] 
-	;
+exports[`Grammar expression translation > With options {"output":"svg"} > should translate a ISO - EBNF 1`] = `
+"<?xml version='1.0' encoding='utf-8'?>
+<svg
+  xmlns='http://www.w3.org/2000/svg'
+  xmlns:xlink='http://www.w3.org/1999/xlink'
 
-domain = scheme, "://", [ credential ] , host, [ port ] 
-	;
+  width='410' height='1880'>
 
-"
-`;
+  <style>
+    rect, line, path { stroke-width: 1.5px; stroke: black; fill: transparent; }
+    rect, line, path { stroke-linecap: square; stroke-linejoin: rounded; }
+    path { fill: transparent; }
+    text.literal { font-family: monospace; }
+    line.ellipsis { stroke-dasharray: 1 3.5; }
+    tspan.hex { font-family: monospace; font-size: 90%; }
+    path.arrow { fill: black; }
+  </style>
 
-exports[`Grammar expression translation > With options {"output":"iso-ebnf"} > should translate a simple ABNF - URL 2`] = `
-"scheme =nsource-list = [ WSP ] , [ source-expression [ WSP source-expression ]  [ WSP ]  ] 
-"
-`;
+  <g transform='translate(40 50)'>
+    <text x='-30' y='-10'>letter:</text>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>A</text>
+    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='65' text-anchor='middle' class='literal'>Z</text>
+    <rect x='60' y='80' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='95' text-anchor='middle' class='literal'>a</text>
+    <line x1='70' y1='105' x2='70' y2='115' class='ellipsis'/>    <rect x='60' y='120' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='135' text-anchor='middle' class='literal'>z</text>
+    <path d='M100 30 v90'/>
+    <path d='M80 130 h10 q10 0 10 -10'/>
+    <path d='M40 120 q0 10 10 10 h10'/>
+    <path d='M80 90 h10 q10 0 10 -10'/>
+    <path d='M40 80 q0 10 10 10 h10'/>
+    <path d='M80 60 h10 q10 0 10 -10'/>
+    <path d='M40 50 q0 10 10 10 h10'/>
+    <path d='M100 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v90'/>
+    <path d='M10 20 h50'/>
+  </g>
 
-exports[`Grammar expression translation > With options {"output":"iso-ebnf"} > should translate a simple ABNF - URL 3`] = `
-"	| [ WSP ] ,letter = "A"
-	| "B"
-	| "C"
-	| "D"
-	| "E"
-	| "F"
-	| "G"
-	| "H"
-	| "I"
-	| "J"
-	| "K"
-	| "L"
-	| "M"
-	| "N"
-	| "O"
-	| "P"
-	| "Q"
-	| "R"
-	| "S"
-	| "T"
-	| "U"
-	| "V"
-	| "W"
-	| "X"
-	| "Y"
-	| "Z"
-	| "a"
-	| "b"
-	| "c"
-	| "d"
-	| "e"
-	| "f"
-	| "g"
-	| "h"
-	| "i"
-	| "j"
-	| "k"
-	| "l"
-	| "m"
-	| "n"
-	| "o"
-	| "p"
-	| "q"
-	| "r"
-	| "s"
-	| "t"
-	| "u"
-	| "v"
-	| "w"
-	| "x"
-	| "y"
-	| "z"
-	;
+  <g transform='translate(40 240)'>
+    <text x='-30' y='-10'>digit:</text>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>0</text>
+    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='65' text-anchor='middle' class='literal'>9</text>
+    <path d='M100 30 v20'/>
+    <path d='M80 60 h10 q10 0 10 -10'/>
+    <path d='M40 50 q0 10 10 10 h10'/>
+    <path d='M100 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v20'/>
+    <path d='M10 20 h50'/>
+  </g>
 
-digit = "0"
-	| "1"
-	| "2"
-	| "3"
-	| "4"
-	| "5"
-	| "6"
-	| "7"
-	| "8"
-	| "9"
-	;
+  <g transform='translate(40 360)'>
+    <text x='-30' y='-10'>symbol:</text>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>"</text>
+    <rect x='60' y='40' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='55' text-anchor='middle' class='literal'>'</text>
+    <rect x='60' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='85' text-anchor='middle' class='literal'>(</text>
+    <rect x='60' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='115' text-anchor='middle' class='literal'>)</text>
+    <rect x='60' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='145' text-anchor='middle' class='literal'>,</text>
+    <rect x='60' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='175' text-anchor='middle' class='literal'>.</text>
+    <rect x='60' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='205' text-anchor='middle' class='literal'>;</text>
+    <line x1='70' y1='215' x2='70' y2='225' class='ellipsis'/>    <rect x='60' y='230' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='245' text-anchor='middle' class='literal'>&gt;</text>
+    <rect x='60' y='260' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='275' text-anchor='middle' class='literal'>[</text>
+    <rect x='60' y='290' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='305' text-anchor='middle' class='literal'>]</text>
+    <rect x='60' y='320' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='335' text-anchor='middle' class='literal'>{</text>
+    <rect x='60' y='350' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='365' text-anchor='middle' class='literal'>|</text>
+    <rect x='60' y='380' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='395' text-anchor='middle' class='literal'>}</text>
+    <path d='M100 30 v350'/>
+    <path d='M80 390 h10 q10 0 10 -10'/>
+    <path d='M40 380 q0 10 10 10 h10'/>
+    <path d='M80 360 h10 q10 0 10 -10'/>
+    <path d='M40 350 q0 10 10 10 h10'/>
+    <path d='M80 330 h10 q10 0 10 -10'/>
+    <path d='M40 320 q0 10 10 10 h10'/>
+    <path d='M80 300 h10 q10 0 10 -10'/>
+    <path d='M40 290 q0 10 10 10 h10'/>
+    <path d='M80 270 h10 q10 0 10 -10'/>
+    <path d='M40 260 q0 10 10 10 h10'/>
+    <path d='M80 240 h10 q10 0 10 -10'/>
+    <path d='M40 230 q0 10 10 10 h10'/>
+    <path d='M80 200 h10 q10 0 10 -10'/>
+    <path d='M40 190 q0 10 10 10 h10'/>
+    <path d='M80 170 h10 q10 0 10 -10'/>
+    <path d='M40 160 q0 10 10 10 h10'/>
+    <path d='M80 140 h10 q10 0 10 -10'/>
+    <path d='M40 130 q0 10 10 10 h10'/>
+    <path d='M80 110 h10 q10 0 10 -10'/>
+    <path d='M40 100 q0 10 10 10 h10'/>
+    <path d='M80 80 h10 q10 0 10 -10'/>
+    <path d='M40 70 q0 10 10 10 h10'/>
+    <path d='M80 50 h10 q10 0 10 -10'/>
+    <path d='M40 40 q0 10 10 10 h10'/>
+    <path d='M100 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v350'/>
+    <path d='M10 20 h50'/>
+  </g>
 
-symbol = "["
-	| "]"
-	| "{"
-	| "}"
-	| "("
-	| ")"
-	| "<"
-	| ">"
-	| "'"
-	| """"
-	| "="
-	| "|"
-	| "."
-	| ","
-	| ";"
-	;
+  <g transform='translate(40 810)'>
+    <text x='-30' y='-10'>character:</text>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M180.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='70' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='95' y='25' text-anchor='middle' class='rule'>letter</text>
+    <rect x='70' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='95' y='55' text-anchor='middle' class='rule'>digit</text>
+    <rect x='60' y='70' height='20' width='70' rx='0' ry='0' class='rule'/>
+    <text x='95' y='85' text-anchor='middle' class='rule'>symbol</text>
+    <rect x='85' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='95' y='115' text-anchor='middle' class='literal'>_</text>
+    <path d='M150 30 v70'/>
+    <path d='M105 110 h35 q10 0 10 -10'/>
+    <path d='M40 100 q0 10 10 10 h35'/>
+    <path d='M130 80 h10 q10 0 10 -10'/>
+    <path d='M40 70 q0 10 10 10 h10'/>
+    <path d='M120 50 h20 q10 0 10 -10'/>
+    <path d='M40 40 q0 10 10 10 h20'/>
+    <path d='M150 30 q0 -10 10 -10'/>
+    <path d='M120 20 h60'/>
+    <path d='M30 20 q10 0 10 10 v70'/>
+    <path d='M10 20 h60'/>
+  </g>
 
-character = letter
-	| digit
-	| symbol
-	| "_"
-	;
+  <g transform='translate(40 980)'>
+    <text x='-30' y='-10'>identifier:</text>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M290.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='55' y='25' text-anchor='middle' class='rule'>letter</text>
+    <rect x='160' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='185' y='55' text-anchor='middle' class='rule'>letter</text>
+    <rect x='160' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='185' y='85' text-anchor='middle' class='rule'>digit</text>
+    <rect x='175' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='185' y='115' text-anchor='middle' class='literal'>_</text>
+    <path d='M110 30 v10 q0 10 10 10 h40'/>
+    <path d='M230 60 v40'/>
+    <path d='M195 110 h25 q10 0 10 -10'/>
+    <path d='M140 100 q0 10 10 10 h25'/>
+    <path d='M210 80 h10 q10 0 10 -10'/>
+    <path d='M140 70 q0 10 10 10 h10'/>
+    <path d='M230 60 q0 -10 10 -10'/>
+    <path d='M210 50 h40 q10 0 10 -10'/>
+    <path d='M130 50 q10 0 10 10 v40'/>
+    <path d='M250 20 q10 0 10 10 v10'/>
+    <path d='M110 30 q0 -10 10 -10'/>
+    <path d='M80 20 h210'/>
+    <path d='M10 20 h20'/>
+  </g>
 
-identifier = letter, [ letter | digit | "_" ] 
-	;
+  <g transform='translate(40 1150)'>
+    <text x='-30' y='-10'>terminal:</text>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M340.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>'</text>
+    <rect x='130' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='175' y='25' text-anchor='middle' class='rule'>character</text>
+    <path d='M173 40 l4 3 v-6 z' class='arrow'/>
+    <rect x='270' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='280' y='25' text-anchor='middle' class='literal'>'</text>
+    <rect x='60' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='75' text-anchor='middle' class='literal'>"</text>
+    <rect x='130' y='60' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='175' y='75' text-anchor='middle' class='rule'>character</text>
+    <path d='M173 90 l4 3 v-6 z' class='arrow'/>
+    <rect x='270' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='280' y='75' text-anchor='middle' class='literal'>"</text>
+    <path d='M310 30 v30'/>
+    <path d='M290 70 h10 q10 0 10 -10'/>
+    <path d='M110 80 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
+    <path d='M230 70 q10 0 10 10'/>
+    <path d='M220 70 h50'/>
+    <path d='M110 80 q0 -10 10 -10'/>
+    <path d='M80 70 h50'/>
+    <path d='M40 60 q0 10 10 10 h10'/>
+    <path d='M310 30 q0 -10 10 -10'/>
+    <path d='M290 20 h50'/>
+    <path d='M110 30 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
+    <path d='M230 20 q10 0 10 10'/>
+    <path d='M220 20 h50'/>
+    <path d='M110 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v30'/>
+    <path d='M10 20 h50'/>
+  </g>
 
-terminal = "'", character, [ character ] , "'"
-	| """", character, [ character ] , """"
-	;
+  <g transform='translate(40 1300)'>
+    <text x='-30' y='-10'>lhs:</text>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M140.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='30' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='75' y='25' text-anchor='middle' class='rule'>identifier</text>
+    <path d='M120 20 h20'/>
+    <path d='M10 20 h20'/>
+  </g>
 
-lhs = identifier
-	;
+  <g transform='translate(40 1380)'>
+    <text x='-30' y='-10'>rhs:</text>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M270.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='95' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='140' y='25' text-anchor='middle' class='rule'>identifier</text>
+    <rect x='105' y='40' height='20' width='70' rx='0' ry='0' class='rule'/>
+    <text x='140' y='55' text-anchor='middle' class='rule'>terminal</text>
+    <rect x='75' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='85' y='85' text-anchor='middle' class='literal'>[</text>
+    <rect x='115' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='140' y='85' text-anchor='middle' class='rule'>rhs</text>
+    <rect x='185' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='195' y='85' text-anchor='middle' class='literal'>]</text>
+    <rect x='75' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='85' y='115' text-anchor='middle' class='literal'>{</text>
+    <rect x='115' y='100' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='140' y='115' text-anchor='middle' class='rule'>rhs</text>
+    <rect x='185' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='195' y='115' text-anchor='middle' class='literal'>}</text>
+    <rect x='75' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='85' y='145' text-anchor='middle' class='literal'>(</text>
+    <rect x='115' y='130' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='140' y='145' text-anchor='middle' class='rule'>rhs</text>
+    <rect x='185' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='195' y='145' text-anchor='middle' class='literal'>)</text>
+    <rect x='60' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='85' y='175' text-anchor='middle' class='rule'>rhs</text>
+    <rect x='130' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='140' y='175' text-anchor='middle' class='literal'>|</text>
+    <rect x='170' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='195' y='175' text-anchor='middle' class='rule'>rhs</text>
+    <rect x='60' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='85' y='205' text-anchor='middle' class='rule'>rhs</text>
+    <rect x='130' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='140' y='205' text-anchor='middle' class='literal'>,</text>
+    <rect x='170' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='195' y='205' text-anchor='middle' class='rule'>rhs</text>
+    <path d='M240 30 v160'/>
+    <path d='M220 200 h10 q10 0 10 -10'/>
+    <path d='M150 200 h20'/>
+    <path d='M110 200 h20'/>
+    <path d='M40 190 q0 10 10 10 h10'/>
+    <path d='M220 170 h10 q10 0 10 -10'/>
+    <path d='M150 170 h20'/>
+    <path d='M110 170 h20'/>
+    <path d='M40 160 q0 10 10 10 h10'/>
+    <path d='M205 140 h25 q10 0 10 -10'/>
+    <path d='M165 140 h20'/>
+    <path d='M95 140 h20'/>
+    <path d='M40 130 q0 10 10 10 h25'/>
+    <path d='M205 110 h25 q10 0 10 -10'/>
+    <path d='M165 110 h20'/>
+    <path d='M95 110 h20'/>
+    <path d='M40 100 q0 10 10 10 h25'/>
+    <path d='M205 80 h25 q10 0 10 -10'/>
+    <path d='M165 80 h20'/>
+    <path d='M95 80 h20'/>
+    <path d='M40 70 q0 10 10 10 h25'/>
+    <path d='M175 50 h55 q10 0 10 -10'/>
+    <path d='M40 40 q0 10 10 10 h55'/>
+    <path d='M240 30 q0 -10 10 -10'/>
+    <path d='M185 20 h85'/>
+    <path d='M30 20 q10 0 10 10 v160'/>
+    <path d='M10 20 h85'/>
+  </g>
 
-rhs = identifier
-	| terminal
-	| "[", rhs, "]"
-	| "{", rhs, "}"
-	| "(", rhs, ")"
-	| rhs, "|", rhs
-	| rhs, ",", rhs
-	;
+  <g transform='translate(40 1640)'>
+    <text x='-30' y='-10'>rule:</text>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M250.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='55' y='25' text-anchor='middle' class='rule'>lhs</text>
+    <rect x='100' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='110' y='25' text-anchor='middle' class='literal'>=</text>
+    <rect x='140' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='165' y='25' text-anchor='middle' class='rule'>rhs</text>
+    <rect x='210' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='220' y='25' text-anchor='middle' class='literal'>;</text>
+    <path d='M190 20 h20'/>
+    <path d='M120 20 h20'/>
+    <path d='M80 20 h20'/>
+    <path d='M230 20 h20'/>
+    <path d='M10 20 h20'/>
+  </g>
 
-rule = lhs, "=", rhs, ";"
-	;
+  <g transform='translate(40 1720)'>
+    <text x='-30' y='-10'>grammar:</text>
+    <path d='M5.5 4 v12 m 4 0 v-12' class='station'/>
+    <path d='M160.5 4 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='30' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='85' y='45' text-anchor='middle' class='rule'>rule</text>
+    <path d='M40 20 v10 q0 10 10 10 h10'/>
+    <path d='M110 40 h10 q10 0 10 -10'/>
+    <path d='M120 10 q10 0 10 10 v10'/>
+    <path d='M40 20 q0 -10 10 -10'/>
+    <path d='M10 10 h150'/>
+  </g>
 
-grammar = [ rule ] 
-	;
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"iso-ebnf"} > should translate a simple ABNF - URL 4`] = `
-"SYNTAX = [ PRODUCTION ] 
-	;
-
-PRODUCTION = IDENTIFIER, "=", EXPRESSION, "."
-	;
-
-EXPRESSION = TERM, [ "|" TERM ] 
-	;
-
-TERM = FACTOR, [ FACTOR ] 
-	;
-
-FACTOR = IDENTIFIER
-	| LITERAL
-	| "[", EXPRESSION, "]"
-	| "(", EXPRESSION, ")"
-	| "{", EXPRESSION, "}"
-	;
-
-IDENTIFIER = letter, [ letter ] 
-	;
-
-LITERAL = "", "", character, [ character ] , "", ""
-	;
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"rbnf"} > should translate a simple ABNF - URL 1`] = `
-"<URL> ::= <domain> [ <path> ]  [ <attributes> ]  [ <fragment> ] 
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"rbnf"} > should translate a simple ABNF - URL 2`] = `
-"<domain> ::= <scheme><nsource-list> ::= [ <WSP> ]  [ <source-expression> [ <WSP> <source-expression> ]  [ <WSP> ]  ] 
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"rbnf"} > should translate a simple ABNF - URL 3`] = `""`;
-
-exports[`Grammar expression translation > With options {"output":"rbnf"} > should translate a simple ABNF - URL 4`] = `
-"	| [ <WSP> ] <letter> ::=<SYNTAX> ::= [ <PRODUCTION> ] 
-
+</svg>
 "
 `;
 
@@ -4682,329 +4493,6 @@ exports[`Grammar expression translation > With options {"output":"svg"} > should
   xmlns='http://www.w3.org/2000/svg'
   xmlns:xlink='http://www.w3.org/1999/xlink'
 
-  width='410' height='1880'>
-
-  <style>
-    rect, line, path { stroke-width: 1.5px; stroke: black; fill: transparent; }
-    rect, line, path { stroke-linecap: square; stroke-linejoin: rounded; }
-    path { fill: transparent; }
-    text.literal { font-family: monospace; }
-    line.ellipsis { stroke-dasharray: 1 3.5; }
-    tspan.hex { font-family: monospace; font-size: 90%; }
-    path.arrow { fill: black; }
-  </style>
-
-  <g transform='translate(40 50)'>
-    <text x='-30' y='-10'>letter:</text>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>A</text>
-    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='65' text-anchor='middle' class='literal'>Z</text>
-    <rect x='60' y='80' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='95' text-anchor='middle' class='literal'>a</text>
-    <line x1='70' y1='105' x2='70' y2='115' class='ellipsis'/>    <rect x='60' y='120' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='135' text-anchor='middle' class='literal'>z</text>
-    <path d='M100 30 v90'/>
-    <path d='M80 130 h10 q10 0 10 -10'/>
-    <path d='M40 120 q0 10 10 10 h10'/>
-    <path d='M80 90 h10 q10 0 10 -10'/>
-    <path d='M40 80 q0 10 10 10 h10'/>
-    <path d='M80 60 h10 q10 0 10 -10'/>
-    <path d='M40 50 q0 10 10 10 h10'/>
-    <path d='M100 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v90'/>
-    <path d='M10 20 h50'/>
-  </g>
-
-  <g transform='translate(40 240)'>
-    <text x='-30' y='-10'>digit:</text>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>0</text>
-    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='65' text-anchor='middle' class='literal'>9</text>
-    <path d='M100 30 v20'/>
-    <path d='M80 60 h10 q10 0 10 -10'/>
-    <path d='M40 50 q0 10 10 10 h10'/>
-    <path d='M100 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v20'/>
-    <path d='M10 20 h50'/>
-  </g>
-
-  <g transform='translate(40 360)'>
-    <text x='-30' y='-10'>symbol:</text>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>"</text>
-    <rect x='60' y='40' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='55' text-anchor='middle' class='literal'>'</text>
-    <rect x='60' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='85' text-anchor='middle' class='literal'>(</text>
-    <rect x='60' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='115' text-anchor='middle' class='literal'>)</text>
-    <rect x='60' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='145' text-anchor='middle' class='literal'>,</text>
-    <rect x='60' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='175' text-anchor='middle' class='literal'>.</text>
-    <rect x='60' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='205' text-anchor='middle' class='literal'>;</text>
-    <line x1='70' y1='215' x2='70' y2='225' class='ellipsis'/>    <rect x='60' y='230' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='245' text-anchor='middle' class='literal'>&gt;</text>
-    <rect x='60' y='260' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='275' text-anchor='middle' class='literal'>[</text>
-    <rect x='60' y='290' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='305' text-anchor='middle' class='literal'>]</text>
-    <rect x='60' y='320' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='335' text-anchor='middle' class='literal'>{</text>
-    <rect x='60' y='350' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='365' text-anchor='middle' class='literal'>|</text>
-    <rect x='60' y='380' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='395' text-anchor='middle' class='literal'>}</text>
-    <path d='M100 30 v350'/>
-    <path d='M80 390 h10 q10 0 10 -10'/>
-    <path d='M40 380 q0 10 10 10 h10'/>
-    <path d='M80 360 h10 q10 0 10 -10'/>
-    <path d='M40 350 q0 10 10 10 h10'/>
-    <path d='M80 330 h10 q10 0 10 -10'/>
-    <path d='M40 320 q0 10 10 10 h10'/>
-    <path d='M80 300 h10 q10 0 10 -10'/>
-    <path d='M40 290 q0 10 10 10 h10'/>
-    <path d='M80 270 h10 q10 0 10 -10'/>
-    <path d='M40 260 q0 10 10 10 h10'/>
-    <path d='M80 240 h10 q10 0 10 -10'/>
-    <path d='M40 230 q0 10 10 10 h10'/>
-    <path d='M80 200 h10 q10 0 10 -10'/>
-    <path d='M40 190 q0 10 10 10 h10'/>
-    <path d='M80 170 h10 q10 0 10 -10'/>
-    <path d='M40 160 q0 10 10 10 h10'/>
-    <path d='M80 140 h10 q10 0 10 -10'/>
-    <path d='M40 130 q0 10 10 10 h10'/>
-    <path d='M80 110 h10 q10 0 10 -10'/>
-    <path d='M40 100 q0 10 10 10 h10'/>
-    <path d='M80 80 h10 q10 0 10 -10'/>
-    <path d='M40 70 q0 10 10 10 h10'/>
-    <path d='M80 50 h10 q10 0 10 -10'/>
-    <path d='M40 40 q0 10 10 10 h10'/>
-    <path d='M100 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v350'/>
-    <path d='M10 20 h50'/>
-  </g>
-
-  <g transform='translate(40 810)'>
-    <text x='-30' y='-10'>character:</text>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M180.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='70' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='95' y='25' text-anchor='middle' class='rule'>letter</text>
-    <rect x='70' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='95' y='55' text-anchor='middle' class='rule'>digit</text>
-    <rect x='60' y='70' height='20' width='70' rx='0' ry='0' class='rule'/>
-    <text x='95' y='85' text-anchor='middle' class='rule'>symbol</text>
-    <rect x='85' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='95' y='115' text-anchor='middle' class='literal'>_</text>
-    <path d='M150 30 v70'/>
-    <path d='M105 110 h35 q10 0 10 -10'/>
-    <path d='M40 100 q0 10 10 10 h35'/>
-    <path d='M130 80 h10 q10 0 10 -10'/>
-    <path d='M40 70 q0 10 10 10 h10'/>
-    <path d='M120 50 h20 q10 0 10 -10'/>
-    <path d='M40 40 q0 10 10 10 h20'/>
-    <path d='M150 30 q0 -10 10 -10'/>
-    <path d='M120 20 h60'/>
-    <path d='M30 20 q10 0 10 10 v70'/>
-    <path d='M10 20 h60'/>
-  </g>
-
-  <g transform='translate(40 980)'>
-    <text x='-30' y='-10'>identifier:</text>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M290.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='55' y='25' text-anchor='middle' class='rule'>letter</text>
-    <rect x='160' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='185' y='55' text-anchor='middle' class='rule'>letter</text>
-    <rect x='160' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='185' y='85' text-anchor='middle' class='rule'>digit</text>
-    <rect x='175' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='185' y='115' text-anchor='middle' class='literal'>_</text>
-    <path d='M110 30 v10 q0 10 10 10 h40'/>
-    <path d='M230 60 v40'/>
-    <path d='M195 110 h25 q10 0 10 -10'/>
-    <path d='M140 100 q0 10 10 10 h25'/>
-    <path d='M210 80 h10 q10 0 10 -10'/>
-    <path d='M140 70 q0 10 10 10 h10'/>
-    <path d='M230 60 q0 -10 10 -10'/>
-    <path d='M210 50 h40 q10 0 10 -10'/>
-    <path d='M130 50 q10 0 10 10 v40'/>
-    <path d='M250 20 q10 0 10 10 v10'/>
-    <path d='M110 30 q0 -10 10 -10'/>
-    <path d='M80 20 h210'/>
-    <path d='M10 20 h20'/>
-  </g>
-
-  <g transform='translate(40 1150)'>
-    <text x='-30' y='-10'>terminal:</text>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M340.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>'</text>
-    <rect x='130' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='175' y='25' text-anchor='middle' class='rule'>character</text>
-    <path d='M173 40 l4 3 v-6 z' class='arrow'/>
-    <rect x='270' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='280' y='25' text-anchor='middle' class='literal'>'</text>
-    <rect x='60' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='75' text-anchor='middle' class='literal'>"</text>
-    <rect x='130' y='60' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='175' y='75' text-anchor='middle' class='rule'>character</text>
-    <path d='M173 90 l4 3 v-6 z' class='arrow'/>
-    <rect x='270' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='280' y='75' text-anchor='middle' class='literal'>"</text>
-    <path d='M310 30 v30'/>
-    <path d='M290 70 h10 q10 0 10 -10'/>
-    <path d='M110 80 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
-    <path d='M230 70 q10 0 10 10'/>
-    <path d='M220 70 h50'/>
-    <path d='M110 80 q0 -10 10 -10'/>
-    <path d='M80 70 h50'/>
-    <path d='M40 60 q0 10 10 10 h10'/>
-    <path d='M310 30 q0 -10 10 -10'/>
-    <path d='M290 20 h50'/>
-    <path d='M110 30 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
-    <path d='M230 20 q10 0 10 10'/>
-    <path d='M220 20 h50'/>
-    <path d='M110 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v30'/>
-    <path d='M10 20 h50'/>
-  </g>
-
-  <g transform='translate(40 1300)'>
-    <text x='-30' y='-10'>lhs:</text>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M140.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='30' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='75' y='25' text-anchor='middle' class='rule'>identifier</text>
-    <path d='M120 20 h20'/>
-    <path d='M10 20 h20'/>
-  </g>
-
-  <g transform='translate(40 1380)'>
-    <text x='-30' y='-10'>rhs:</text>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M270.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='95' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='140' y='25' text-anchor='middle' class='rule'>identifier</text>
-    <rect x='105' y='40' height='20' width='70' rx='0' ry='0' class='rule'/>
-    <text x='140' y='55' text-anchor='middle' class='rule'>terminal</text>
-    <rect x='75' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='85' y='85' text-anchor='middle' class='literal'>[</text>
-    <rect x='115' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='140' y='85' text-anchor='middle' class='rule'>rhs</text>
-    <rect x='185' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='195' y='85' text-anchor='middle' class='literal'>]</text>
-    <rect x='75' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='85' y='115' text-anchor='middle' class='literal'>{</text>
-    <rect x='115' y='100' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='140' y='115' text-anchor='middle' class='rule'>rhs</text>
-    <rect x='185' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='195' y='115' text-anchor='middle' class='literal'>}</text>
-    <rect x='75' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='85' y='145' text-anchor='middle' class='literal'>(</text>
-    <rect x='115' y='130' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='140' y='145' text-anchor='middle' class='rule'>rhs</text>
-    <rect x='185' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='195' y='145' text-anchor='middle' class='literal'>)</text>
-    <rect x='60' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='85' y='175' text-anchor='middle' class='rule'>rhs</text>
-    <rect x='130' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='140' y='175' text-anchor='middle' class='literal'>|</text>
-    <rect x='170' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='195' y='175' text-anchor='middle' class='rule'>rhs</text>
-    <rect x='60' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='85' y='205' text-anchor='middle' class='rule'>rhs</text>
-    <rect x='130' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='140' y='205' text-anchor='middle' class='literal'>,</text>
-    <rect x='170' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='195' y='205' text-anchor='middle' class='rule'>rhs</text>
-    <path d='M240 30 v160'/>
-    <path d='M220 200 h10 q10 0 10 -10'/>
-    <path d='M150 200 h20'/>
-    <path d='M110 200 h20'/>
-    <path d='M40 190 q0 10 10 10 h10'/>
-    <path d='M220 170 h10 q10 0 10 -10'/>
-    <path d='M150 170 h20'/>
-    <path d='M110 170 h20'/>
-    <path d='M40 160 q0 10 10 10 h10'/>
-    <path d='M205 140 h25 q10 0 10 -10'/>
-    <path d='M165 140 h20'/>
-    <path d='M95 140 h20'/>
-    <path d='M40 130 q0 10 10 10 h25'/>
-    <path d='M205 110 h25 q10 0 10 -10'/>
-    <path d='M165 110 h20'/>
-    <path d='M95 110 h20'/>
-    <path d='M40 100 q0 10 10 10 h25'/>
-    <path d='M205 80 h25 q10 0 10 -10'/>
-    <path d='M165 80 h20'/>
-    <path d='M95 80 h20'/>
-    <path d='M40 70 q0 10 10 10 h25'/>
-    <path d='M175 50 h55 q10 0 10 -10'/>
-    <path d='M40 40 q0 10 10 10 h55'/>
-    <path d='M240 30 q0 -10 10 -10'/>
-    <path d='M185 20 h85'/>
-    <path d='M30 20 q10 0 10 10 v160'/>
-    <path d='M10 20 h85'/>
-  </g>
-
-  <g transform='translate(40 1640)'>
-    <text x='-30' y='-10'>rule:</text>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M250.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='55' y='25' text-anchor='middle' class='rule'>lhs</text>
-    <rect x='100' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='110' y='25' text-anchor='middle' class='literal'>=</text>
-    <rect x='140' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='165' y='25' text-anchor='middle' class='rule'>rhs</text>
-    <rect x='210' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='220' y='25' text-anchor='middle' class='literal'>;</text>
-    <path d='M190 20 h20'/>
-    <path d='M120 20 h20'/>
-    <path d='M80 20 h20'/>
-    <path d='M230 20 h20'/>
-    <path d='M10 20 h20'/>
-  </g>
-
-  <g transform='translate(40 1720)'>
-    <text x='-30' y='-10'>grammar:</text>
-    <path d='M5.5 4 v12 m 4 0 v-12' class='station'/>
-    <path d='M160.5 4 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='30' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='85' y='45' text-anchor='middle' class='rule'>rule</text>
-    <path d='M40 20 v10 q0 10 10 10 h10'/>
-    <path d='M110 40 h10 q10 0 10 -10'/>
-    <path d='M120 10 q10 0 10 10 v10'/>
-    <path d='M40 20 q0 -10 10 -10'/>
-    <path d='M10 10 h150'/>
-  </g>
-
-</svg>
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"svg"} > should translate a simple ABNF - URL 4`] = `
-"<?xml version='1.0' encoding='utf-8'?>
-<svg
-  xmlns='http://www.w3.org/2000/svg'
-  xmlns:xlink='http://www.w3.org/1999/xlink'
-
   width='460' height='900'>
 
   <style>
@@ -5155,6 +4643,112 @@ exports[`Grammar expression translation > With options {"output":"svg"} > should
   </g>
 
 </svg>
+"
+`;
+
+exports[`Grammar expression translation > With options {"output":"unicode"} > should translate a ISO - EBNF 1`] = `
+"letter:
+    │├──╮── "A" ──╭──┤│
+        │         │
+        │    :    │
+        │         │
+        ╰── "Z" ──╯
+        │         │
+        ╰── "a" ──╯
+        │         │
+        │    :    │
+        │         │
+        ╰── "z" ──╯
+
+digit:
+    │├──╮── "0" ──╭──┤│
+        │         │
+        │    :    │
+        │         │
+        ╰── "9" ──╯
+
+symbol:
+    │├──╮── "\\"" ──╭──┤│
+        │          │
+        ╰── "'" ───╯
+        │          │
+        ╰── "(" ───╯
+        │          │
+        ╰── ")" ───╯
+        │          │
+        ╰── "," ───╯
+        │          │
+        ╰── "." ───╯
+        │          │
+        ╰── ";" ───╯
+        │          │
+        │    :     │
+        │          │
+        ╰── ">" ───╯
+        │          │
+        ╰── "[" ───╯
+        │          │
+        ╰── "]" ───╯
+        │          │
+        ╰── "{" ───╯
+        │          │
+        ╰── "|" ───╯
+        │          │
+        ╰── "}" ───╯
+
+character:
+    │├──╮── letter ──╭──┤│
+        │            │
+        ╰── digit ───╯
+        │            │
+        ╰── symbol ──╯
+        │            │
+        ╰─── "_" ────╯
+
+identifier:
+    │├── letter ──╭──────────────────╮──┤│
+                  │                  │
+                  ╰──╮── letter ──╭──╯
+                     │            │
+                     ╰── digit ───╯
+                     │            │
+                     ╰─── "_" ────╯
+
+terminal:
+    │├──╮─── "'" ──╭── character ──╮── "'" ───╭──┤│
+        │          │               │          │
+        │          ╰───────<───────╯          │
+        │                                     │
+        ╰── "\\"" ──╭── character ──╮── "\\"" ──╯
+                   │               │
+                   ╰───────<───────╯
+
+lhs:
+    │├── identifier ──┤│
+
+rhs:
+    │├──╮───── identifier ──────╭──┤│
+        │                       │
+        ╰────── terminal ───────╯
+        │                       │
+        ╰── "[" ── rhs ── "]" ──╯
+        │                       │
+        ╰── "{" ── rhs ── "}" ──╯
+        │                       │
+        ╰── "(" ── rhs ── ")" ──╯
+        │                       │
+        ╰── rhs ── "|" ── rhs ──╯
+        │                       │
+        ╰── rhs ── "," ── rhs ──╯
+
+rule:
+    │├── lhs ── "=" ── rhs ── ";" ──┤│
+
+grammar:
+    │├──╭──────────╮──┤│
+        │          │
+        ╰── rule ──╯
+
 "
 `;
 
@@ -5310,112 +4904,6 @@ port-part:
 `;
 
 exports[`Grammar expression translation > With options {"output":"unicode"} > should translate a simple ABNF - URL 3`] = `
-"letter:
-    │├──╮── "A" ──╭──┤│
-        │         │
-        │    :    │
-        │         │
-        ╰── "Z" ──╯
-        │         │
-        ╰── "a" ──╯
-        │         │
-        │    :    │
-        │         │
-        ╰── "z" ──╯
-
-digit:
-    │├──╮── "0" ──╭──┤│
-        │         │
-        │    :    │
-        │         │
-        ╰── "9" ──╯
-
-symbol:
-    │├──╮── "\\"" ──╭──┤│
-        │          │
-        ╰── "'" ───╯
-        │          │
-        ╰── "(" ───╯
-        │          │
-        ╰── ")" ───╯
-        │          │
-        ╰── "," ───╯
-        │          │
-        ╰── "." ───╯
-        │          │
-        ╰── ";" ───╯
-        │          │
-        │    :     │
-        │          │
-        ╰── ">" ───╯
-        │          │
-        ╰── "[" ───╯
-        │          │
-        ╰── "]" ───╯
-        │          │
-        ╰── "{" ───╯
-        │          │
-        ╰── "|" ───╯
-        │          │
-        ╰── "}" ───╯
-
-character:
-    │├──╮── letter ──╭──┤│
-        │            │
-        ╰── digit ───╯
-        │            │
-        ╰── symbol ──╯
-        │            │
-        ╰─── "_" ────╯
-
-identifier:
-    │├── letter ──╭──────────────────╮──┤│
-                  │                  │
-                  ╰──╮── letter ──╭──╯
-                     │            │
-                     ╰── digit ───╯
-                     │            │
-                     ╰─── "_" ────╯
-
-terminal:
-    │├──╮─── "'" ──╭── character ──╮── "'" ───╭──┤│
-        │          │               │          │
-        │          ╰───────<───────╯          │
-        │                                     │
-        ╰── "\\"" ──╭── character ──╮── "\\"" ──╯
-                   │               │
-                   ╰───────<───────╯
-
-lhs:
-    │├── identifier ──┤│
-
-rhs:
-    │├──╮───── identifier ──────╭──┤│
-        │                       │
-        ╰────── terminal ───────╯
-        │                       │
-        ╰── "[" ── rhs ── "]" ──╯
-        │                       │
-        ╰── "{" ── rhs ── "}" ──╯
-        │                       │
-        ╰── "(" ── rhs ── ")" ──╯
-        │                       │
-        ╰── rhs ── "|" ── rhs ──╯
-        │                       │
-        ╰── rhs ── "," ── rhs ──╯
-
-rule:
-    │├── lhs ── "=" ── rhs ── ";" ──┤│
-
-grammar:
-    │├──╭──────────╮──┤│
-        │          │
-        ╰── rule ──╯
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"unicode"} > should translate a simple ABNF - URL 4`] = `
 "SYNTAX:
     │├──╭────────────────╮──┤│
         │                │
@@ -5458,146 +4946,396 @@ LITERAL:
 "
 `;
 
-exports[`Grammar expression translation > With options {"output":"wsn"} > should translate a simple ABNF - URL 1`] = `
-"<PRODUCTION> ::= <IDENTIFIER>URL = domain [  path ] [  attributes ] [  fragment ] .
+exports[`Grammar expression translation > With options {"output":"xhtml5"} > should translate a ISO - EBNF 1`] = `
+"<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html>
+<html xml:lang='en' lang='en'
+  xmlns='http://www.w3.org/1999/xhtml'
+  xmlns:xlink='http://www.w3.org/1999/xlink'>
 
-domain = scheme "://" [  credential ] host [  port ] .
+ <head>
+  <meta charset='UTF-8'/>
+  <style>
+      rect, line, path { stroke-width: 1.5px; stroke: black; fill: transparent; }
+      rect, line, path { stroke-linecap: square; stroke-linejoin: rounded; }
+      path { fill: transparent; }
+      text.literal { font-family: monospace; }
+      a { fill: blue; }
+      a:hover rect { fill: aliceblue; }
+      h2 { font-size: inherit; font-weight: inherit; }
+      line.ellipsis { stroke-dasharray: 1 3.5; }
+      tspan.hex { font-family: monospace; font-size: 90%; }
+      path.arrow { fill: black; }
+      svg { margin-left: 30px; }
+  </style>
+ </head>
 
-"
-`;
+ <body>
+ <section>
+  <h2><a name='letter'>letter:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='145' width='140'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>A</text>
+    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='65' text-anchor='middle' class='literal'>Z</text>
+    <rect x='60' y='80' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='95' text-anchor='middle' class='literal'>a</text>
+    <line x1='70' y1='105' x2='70' y2='115' class='ellipsis'/>    <rect x='60' y='120' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='135' text-anchor='middle' class='literal'>z</text>
+    <path d='M100 30 v90'/>
+    <path d='M80 130 h10 q10 0 10 -10'/>
+    <path d='M40 120 q0 10 10 10 h10'/>
+    <path d='M80 90 h10 q10 0 10 -10'/>
+    <path d='M40 80 q0 10 10 10 h10'/>
+    <path d='M80 60 h10 q10 0 10 -10'/>
+    <path d='M40 50 q0 10 10 10 h10'/>
+    <path d='M100 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v90'/>
+    <path d='M10 20 h50'/>
+  </svg>
+ </section>
 
-exports[`Grammar expression translation > With options {"output":"wsn"} > should translate a simple ABNF - URL 2`] = `
-"scheme =nsource-list = [  WSP ] [  source-expression [  WSP source-expression ] [  WSP ] ]
-"
-`;
+ <section>
+  <h2><a name='digit'>digit:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='75' width='140'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>0</text>
+    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='65' text-anchor='middle' class='literal'>9</text>
+    <path d='M100 30 v20'/>
+    <path d='M80 60 h10 q10 0 10 -10'/>
+    <path d='M40 50 q0 10 10 10 h10'/>
+    <path d='M100 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v20'/>
+    <path d='M10 20 h50'/>
+  </svg>
+ </section>
 
-exports[`Grammar expression translation > With options {"output":"wsn"} > should translate a simple ABNF - URL 3`] = `
-"	| [  WSP ]letter = "A"
-	| "B"
-	| "C"
-	| "D"
-	| "E"
-	| "F"
-	| "G"
-	| "H"
-	| "I"
-	| "J"
-	| "K"
-	| "L"
-	| "M"
-	| "N"
-	| "O"
-	| "P"
-	| "Q"
-	| "R"
-	| "S"
-	| "T"
-	| "U"
-	| "V"
-	| "W"
-	| "X"
-	| "Y"
-	| "Z"
-	| "a"
-	| "b"
-	| "c"
-	| "d"
-	| "e"
-	| "f"
-	| "g"
-	| "h"
-	| "i"
-	| "j"
-	| "k"
-	| "l"
-	| "m"
-	| "n"
-	| "o"
-	| "p"
-	| "q"
-	| "r"
-	| "s"
-	| "t"
-	| "u"
-	| "v"
-	| "w"
-	| "x"
-	| "y"
-	| "z" .
+ <section>
+  <h2><a name='symbol'>symbol:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='405' width='140'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>"</text>
+    <rect x='60' y='40' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='55' text-anchor='middle' class='literal'>'</text>
+    <rect x='60' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='85' text-anchor='middle' class='literal'>(</text>
+    <rect x='60' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='115' text-anchor='middle' class='literal'>)</text>
+    <rect x='60' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='145' text-anchor='middle' class='literal'>,</text>
+    <rect x='60' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='175' text-anchor='middle' class='literal'>.</text>
+    <rect x='60' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='205' text-anchor='middle' class='literal'>;</text>
+    <line x1='70' y1='215' x2='70' y2='225' class='ellipsis'/>    <rect x='60' y='230' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='245' text-anchor='middle' class='literal'>&gt;</text>
+    <rect x='60' y='260' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='275' text-anchor='middle' class='literal'>[</text>
+    <rect x='60' y='290' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='305' text-anchor='middle' class='literal'>]</text>
+    <rect x='60' y='320' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='335' text-anchor='middle' class='literal'>{</text>
+    <rect x='60' y='350' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='365' text-anchor='middle' class='literal'>|</text>
+    <rect x='60' y='380' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='395' text-anchor='middle' class='literal'>}</text>
+    <path d='M100 30 v350'/>
+    <path d='M80 390 h10 q10 0 10 -10'/>
+    <path d='M40 380 q0 10 10 10 h10'/>
+    <path d='M80 360 h10 q10 0 10 -10'/>
+    <path d='M40 350 q0 10 10 10 h10'/>
+    <path d='M80 330 h10 q10 0 10 -10'/>
+    <path d='M40 320 q0 10 10 10 h10'/>
+    <path d='M80 300 h10 q10 0 10 -10'/>
+    <path d='M40 290 q0 10 10 10 h10'/>
+    <path d='M80 270 h10 q10 0 10 -10'/>
+    <path d='M40 260 q0 10 10 10 h10'/>
+    <path d='M80 240 h10 q10 0 10 -10'/>
+    <path d='M40 230 q0 10 10 10 h10'/>
+    <path d='M80 200 h10 q10 0 10 -10'/>
+    <path d='M40 190 q0 10 10 10 h10'/>
+    <path d='M80 170 h10 q10 0 10 -10'/>
+    <path d='M40 160 q0 10 10 10 h10'/>
+    <path d='M80 140 h10 q10 0 10 -10'/>
+    <path d='M40 130 q0 10 10 10 h10'/>
+    <path d='M80 110 h10 q10 0 10 -10'/>
+    <path d='M40 100 q0 10 10 10 h10'/>
+    <path d='M80 80 h10 q10 0 10 -10'/>
+    <path d='M40 70 q0 10 10 10 h10'/>
+    <path d='M80 50 h10 q10 0 10 -10'/>
+    <path d='M40 40 q0 10 10 10 h10'/>
+    <path d='M100 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v350'/>
+    <path d='M10 20 h50'/>
+  </svg>
+ </section>
 
-digit = "0"
-	| "1"
-	| "2"
-	| "3"
-	| "4"
-	| "5"
-	| "6"
-	| "7"
-	| "8"
-	| "9" .
+ <section>
+  <h2><a name='character'>character:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='125' width='190'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M180.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#letter'>
+    <rect x='70' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='95' y='25' text-anchor='middle' class='rule'>letter</text>
+    </a>
+    <a href='#digit'>
+    <rect x='70' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='95' y='55' text-anchor='middle' class='rule'>digit</text>
+    </a>
+    <a href='#symbol'>
+    <rect x='60' y='70' height='20' width='70' rx='0' ry='0' class='rule'/>
+    <text x='95' y='85' text-anchor='middle' class='rule'>symbol</text>
+    </a>
+    <rect x='85' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='95' y='115' text-anchor='middle' class='literal'>_</text>
+    <path d='M150 30 v70'/>
+    <path d='M105 110 h35 q10 0 10 -10'/>
+    <path d='M40 100 q0 10 10 10 h35'/>
+    <path d='M130 80 h10 q10 0 10 -10'/>
+    <path d='M40 70 q0 10 10 10 h10'/>
+    <path d='M120 50 h20 q10 0 10 -10'/>
+    <path d='M40 40 q0 10 10 10 h20'/>
+    <path d='M150 30 q0 -10 10 -10'/>
+    <path d='M120 20 h60'/>
+    <path d='M30 20 q10 0 10 10 v70'/>
+    <path d='M10 20 h60'/>
+  </svg>
+ </section>
 
-symbol = "["
-	| "]"
-	| "{"
-	| "}"
-	| "("
-	| ")"
-	| "<"
-	| ">"
-	| "'"
-	| """"
-	| "="
-	| "|"
-	| "."
-	| ","
-	| ";" .
+ <section>
+  <h2><a name='identifier'>identifier:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='125' width='300'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M290.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#letter'>
+    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='55' y='25' text-anchor='middle' class='rule'>letter</text>
+    </a>
+    <a href='#letter'>
+    <rect x='160' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='185' y='55' text-anchor='middle' class='rule'>letter</text>
+    </a>
+    <a href='#digit'>
+    <rect x='160' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='185' y='85' text-anchor='middle' class='rule'>digit</text>
+    </a>
+    <rect x='175' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='185' y='115' text-anchor='middle' class='literal'>_</text>
+    <path d='M110 30 v10 q0 10 10 10 h40'/>
+    <path d='M230 60 v40'/>
+    <path d='M195 110 h25 q10 0 10 -10'/>
+    <path d='M140 100 q0 10 10 10 h25'/>
+    <path d='M210 80 h10 q10 0 10 -10'/>
+    <path d='M140 70 q0 10 10 10 h10'/>
+    <path d='M230 60 q0 -10 10 -10'/>
+    <path d='M210 50 h40 q10 0 10 -10'/>
+    <path d='M130 50 q10 0 10 10 v40'/>
+    <path d='M250 20 q10 0 10 10 v10'/>
+    <path d='M110 30 q0 -10 10 -10'/>
+    <path d='M80 20 h210'/>
+    <path d='M10 20 h20'/>
+  </svg>
+ </section>
 
-character = letter
-	| digit
-	| symbol
-	| "_" .
+ <section>
+  <h2><a name='terminal'>terminal:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='105' width='350'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M340.5 14 v12 m 4 0 v-12' class='station'/>
+    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='25' text-anchor='middle' class='literal'>'</text>
+    <a href='#character'>
+    <rect x='130' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='175' y='25' text-anchor='middle' class='rule'>character</text>
+    </a>
+    <path d='M173 40 l4 3 v-6 z' class='arrow'/>
+    <rect x='270' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='280' y='25' text-anchor='middle' class='literal'>'</text>
+    <rect x='60' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='70' y='75' text-anchor='middle' class='literal'>"</text>
+    <a href='#character'>
+    <rect x='130' y='60' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='175' y='75' text-anchor='middle' class='rule'>character</text>
+    </a>
+    <path d='M173 90 l4 3 v-6 z' class='arrow'/>
+    <rect x='270' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='280' y='75' text-anchor='middle' class='literal'>"</text>
+    <path d='M310 30 v30'/>
+    <path d='M290 70 h10 q10 0 10 -10'/>
+    <path d='M110 80 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
+    <path d='M230 70 q10 0 10 10'/>
+    <path d='M220 70 h50'/>
+    <path d='M110 80 q0 -10 10 -10'/>
+    <path d='M80 70 h50'/>
+    <path d='M40 60 q0 10 10 10 h10'/>
+    <path d='M310 30 q0 -10 10 -10'/>
+    <path d='M290 20 h50'/>
+    <path d='M110 30 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
+    <path d='M230 20 q10 0 10 10'/>
+    <path d='M220 20 h50'/>
+    <path d='M110 30 q0 -10 10 -10'/>
+    <path d='M80 20 h50'/>
+    <path d='M30 20 q10 0 10 10 v30'/>
+    <path d='M10 20 h50'/>
+  </svg>
+ </section>
 
-identifier = letter [  letter ] .
+ <section>
+  <h2><a name='lhs'>lhs:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='35' width='150'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M140.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#identifier'>
+    <rect x='30' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='75' y='25' text-anchor='middle' class='rule'>identifier</text>
+    </a>
+    <path d='M120 20 h20'/>
+    <path d='M10 20 h20'/>
+  </svg>
+ </section>
 
-terminal = "'" character [  character ] "'"
-	| """" character [  character ] """" .
+ <section>
+  <h2><a name='rhs'>rhs:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='215' width='280'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M270.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#identifier'>
+    <rect x='95' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
+    <text x='140' y='25' text-anchor='middle' class='rule'>identifier</text>
+    </a>
+    <a href='#terminal'>
+    <rect x='105' y='40' height='20' width='70' rx='0' ry='0' class='rule'/>
+    <text x='140' y='55' text-anchor='middle' class='rule'>terminal</text>
+    </a>
+    <rect x='75' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='85' y='85' text-anchor='middle' class='literal'>[</text>
+    <a href='#rhs'>
+    <rect x='115' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='140' y='85' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='185' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='195' y='85' text-anchor='middle' class='literal'>]</text>
+    <rect x='75' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='85' y='115' text-anchor='middle' class='literal'>{</text>
+    <a href='#rhs'>
+    <rect x='115' y='100' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='140' y='115' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='185' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='195' y='115' text-anchor='middle' class='literal'>}</text>
+    <rect x='75' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='85' y='145' text-anchor='middle' class='literal'>(</text>
+    <a href='#rhs'>
+    <rect x='115' y='130' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='140' y='145' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='185' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='195' y='145' text-anchor='middle' class='literal'>)</text>
+    <a href='#rhs'>
+    <rect x='60' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='85' y='175' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='130' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='140' y='175' text-anchor='middle' class='literal'>|</text>
+    <a href='#rhs'>
+    <rect x='170' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='195' y='175' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <a href='#rhs'>
+    <rect x='60' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='85' y='205' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='130' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='140' y='205' text-anchor='middle' class='literal'>,</text>
+    <a href='#rhs'>
+    <rect x='170' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='195' y='205' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <path d='M240 30 v160'/>
+    <path d='M220 200 h10 q10 0 10 -10'/>
+    <path d='M150 200 h20'/>
+    <path d='M110 200 h20'/>
+    <path d='M40 190 q0 10 10 10 h10'/>
+    <path d='M220 170 h10 q10 0 10 -10'/>
+    <path d='M150 170 h20'/>
+    <path d='M110 170 h20'/>
+    <path d='M40 160 q0 10 10 10 h10'/>
+    <path d='M205 140 h25 q10 0 10 -10'/>
+    <path d='M165 140 h20'/>
+    <path d='M95 140 h20'/>
+    <path d='M40 130 q0 10 10 10 h25'/>
+    <path d='M205 110 h25 q10 0 10 -10'/>
+    <path d='M165 110 h20'/>
+    <path d='M95 110 h20'/>
+    <path d='M40 100 q0 10 10 10 h25'/>
+    <path d='M205 80 h25 q10 0 10 -10'/>
+    <path d='M165 80 h20'/>
+    <path d='M95 80 h20'/>
+    <path d='M40 70 q0 10 10 10 h25'/>
+    <path d='M175 50 h55 q10 0 10 -10'/>
+    <path d='M40 40 q0 10 10 10 h55'/>
+    <path d='M240 30 q0 -10 10 -10'/>
+    <path d='M185 20 h85'/>
+    <path d='M30 20 q10 0 10 10 v160'/>
+    <path d='M10 20 h85'/>
+  </svg>
+ </section>
 
-lhs = identifier .
+ <section>
+  <h2><a name='rule'>rule:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='35' width='260'>
+    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
+    <path d='M250.5 14 v12 m 4 0 v-12' class='station'/>
+    <a href='#lhs'>
+    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='55' y='25' text-anchor='middle' class='rule'>lhs</text>
+    </a>
+    <rect x='100' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='110' y='25' text-anchor='middle' class='literal'>=</text>
+    <a href='#rhs'>
+    <rect x='140' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='165' y='25' text-anchor='middle' class='rule'>rhs</text>
+    </a>
+    <rect x='210' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
+    <text x='220' y='25' text-anchor='middle' class='literal'>;</text>
+    <path d='M190 20 h20'/>
+    <path d='M120 20 h20'/>
+    <path d='M80 20 h20'/>
+    <path d='M230 20 h20'/>
+    <path d='M10 20 h20'/>
+  </svg>
+ </section>
 
-rhs = identifier
-	| terminal
-	| "[" rhs "]"
-	| "{" rhs "}"
-	| "(" rhs ")"
-	| rhs "|" rhs
-	| rhs "," rhs .
+ <section>
+  <h2><a name='grammar'>grammar:</a></h2>
+  <svg xmlns='http://www.w3.org/2000/svg' height='55' width='170'>
+    <path d='M5.5 4 v12 m 4 0 v-12' class='station'/>
+    <path d='M160.5 4 v12 m 4 0 v-12' class='station'/>
+    <a href='#rule'>
+    <rect x='60' y='30' height='20' width='50' rx='0' ry='0' class='rule'/>
+    <text x='85' y='45' text-anchor='middle' class='rule'>rule</text>
+    </a>
+    <path d='M40 20 v10 q0 10 10 10 h10'/>
+    <path d='M110 40 h10 q10 0 10 -10'/>
+    <path d='M120 10 q10 0 10 10 v10'/>
+    <path d='M40 20 q0 -10 10 -10'/>
+    <path d='M10 10 h150'/>
+  </svg>
+ </section>
 
-rule = lhs "=" rhs ";" .
-
-grammar = [  rule ] .
-
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"wsn"} > should translate a simple ABNF - URL 4`] = `
-"SYNTAX = [  PRODUCTION ] .
-
-PRODUCTION = IDENTIFIER "=" EXPRESSION "." .
-
-EXPRESSION = TERM [  "|" TERM ] .
-
-TERM = FACTOR [  FACTOR ] .
-
-FACTOR = IDENTIFIER
-	| LITERAL
-	| "[" EXPRESSION "]"
-	| "(" EXPRESSION ")"
-	| "{" EXPRESSION "}" .
-
-IDENTIFIER = letter [  letter ] .
-
-LITERAL = "" "" character [  character ] "" "" .
-
+ </body>
+</html>
 "
 `;
 
@@ -6345,399 +6083,6 @@ exports[`Grammar expression translation > With options {"output":"xhtml5"} > sho
 `;
 
 exports[`Grammar expression translation > With options {"output":"xhtml5"} > should translate a simple ABNF - URL 3`] = `
-"<?xml version='1.0' encoding='utf-8'?>
-<!DOCTYPE html>
-<html xml:lang='en' lang='en'
-  xmlns='http://www.w3.org/1999/xhtml'
-  xmlns:xlink='http://www.w3.org/1999/xlink'>
-
- <head>
-  <meta charset='UTF-8'/>
-  <style>
-      rect, line, path { stroke-width: 1.5px; stroke: black; fill: transparent; }
-      rect, line, path { stroke-linecap: square; stroke-linejoin: rounded; }
-      path { fill: transparent; }
-      text.literal { font-family: monospace; }
-      a { fill: blue; }
-      a:hover rect { fill: aliceblue; }
-      h2 { font-size: inherit; font-weight: inherit; }
-      line.ellipsis { stroke-dasharray: 1 3.5; }
-      tspan.hex { font-family: monospace; font-size: 90%; }
-      path.arrow { fill: black; }
-      svg { margin-left: 30px; }
-  </style>
- </head>
-
- <body>
- <section>
-  <h2><a name='letter'>letter:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='145' width='140'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>A</text>
-    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='65' text-anchor='middle' class='literal'>Z</text>
-    <rect x='60' y='80' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='95' text-anchor='middle' class='literal'>a</text>
-    <line x1='70' y1='105' x2='70' y2='115' class='ellipsis'/>    <rect x='60' y='120' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='135' text-anchor='middle' class='literal'>z</text>
-    <path d='M100 30 v90'/>
-    <path d='M80 130 h10 q10 0 10 -10'/>
-    <path d='M40 120 q0 10 10 10 h10'/>
-    <path d='M80 90 h10 q10 0 10 -10'/>
-    <path d='M40 80 q0 10 10 10 h10'/>
-    <path d='M80 60 h10 q10 0 10 -10'/>
-    <path d='M40 50 q0 10 10 10 h10'/>
-    <path d='M100 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v90'/>
-    <path d='M10 20 h50'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='digit'>digit:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='75' width='140'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>0</text>
-    <line x1='70' y1='35' x2='70' y2='45' class='ellipsis'/>    <rect x='60' y='50' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='65' text-anchor='middle' class='literal'>9</text>
-    <path d='M100 30 v20'/>
-    <path d='M80 60 h10 q10 0 10 -10'/>
-    <path d='M40 50 q0 10 10 10 h10'/>
-    <path d='M100 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v20'/>
-    <path d='M10 20 h50'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='symbol'>symbol:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='405' width='140'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M130.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>"</text>
-    <rect x='60' y='40' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='55' text-anchor='middle' class='literal'>'</text>
-    <rect x='60' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='85' text-anchor='middle' class='literal'>(</text>
-    <rect x='60' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='115' text-anchor='middle' class='literal'>)</text>
-    <rect x='60' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='145' text-anchor='middle' class='literal'>,</text>
-    <rect x='60' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='175' text-anchor='middle' class='literal'>.</text>
-    <rect x='60' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='205' text-anchor='middle' class='literal'>;</text>
-    <line x1='70' y1='215' x2='70' y2='225' class='ellipsis'/>    <rect x='60' y='230' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='245' text-anchor='middle' class='literal'>&gt;</text>
-    <rect x='60' y='260' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='275' text-anchor='middle' class='literal'>[</text>
-    <rect x='60' y='290' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='305' text-anchor='middle' class='literal'>]</text>
-    <rect x='60' y='320' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='335' text-anchor='middle' class='literal'>{</text>
-    <rect x='60' y='350' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='365' text-anchor='middle' class='literal'>|</text>
-    <rect x='60' y='380' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='395' text-anchor='middle' class='literal'>}</text>
-    <path d='M100 30 v350'/>
-    <path d='M80 390 h10 q10 0 10 -10'/>
-    <path d='M40 380 q0 10 10 10 h10'/>
-    <path d='M80 360 h10 q10 0 10 -10'/>
-    <path d='M40 350 q0 10 10 10 h10'/>
-    <path d='M80 330 h10 q10 0 10 -10'/>
-    <path d='M40 320 q0 10 10 10 h10'/>
-    <path d='M80 300 h10 q10 0 10 -10'/>
-    <path d='M40 290 q0 10 10 10 h10'/>
-    <path d='M80 270 h10 q10 0 10 -10'/>
-    <path d='M40 260 q0 10 10 10 h10'/>
-    <path d='M80 240 h10 q10 0 10 -10'/>
-    <path d='M40 230 q0 10 10 10 h10'/>
-    <path d='M80 200 h10 q10 0 10 -10'/>
-    <path d='M40 190 q0 10 10 10 h10'/>
-    <path d='M80 170 h10 q10 0 10 -10'/>
-    <path d='M40 160 q0 10 10 10 h10'/>
-    <path d='M80 140 h10 q10 0 10 -10'/>
-    <path d='M40 130 q0 10 10 10 h10'/>
-    <path d='M80 110 h10 q10 0 10 -10'/>
-    <path d='M40 100 q0 10 10 10 h10'/>
-    <path d='M80 80 h10 q10 0 10 -10'/>
-    <path d='M40 70 q0 10 10 10 h10'/>
-    <path d='M80 50 h10 q10 0 10 -10'/>
-    <path d='M40 40 q0 10 10 10 h10'/>
-    <path d='M100 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v350'/>
-    <path d='M10 20 h50'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='character'>character:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='125' width='190'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M180.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#letter'>
-    <rect x='70' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='95' y='25' text-anchor='middle' class='rule'>letter</text>
-    </a>
-    <a href='#digit'>
-    <rect x='70' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='95' y='55' text-anchor='middle' class='rule'>digit</text>
-    </a>
-    <a href='#symbol'>
-    <rect x='60' y='70' height='20' width='70' rx='0' ry='0' class='rule'/>
-    <text x='95' y='85' text-anchor='middle' class='rule'>symbol</text>
-    </a>
-    <rect x='85' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='95' y='115' text-anchor='middle' class='literal'>_</text>
-    <path d='M150 30 v70'/>
-    <path d='M105 110 h35 q10 0 10 -10'/>
-    <path d='M40 100 q0 10 10 10 h35'/>
-    <path d='M130 80 h10 q10 0 10 -10'/>
-    <path d='M40 70 q0 10 10 10 h10'/>
-    <path d='M120 50 h20 q10 0 10 -10'/>
-    <path d='M40 40 q0 10 10 10 h20'/>
-    <path d='M150 30 q0 -10 10 -10'/>
-    <path d='M120 20 h60'/>
-    <path d='M30 20 q10 0 10 10 v70'/>
-    <path d='M10 20 h60'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='identifier'>identifier:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='125' width='300'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M290.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#letter'>
-    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='55' y='25' text-anchor='middle' class='rule'>letter</text>
-    </a>
-    <a href='#letter'>
-    <rect x='160' y='40' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='185' y='55' text-anchor='middle' class='rule'>letter</text>
-    </a>
-    <a href='#digit'>
-    <rect x='160' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='185' y='85' text-anchor='middle' class='rule'>digit</text>
-    </a>
-    <rect x='175' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='185' y='115' text-anchor='middle' class='literal'>_</text>
-    <path d='M110 30 v10 q0 10 10 10 h40'/>
-    <path d='M230 60 v40'/>
-    <path d='M195 110 h25 q10 0 10 -10'/>
-    <path d='M140 100 q0 10 10 10 h25'/>
-    <path d='M210 80 h10 q10 0 10 -10'/>
-    <path d='M140 70 q0 10 10 10 h10'/>
-    <path d='M230 60 q0 -10 10 -10'/>
-    <path d='M210 50 h40 q10 0 10 -10'/>
-    <path d='M130 50 q10 0 10 10 v40'/>
-    <path d='M250 20 q10 0 10 10 v10'/>
-    <path d='M110 30 q0 -10 10 -10'/>
-    <path d='M80 20 h210'/>
-    <path d='M10 20 h20'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='terminal'>terminal:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='105' width='350'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M340.5 14 v12 m 4 0 v-12' class='station'/>
-    <rect x='60' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='25' text-anchor='middle' class='literal'>'</text>
-    <a href='#character'>
-    <rect x='130' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='175' y='25' text-anchor='middle' class='rule'>character</text>
-    </a>
-    <path d='M173 40 l4 3 v-6 z' class='arrow'/>
-    <rect x='270' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='280' y='25' text-anchor='middle' class='literal'>'</text>
-    <rect x='60' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='70' y='75' text-anchor='middle' class='literal'>"</text>
-    <a href='#character'>
-    <rect x='130' y='60' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='175' y='75' text-anchor='middle' class='rule'>character</text>
-    </a>
-    <path d='M173 90 l4 3 v-6 z' class='arrow'/>
-    <rect x='270' y='60' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='280' y='75' text-anchor='middle' class='literal'>"</text>
-    <path d='M310 30 v30'/>
-    <path d='M290 70 h10 q10 0 10 -10'/>
-    <path d='M110 80 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
-    <path d='M230 70 q10 0 10 10'/>
-    <path d='M220 70 h50'/>
-    <path d='M110 80 q0 -10 10 -10'/>
-    <path d='M80 70 h50'/>
-    <path d='M40 60 q0 10 10 10 h10'/>
-    <path d='M310 30 q0 -10 10 -10'/>
-    <path d='M290 20 h50'/>
-    <path d='M110 30 v0 q0 10 10 10 h110 q10 0 10 -10 v0'/>
-    <path d='M230 20 q10 0 10 10'/>
-    <path d='M220 20 h50'/>
-    <path d='M110 30 q0 -10 10 -10'/>
-    <path d='M80 20 h50'/>
-    <path d='M30 20 q10 0 10 10 v30'/>
-    <path d='M10 20 h50'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='lhs'>lhs:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='35' width='150'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M140.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#identifier'>
-    <rect x='30' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='75' y='25' text-anchor='middle' class='rule'>identifier</text>
-    </a>
-    <path d='M120 20 h20'/>
-    <path d='M10 20 h20'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='rhs'>rhs:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='215' width='280'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M270.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#identifier'>
-    <rect x='95' y='10' height='20' width='90' rx='0' ry='0' class='rule'/>
-    <text x='140' y='25' text-anchor='middle' class='rule'>identifier</text>
-    </a>
-    <a href='#terminal'>
-    <rect x='105' y='40' height='20' width='70' rx='0' ry='0' class='rule'/>
-    <text x='140' y='55' text-anchor='middle' class='rule'>terminal</text>
-    </a>
-    <rect x='75' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='85' y='85' text-anchor='middle' class='literal'>[</text>
-    <a href='#rhs'>
-    <rect x='115' y='70' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='140' y='85' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='185' y='70' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='195' y='85' text-anchor='middle' class='literal'>]</text>
-    <rect x='75' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='85' y='115' text-anchor='middle' class='literal'>{</text>
-    <a href='#rhs'>
-    <rect x='115' y='100' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='140' y='115' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='185' y='100' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='195' y='115' text-anchor='middle' class='literal'>}</text>
-    <rect x='75' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='85' y='145' text-anchor='middle' class='literal'>(</text>
-    <a href='#rhs'>
-    <rect x='115' y='130' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='140' y='145' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='185' y='130' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='195' y='145' text-anchor='middle' class='literal'>)</text>
-    <a href='#rhs'>
-    <rect x='60' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='85' y='175' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='130' y='160' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='140' y='175' text-anchor='middle' class='literal'>|</text>
-    <a href='#rhs'>
-    <rect x='170' y='160' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='195' y='175' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <a href='#rhs'>
-    <rect x='60' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='85' y='205' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='130' y='190' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='140' y='205' text-anchor='middle' class='literal'>,</text>
-    <a href='#rhs'>
-    <rect x='170' y='190' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='195' y='205' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <path d='M240 30 v160'/>
-    <path d='M220 200 h10 q10 0 10 -10'/>
-    <path d='M150 200 h20'/>
-    <path d='M110 200 h20'/>
-    <path d='M40 190 q0 10 10 10 h10'/>
-    <path d='M220 170 h10 q10 0 10 -10'/>
-    <path d='M150 170 h20'/>
-    <path d='M110 170 h20'/>
-    <path d='M40 160 q0 10 10 10 h10'/>
-    <path d='M205 140 h25 q10 0 10 -10'/>
-    <path d='M165 140 h20'/>
-    <path d='M95 140 h20'/>
-    <path d='M40 130 q0 10 10 10 h25'/>
-    <path d='M205 110 h25 q10 0 10 -10'/>
-    <path d='M165 110 h20'/>
-    <path d='M95 110 h20'/>
-    <path d='M40 100 q0 10 10 10 h25'/>
-    <path d='M205 80 h25 q10 0 10 -10'/>
-    <path d='M165 80 h20'/>
-    <path d='M95 80 h20'/>
-    <path d='M40 70 q0 10 10 10 h25'/>
-    <path d='M175 50 h55 q10 0 10 -10'/>
-    <path d='M40 40 q0 10 10 10 h55'/>
-    <path d='M240 30 q0 -10 10 -10'/>
-    <path d='M185 20 h85'/>
-    <path d='M30 20 q10 0 10 10 v160'/>
-    <path d='M10 20 h85'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='rule'>rule:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='35' width='260'>
-    <path d='M5.5 14 v12 m 4 0 v-12' class='station'/>
-    <path d='M250.5 14 v12 m 4 0 v-12' class='station'/>
-    <a href='#lhs'>
-    <rect x='30' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='55' y='25' text-anchor='middle' class='rule'>lhs</text>
-    </a>
-    <rect x='100' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='110' y='25' text-anchor='middle' class='literal'>=</text>
-    <a href='#rhs'>
-    <rect x='140' y='10' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='165' y='25' text-anchor='middle' class='rule'>rhs</text>
-    </a>
-    <rect x='210' y='10' height='20' width='20' rx='8' ry='8' class='literal'/>
-    <text x='220' y='25' text-anchor='middle' class='literal'>;</text>
-    <path d='M190 20 h20'/>
-    <path d='M120 20 h20'/>
-    <path d='M80 20 h20'/>
-    <path d='M230 20 h20'/>
-    <path d='M10 20 h20'/>
-  </svg>
- </section>
-
- <section>
-  <h2><a name='grammar'>grammar:</a></h2>
-  <svg xmlns='http://www.w3.org/2000/svg' height='55' width='170'>
-    <path d='M5.5 4 v12 m 4 0 v-12' class='station'/>
-    <path d='M160.5 4 v12 m 4 0 v-12' class='station'/>
-    <a href='#rule'>
-    <rect x='60' y='30' height='20' width='50' rx='0' ry='0' class='rule'/>
-    <text x='85' y='45' text-anchor='middle' class='rule'>rule</text>
-    </a>
-    <path d='M40 20 v10 q0 10 10 10 h10'/>
-    <path d='M110 40 h10 q10 0 10 -10'/>
-    <path d='M120 10 q10 0 10 10 v10'/>
-    <path d='M40 20 q0 -10 10 -10'/>
-    <path d='M10 10 h150'/>
-  </svg>
- </section>
-
- </body>
-</html>
-"
-`;
-
-exports[`Grammar expression translation > With options {"output":"xhtml5"} > should translate a simple ABNF - URL 4`] = `
 "<?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE html>
 <html xml:lang='en' lang='en'

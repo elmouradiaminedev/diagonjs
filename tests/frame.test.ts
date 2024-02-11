@@ -1,5 +1,5 @@
 import { expect, describe, it } from "vitest";
-import Diagon, { FrameTranslationOptions } from "../dist";
+import Diagon, { FrameTranslationOptions } from "src";
 
 function generateAllOptions(): FrameTranslationOptions[] {
   const allOptions: FrameTranslationOptions[] = [];
