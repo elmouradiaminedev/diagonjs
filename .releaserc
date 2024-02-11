@@ -1,19 +1,6 @@
 {
   "plugins": [
-    [
-      "@semantic-release/commit-analyzer",
-      {
-        "preset": "angular",
-        "releaseRules": [
-          { "type": "refactor", "release": false },
-          { "type": "style", "release": "patch" },
-          { "scope": "no-release", "release": false },
-          { "scope": "cli", "release": "patch" },
-          { "scope": "patch", "release": "patch" },
-          { "scope": "minor", "release": "patch" }
-        ]
-      }
-    ],
+    "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     "@semantic-release/npm",
