@@ -39,8 +39,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "format": "prettier --write . --ignore-path .gitignore --ignore-path .prettierignore",
-    "lint": "eslint --fix . --ignore-path .gitignore"
+    "format": "prettier --write .",
+    "lint": "eslint --fix ."
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
