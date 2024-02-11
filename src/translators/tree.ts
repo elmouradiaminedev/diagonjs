@@ -4,7 +4,7 @@ import { createTranslationFunction } from "../lib/internal";
  * Represents the possible styles for tree translation.
  */
 export type TreeTranslationStyle =
-  | "Unicode"
+  | "Unicode 1"
   | "Unicode 2"
   | "ASCII 1"
   | "ASCII 2"

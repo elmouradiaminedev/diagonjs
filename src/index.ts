@@ -61,6 +61,27 @@ type Translator = {
     expression: string,
     options?: SequenceTranslationOptions,
   ) => string;
+  /**
+   * Translation function for Tree expressions.
+   *
+   * @param expression - The tree expression to be translated.
+   * @param options - Options for tree translation.
+   * @returns The translated tree expression.
+   * @example
+   * const translatedTreeExpression = tree("expression", { style: "Unicode 2" });
+   * console.log(translatedTreeExpression)
+   * //  Linux
+   * //   ├──Android
+   * //   ├──Debian
+   * //   │   ├──Ubuntu
+   * //   │   │   ├──Lubuntu
+   * //   │   │   ├──Kubuntu
+   * //   │   │   ├──Xubuntu
+   * //   │   │   └──Xubuntu
+   * //   │   └──Mint
+   * //   ├──Centos
+   * //   └──Fedora
+   */
   tree: (expression: string, options?: TreeTranslationOptions) => string;
 };
 
