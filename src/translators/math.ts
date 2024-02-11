@@ -1,12 +1,12 @@
 import { createTranslationFunction } from "../lib/internal";
 
 /**
- * Represents the style of mathematical translation.
+ * Represents the style of mathematical expression translation.
  */
 export type MathTranslationStyle = "Unicode" | "ASCII" | "Latex";
 
 /**
- * Options for mathematical translation.
+ * Options for mathematical expression translation.
  */
 export type MathTranslationOptions = {
   style?: MathTranslationStyle;
