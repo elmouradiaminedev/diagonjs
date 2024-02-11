@@ -1,5 +1,5 @@
 import { expect, describe, it } from "vitest";
-import Diagon, { BaseTranslateStyle, TranslateMathOptions } from "src";
+import Diagon, { BaseTranslateStyle, TranslateMathOptions } from "../dist";
 
 export function generateAllOptions(): TranslateMathOptions[] {
   const styles: BaseTranslateStyle[] = ["Unicode", "ASCII", "Latex"];
