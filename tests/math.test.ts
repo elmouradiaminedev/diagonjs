@@ -1,11 +1,11 @@
 import { expect, describe, it } from "vitest";
-import Diagon, { BaseTranslateStyle, TranslateMathOptions } from "../dist";
+import Diagon, { MathTranslationStyle, MathTranslationOptions } from "../dist";
 
-export function generateAllOptions(): TranslateMathOptions[] {
-  const styles: BaseTranslateStyle[] = ["Unicode", "ASCII", "Latex"];
+function generateAllOptions(): MathTranslationOptions[] {
+  const styles: MathTranslationStyle[] = ["Unicode", "ASCII", "Latex"];
   const transformMathLettersOptions: boolean[] = [true, false];
 
-  const allOptions: TranslateMathOptions[] = [];
+  const allOptions: MathTranslationOptions[] = [];
 
   for (const style of styles) {
     for (const transformMathLetters of transformMathLettersOptions) {

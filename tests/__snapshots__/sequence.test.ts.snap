@@ -1,0 +1,361 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":false} > should translate actors order 1`] = `
+"┌───────┐ ┌───────┐ ┌───────┐
+│Actor 1│ │Actor 2│ │Actor 3│
+└───┬───┘ └───┬───┘ └───┬───┘
+    │         │         │    
+    │         │message 1│    
+    │         │────────>│    
+    │         │         │    
+    │message 2│         │    
+    │────────>│         │    
+┌───┴───┐ ┌───┴───┐ ┌───┴───┐
+│Actor 1│ │Actor 2│ │Actor 3│
+└───────┘ └───────┘ └───────┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":false} > should translate basic 1`] = `
+"┌─────┐       ┌───┐
+│Alice│       │Bob│
+└──┬──┘       └─┬─┘
+   │            │  
+   │ Hello Bob! │  
+   │───────────>│  
+   │            │  
+   │Hello Alice!│  
+   │<───────────│  
+┌──┴──┐       ┌─┴─┐
+│Alice│       │Bob│
+└─────┘       └───┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":false} > should translate message crossing 1`] = `
+" ┌────────┐┌───────┐
+ │Renderer││Browser│
+ └───┬────┘└───┬───┘
+     │         │    
+     │──┐      │    
+     │Message 2│    
+     │<────────│    
+     │  │      │    
+     │Message 1│    
+     │  └─────>│    
+ ┌───┴────┐┌───┴───┐
+ │Renderer││Browser│
+ └────────┘└───────┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":false} > should translate message order 1`] = `
+"┌───────┐ ┌───────┐ ┌───────┐
+│Actor 1│ │Actor 2│ │Actor 3│
+└───┬───┘ └───┬───┘ └───┬───┘
+    │         │         │    
+    │message 2│         │    
+    │────────>│         │    
+    │         │         │    
+    │         │message 1│    
+    │         │────────>│    
+┌───┴───┐ ┌───┴───┐ ┌───┴───┐
+│Actor 1│ │Actor 2│ │Actor 3│
+└───────┘ └───────┘ └───────┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":false} > should translate more actors 1`] = `
+" ┌────────┐            ┌───────┐     ┌───────┐
+ │Renderer│            │Browser│     │Network│
+ └───┬────┘            └───┬───┘     └───┬───┘
+     │                     │             │    
+     │  BeginNavigation()  │             │    
+     │────────────────────>│             │    
+     │                     │             │    
+     │                     │URLRequest() │    
+     │                     │────────────>│    
+     │                     │             │    
+     │                     │URLResponse()│    
+     │                     │<────────────│    
+     │                     │             │    
+     │ CommitNavigation()  │             │    
+     │<────────────────────│             │    
+     │                     │             │    
+     │DidCommitNavigation()│             │    
+     │────────────────────>│             │    
+ ┌───┴────┐            ┌───┴───┐     ┌───┴───┐
+ │Renderer│            │Browser│     │Network│
+ └────────┘            └───────┘     └───────┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":true} > should translate actors order 1`] = `
+"┌───────┐ ┌───────┐ ┌───────┐
+│Actor 1│ │Actor 2│ │Actor 3│
+└───┬───┘ └───┬───┘ └───┬───┘
+    │         │         │    
+    │         │message 1│    
+    │         │────────>│    
+    │         │         │    
+    │message 2│         │    
+    │────────>│         │    
+┌───┴───┐ ┌───┴───┐ ┌───┴───┐
+│Actor 1│ │Actor 2│ │Actor 3│
+└───────┘ └───────┘ └───────┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":true} > should translate basic 1`] = `
+"┌─────┐       ┌───┐
+│Alice│       │Bob│
+└──┬──┘       └─┬─┘
+   │            │  
+   │ Hello Bob! │  
+   │───────────>│  
+   │            │  
+   │Hello Alice!│  
+   │<───────────│  
+┌──┴──┐       ┌─┴─┐
+│Alice│       │Bob│
+└─────┘       └───┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":true} > should translate message crossing 1`] = `
+" ┌────────┐┌───────┐
+ │Renderer││Browser│
+ └───┬────┘└───┬───┘
+     │         │    
+     │──┐      │    
+     │Message 2│    
+     │<────────│    
+     │  │      │    
+     │Message 1│    
+     │  └─────>│    
+ ┌───┴────┐┌───┴───┐
+ │Renderer││Browser│
+ └────────┘└───────┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":true} > should translate message order 1`] = `
+"┌───────┐ ┌───────┐ ┌───────┐
+│Actor 1│ │Actor 2│ │Actor 3│
+└───┬───┘ └───┬───┘ └───┬───┘
+    │         │         │    
+    │message 2│         │    
+    │────────>│         │    
+    │         │         │    
+    │         │message 1│    
+    │         │────────>│    
+┌───┴───┐ ┌───┴───┐ ┌───┴───┐
+│Actor 1│ │Actor 2│ │Actor 3│
+└───────┘ └───────┘ └───────┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":false,"interpretBackSlashN":true} > should translate more actors 1`] = `
+" ┌────────┐            ┌───────┐     ┌───────┐
+ │Renderer│            │Browser│     │Network│
+ └───┬────┘            └───┬───┘     └───┬───┘
+     │                     │             │    
+     │  BeginNavigation()  │             │    
+     │────────────────────>│             │    
+     │                     │             │    
+     │                     │URLRequest() │    
+     │                     │────────────>│    
+     │                     │             │    
+     │                     │URLResponse()│    
+     │                     │<────────────│    
+     │                     │             │    
+     │ CommitNavigation()  │             │    
+     │<────────────────────│             │    
+     │                     │             │    
+     │DidCommitNavigation()│             │    
+     │────────────────────>│             │    
+ ┌───┴────┐            ┌───┴───┐     ┌───┴───┐
+ │Renderer│            │Browser│     │Network│
+ └────────┘            └───────┘     └───────┘
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":false} > should translate actors order 1`] = `
+".-------. .-------. .-------.
+|Actor 1| |Actor 2| |Actor 3|
+'-------' '-------' '-------'
+    |         |         |    
+    |         |message 1|    
+    |         |-------->|    
+    |         |         |    
+    |message 2|         |    
+    |-------->|         |    
+.-------. .-------. .-------.
+|Actor 1| |Actor 2| |Actor 3|
+'-------' '-------' '-------'
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":false} > should translate basic 1`] = `
+".-----.       .---.
+|Alice|       |Bob|
+'-----'       '---'
+   |            |  
+   | Hello Bob! |  
+   |----------->|  
+   |            |  
+   |Hello Alice!|  
+   |<-----------|  
+.-----.       .---.
+|Alice|       |Bob|
+'-----'       '---'
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":false} > should translate message crossing 1`] = `
+" .--------..-------.
+ |Renderer||Browser|
+ '--------''-------'
+     |         |    
+     |--.      |    
+     |Message 2|    
+     |<--------|    
+     |  |      |    
+     |Message 1|    
+     |  '----->|    
+ .--------..-------.
+ |Renderer||Browser|
+ '--------''-------'
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":false} > should translate message order 1`] = `
+".-------. .-------. .-------.
+|Actor 1| |Actor 2| |Actor 3|
+'-------' '-------' '-------'
+    |         |         |    
+    |message 2|         |    
+    |-------->|         |    
+    |         |         |    
+    |         |message 1|    
+    |         |-------->|    
+.-------. .-------. .-------.
+|Actor 1| |Actor 2| |Actor 3|
+'-------' '-------' '-------'
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":false} > should translate more actors 1`] = `
+" .--------.            .-------.     .-------.
+ |Renderer|            |Browser|     |Network|
+ '--------'            '-------'     '-------'
+     |                     |             |    
+     |  BeginNavigation()  |             |    
+     |-------------------->|             |    
+     |                     |             |    
+     |                     |URLRequest() |    
+     |                     |------------>|    
+     |                     |             |    
+     |                     |URLResponse()|    
+     |                     |<------------|    
+     |                     |             |    
+     | CommitNavigation()  |             |    
+     |<--------------------|             |    
+     |                     |             |    
+     |DidCommitNavigation()|             |    
+     |-------------------->|             |    
+ .--------.            .-------.     .-------.
+ |Renderer|            |Browser|     |Network|
+ '--------'            '-------'     '-------'
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":true} > should translate actors order 1`] = `
+".-------. .-------. .-------.
+|Actor 1| |Actor 2| |Actor 3|
+'-------' '-------' '-------'
+    |         |         |    
+    |         |message 1|    
+    |         |-------->|    
+    |         |         |    
+    |message 2|         |    
+    |-------->|         |    
+.-------. .-------. .-------.
+|Actor 1| |Actor 2| |Actor 3|
+'-------' '-------' '-------'
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":true} > should translate basic 1`] = `
+".-----.       .---.
+|Alice|       |Bob|
+'-----'       '---'
+   |            |  
+   | Hello Bob! |  
+   |----------->|  
+   |            |  
+   |Hello Alice!|  
+   |<-----------|  
+.-----.       .---.
+|Alice|       |Bob|
+'-----'       '---'
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":true} > should translate message crossing 1`] = `
+" .--------..-------.
+ |Renderer||Browser|
+ '--------''-------'
+     |         |    
+     |--.      |    
+     |Message 2|    
+     |<--------|    
+     |  |      |    
+     |Message 1|    
+     |  '----->|    
+ .--------..-------.
+ |Renderer||Browser|
+ '--------''-------'
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":true} > should translate message order 1`] = `
+".-------. .-------. .-------.
+|Actor 1| |Actor 2| |Actor 3|
+'-------' '-------' '-------'
+    |         |         |    
+    |message 2|         |    
+    |-------->|         |    
+    |         |         |    
+    |         |message 1|    
+    |         |-------->|    
+.-------. .-------. .-------.
+|Actor 1| |Actor 2| |Actor 3|
+'-------' '-------' '-------'
+"
+`;
+
+exports[`Sequence expression translation > With options {"asciiOnly":true,"interpretBackSlashN":true} > should translate more actors 1`] = `
+" .--------.            .-------.     .-------.
+ |Renderer|            |Browser|     |Network|
+ '--------'            '-------'     '-------'
+     |                     |             |    
+     |  BeginNavigation()  |             |    
+     |-------------------->|             |    
+     |                     |             |    
+     |                     |URLRequest() |    
+     |                     |------------>|    
+     |                     |             |    
+     |                     |URLResponse()|    
+     |                     |<------------|    
+     |                     |             |    
+     | CommitNavigation()  |             |    
+     |<--------------------|             |    
+     |                     |             |    
+     |DidCommitNavigation()|             |    
+     |-------------------->|             |    
+ .--------.            .-------.     .-------.
+ |Renderer|            |Browser|     |Network|
+ '--------'            '-------'     '-------'
+"
+`;
