@@ -1,1 +1,5 @@
 package-lock.json
+vendors
+dist 
+coverage
+CHANGELOG.md
