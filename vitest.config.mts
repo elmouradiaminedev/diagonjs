@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
     coverage: {
-      exclude: ["**/vendors/**", "**/types/**"],
+      exclude: ["**/vendors/**", "**/types/**", "**/examples/**"],
       thresholds: {
         lines: 90,
         functions: 90,

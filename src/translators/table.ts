@@ -1,4 +1,4 @@
-import { createTranslationFunction } from "../lib/internal";
+import { _createTranslationFunction } from "../lib/internal";
 
 export const TABLE_TRANSLATION_STYLES = [
   "unicode",
@@ -21,17 +21,11 @@ export const TABLE_TRANSLATION_STYLES = [
   "conceptual",
 ] as const;
 
-/**
- * Represents the style of a table expression translation.
- */
 export type TableTranslationStyle = (typeof TABLE_TRANSLATION_STYLES)[number];
 
-/**
- * Options for table expression translation.
- */
 export type TableTranslationOptions = {
   style?: TableTranslationStyle;
 };
 
 export const table =
-  createTranslationFunction<TableTranslationOptions>("Table");
+  _createTranslationFunction<TableTranslationOptions>("Table");

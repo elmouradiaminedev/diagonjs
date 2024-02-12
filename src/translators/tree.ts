@@ -1,4 +1,4 @@
-import { createTranslationFunction } from "../lib/internal";
+import { _createTranslationFunction } from "../lib/internal";
 
 export const TREE_TRANSLATION_STYLES = [
   "unicode 1",
@@ -11,16 +11,10 @@ export const TREE_TRANSLATION_STYLES = [
   "unicode right bottom",
 ] as const;
 
-/**
- * Represents the possible styles for tree translation.
- */
 export type TreeTranslationStyle = (typeof TREE_TRANSLATION_STYLES)[number];
 
-/**
- * Options for tree expression translation.
- */
 export type TreeTranslationOptions = {
   style?: TreeTranslationStyle;
 };
 
-export const tree = createTranslationFunction<TreeTranslationOptions>("Tree");
+export const tree = _createTranslationFunction<TreeTranslationOptions>("Tree");

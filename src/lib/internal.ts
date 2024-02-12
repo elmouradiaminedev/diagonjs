@@ -1,67 +1,50 @@
-import DiagonCore from "@vendors/diagon";
+import DiagonModule from "@vendors/diagon";
 import { camelToUnderscore } from "../utils";
 
-/**
- * Represents the translation tool.
- */
-export type TranslationTool =
-  | "Math"
-  | "Sequence"
-  | "Tree"
-  | "Table"
-  | "Grammar"
-  | "Frame"
-  | "GraphDAG";
+export const TRANSLATION_TOOLS = [
+  "Math",
+  "Sequence",
+  "Tree",
+  "Table",
+  "Grammar",
+  "Frame",
+  "GraphDAG",
+] as const;
 
-/**
- * Represents the type of translation function.
- */
+export type TranslationTool = (typeof TRANSLATION_TOOLS)[number];
+
 type TranslationFunction = (
   tool: TranslationTool,
   expression: string,
   options: string,
 ) => string;
 
-/**
- * Options for translation, allowing string, number, or boolean values.
- */
 type TranslationOptions = { [key: string]: string | number | boolean };
 
-/**
- * Calls the C function "translate" from DiagonCore.
- */
-const _translate: TranslationFunction = DiagonCore.cwrap(
-  "translate",
-  "string",
-  ["string", "string", "string"],
-);
+let diagonModule: Awaited<ReturnType<typeof DiagonModule>> | undefined;
 
-/**
- * Converts options object to a string representation.
- *
- * @param options - Options for translation.
- * @returns A string representation of translation options.
- */
-const stringifyOptions = (options: TranslationOptions): string => {
-  let result = "";
-  for (const key in options) {
-    if (Object.prototype.hasOwnProperty.call(options, key)) {
-      const underscoreKey = camelToUnderscore(key);
-      const value = options[key];
-      result += `${underscoreKey}\n${value}\n`;
-    }
+let _translate: TranslationFunction;
+
+export const _init = async () => {
+  if (diagonModule) {
+    return;
   }
-  return result;
+
+  diagonModule = await DiagonModule();
+  _translate = diagonModule.cwrap("translate", "string", [
+    "string",
+    "string",
+    "string",
+  ]);
 };
 
-/**
- * Closure that creates a translation function based on the specified translation tool.
- *
- * @param tool - The type of translation tool.
- * @returns A translation function for the specified tool.
- */
-export const createTranslationFunction =
+const _stringifyOptions = (options: TranslationOptions): string =>
+  Object.entries(options)
+    .map(([key, value]) => `${camelToUnderscore(key)}\n${value}\n`)
+    .join("");
+
+export const _createTranslationFunction =
   <T extends TranslationOptions>(tool: TranslationTool) =>
-  (expression: string, options?: T): string => {
-    return _translate(tool, expression, stringifyOptions(options || {}));
+  (expression: string, options: T = {} as T): string => {
+    return _translate(tool, expression, _stringifyOptions(options));
   };

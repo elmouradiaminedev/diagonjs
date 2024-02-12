@@ -1,5 +1,15 @@
-import { expect, describe, it } from "vitest";
-import Diagon, { TABLE_TRANSLATION_STYLES, TableTranslationOptions } from "src";
+import { expect, describe, it, beforeAll } from "vitest";
+import Diagon, {
+  DiagonType,
+  TABLE_TRANSLATION_STYLES,
+  TableTranslationOptions,
+} from "src";
+
+let diagon: DiagonType;
+
+beforeAll(async () => {
+  diagon = await Diagon.init();
+});
 
 function generateAllOptions(): TableTranslationOptions[] {
   const allOptions: TableTranslationOptions[] = [];
@@ -18,7 +28,7 @@ describe("Table expression translation", () => {
     describe(`With options ${JSON.stringify(options)}`, () => {
       it("should translate a simple table", () => {
         expect(
-          Diagon.translate.table(
+          diagon.translate.table(
             "Column 1,Column 2,Column 3\nC++,Web,Assembly\nJavascript,CSS,HTML",
             options,
           ),
