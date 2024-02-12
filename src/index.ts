@@ -1,27 +1,27 @@
 import { init } from "./translators";
 
-export type { TranslationTool } from "./lib/internal";
-export { type DiagonType, init } from "./translators";
-export type { FrameTranslationOptions } from "./translators/frame";
-export type {
+export { TranslationTool } from "./lib/internal";
+export { DiagonType, init } from "./translators";
+export { FrameTranslationOptions } from "./translators/frame";
+export {
   GrammarTranslationOptions,
   GrammarTranslationInputs,
   GrammarTranslationOutputs,
   GRAMMAR_TRANSLATION_INPUTS,
   GRAMMAR_TRANSLATION_OUTPUTS,
 } from "./translators/grammar";
-export type {
+export {
   MATH_TRANSLATION_STYLES,
   MathTranslationOptions,
   MathTranslationStyle,
 } from "./translators/math";
-export type { SequenceTranslationOptions } from "./translators/sequence";
-export type {
+export { SequenceTranslationOptions } from "./translators/sequence";
+export {
   TABLE_TRANSLATION_STYLES,
   TableTranslationOptions,
   TableTranslationStyle,
 } from "./translators/table";
-export type {
+export {
   TREE_TRANSLATION_STYLES,
   TreeTranslationOptions,
   TreeTranslationStyle,

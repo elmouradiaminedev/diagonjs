@@ -1,4 +1,8 @@
-export default async function DiagonModule(): Promise<{
+export default async function DiagonModule({
+  wasmBinary,
+}: {
+  wasmBinary?: ArrayBuffer;
+}): Promise<{
   cwrap: (
     operation: string,
     outputTypes: string,
