@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.5.2...v1.6.0) (2024-02-12)
+
+
+### Features
+
+* load wasm file through cdn in browser environment ([8f06918](https://github.com/elmouradiaminedev/diagonjs/commit/8f06918bc1298e43201339e0d503fef62e6c7b4a))
+
 ## [1.5.2](https://github.com/elmouradiaminedev/diagonjs/compare/v1.5.1...v1.5.2) (2024-02-12)
 
 
