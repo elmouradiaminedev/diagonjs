@@ -6,7 +6,7 @@
 </p>
 
 [![npm version](https://badgen.net/npm/v/diagonjs)](https://npm.im/diagonjs) [![npm downloads](https://badgen.net/npm/dm/diagonjs)](https://npm.im/diagonjs) ![CI status](https://github.com/elmouradiaminedev/diagonjs/actions/workflows/ci.yml/badge.svg)
-
+[![codecov](https://codecov.io/gh/elmouradiaminedev/diagonjs/graph/badge.svg?token=TYVEPNWRD3)](https://codecov.io/gh/elmouradiaminedev/diagonjs)
 Craft captivating ASCII art from your Markdown expression with ease, powered by [Diagon](https://github.com/ArthurSonzogni/Diagon).
 
 ## 🚀 Features
