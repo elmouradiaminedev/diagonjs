@@ -1,10 +1,12 @@
-import express from "express";
-import diagon from "diagonjs";
+const express = require("express");
+const Diagon = require("diagonjs");
 
 const app = express();
 app.use(express.json());
 
-app.post("/math", (req, res) => {
+app.post("/math", async (req, res) => {
+  const diagon = await Diagon.init();
+
   const expression = req.body.expression || "";
   const translatedExpression = diagon.translate.math(expression, {
     style: "Unicode",
