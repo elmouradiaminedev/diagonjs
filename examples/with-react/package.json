@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "diagonjs": "^1.5.1",
+    "diagonjs": "^1.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
