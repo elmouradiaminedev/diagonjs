@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/elmouradiaminedev/diagonjs/compare/v1.5.1...v1.5.2) (2024-02-12)
+
+
+### Bug Fixes
+
+* **build:** remove redundant code in final generated build ([114ec12](https://github.com/elmouradiaminedev/diagonjs/commit/114ec12fc0dc7d986d2fbd7f8654d0cc6aa013c3))
+
 ## [1.5.1](https://github.com/elmouradiaminedev/diagonjs/compare/v1.5.0...v1.5.1) (2024-02-12)
 
 
