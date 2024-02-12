@@ -1,3 +1,3 @@
-import { createTranslationFunction } from "../lib/internal";
+import { _createTranslationFunction } from "../lib/internal";
 
-export const graphDAG = createTranslationFunction("GraphDAG");
+export const graphDAG = _createTranslationFunction("GraphDAG");

@@ -1,4 +1,4 @@
-import { createTranslationFunction } from "../lib/internal";
+import { _createTranslationFunction } from "../lib/internal";
 
 export const GRAMMAR_TRANSLATION_INPUTS = [
   "abnf",
@@ -30,4 +30,4 @@ export type GrammarTranslationOptions = {
 };
 
 export const grammar =
-  createTranslationFunction<GrammarTranslationOptions>("Grammar");
+  _createTranslationFunction<GrammarTranslationOptions>("Grammar");

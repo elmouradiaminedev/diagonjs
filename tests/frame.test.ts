@@ -1,5 +1,5 @@
-import { expect, describe, it } from "vitest";
-import Diagon, { FrameTranslationOptions } from "src";
+import { expect, describe, it, beforeAll } from "vitest";
+import Diagon, { DiagonType, FrameTranslationOptions } from "src";
 
 function generateAllOptions(): FrameTranslationOptions[] {
   const allOptions: FrameTranslationOptions[] = [];
@@ -16,12 +16,18 @@ function generateAllOptions(): FrameTranslationOptions[] {
   return allOptions;
 }
 
+let diagon: DiagonType;
+
+beforeAll(async () => {
+  diagon = await Diagon.init();
+});
+
 describe("Frame expression translation", () => {
   generateAllOptions().forEach((options) => {
     describe(`With options ${JSON.stringify(options)}`, () => {
       it("should translate code frame hello world", () => {
         expect(
-          Diagon.translate.frame(
+          diagon.translate.frame(
             '#include <iostream>\nusing namespace std;\n\nint main() \n{\n    cout << "Hello, World!";\n    return 0;\n}',
             options,
           ),
