@@ -1,3 +1,12 @@
+# [1.5.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.4.0...v1.5.0) (2024-02-12)
+
+
+### Features
+
+* add support for grammar translation ([07d285b](https://github.com/elmouradiaminedev/diagonjs/commit/07d285bc83619a65fc9f2330ff4215203c72b0cb))
+* add support to frame & graphDag translation ([52d3764](https://github.com/elmouradiaminedev/diagonjs/commit/52d3764c7091e0dbe0c0945b0e38dc250b1a8e0c))
+* asynchornous loading of diagon module ([9d4cd37](https://github.com/elmouradiaminedev/diagonjs/commit/9d4cd37c9ffbe5445b600a8d079e06e8f6e88a48))
+
 # [1.4.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.3.0...v1.4.0) (2024-02-11)
 
 
