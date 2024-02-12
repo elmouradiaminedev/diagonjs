@@ -1,5 +1,6 @@
 import DiagonModule from "@vendors/diagon";
 import { camelToUnderscore } from "../utils";
+import { version } from "../../package.json";
 
 export const TRANSLATION_TOOLS = [
   "Math",
@@ -25,12 +26,27 @@ let diagonModule: Awaited<ReturnType<typeof DiagonModule>> | undefined;
 
 let _translate: TranslationFunction;
 
-export const _init = async () => {
+export const _init = async ({ wasmUrl }: { wasmUrl?: string } = {}) => {
   if (diagonModule) {
     return;
   }
 
-  diagonModule = await DiagonModule();
+  let wasmBinary;
+
+  if (typeof window !== "undefined" || wasmUrl) {
+    const response = await fetch(
+      wasmUrl ??
+        `https://cdn.jsdelivr.net/npm/diagonjs@${version}/dist/diagon.js-1.1.wasm`,
+    );
+    const buffer = await response.arrayBuffer();
+
+    wasmBinary = buffer;
+  }
+
+  diagonModule = await DiagonModule({
+    wasmBinary,
+  });
+
   _translate = diagonModule.cwrap("translate", "string", [
     "string",
     "string",
