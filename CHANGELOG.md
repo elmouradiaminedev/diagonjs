@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/elmouradiaminedev/diagonjs/compare/v1.5.0...v1.5.1) (2024-02-12)
+
+
+### Bug Fixes
+
+* generating cjs and esm not required for it work ([1aaab2d](https://github.com/elmouradiaminedev/diagonjs/commit/1aaab2d79d5a60e02747ac39c10a16b959dc77b5))
+
 # [1.5.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.4.0...v1.5.0) (2024-02-12)
 
 
