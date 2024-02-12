@@ -5,7 +5,7 @@
     <h1 align="center">Diagonjs</h1>
 </p>
 
-[![npm version](https://badgen.net/npm/v/diagonjs)](https://npm.im/tsup) [![npm downloads](https://badgen.net/npm/dm/diagonjs)](https://npm.im/diagonjs) ![CI status](https://github.com/elmouradiaminedev/diagonjs/actions/workflows/ci.yml/badge.svg)
+[![npm version](https://badgen.net/npm/v/diagonjs)](https://npm.im/diagonjs) [![npm downloads](https://badgen.net/npm/dm/diagonjs)](https://npm.im/diagonjs) ![CI status](https://github.com/elmouradiaminedev/diagonjs/actions/workflows/ci.yml/badge.svg)
 
 Craft captivating ASCII art from your Markdown expression with ease, powered by [Diagon](https://github.com/ArthurSonzogni/Diagon).
 
@@ -81,7 +81,7 @@ export default defineConfig({
 - Dive deeper into the source code by exploring the [translators directory](https://github.com/elmouradiaminedev/diagonjs/blob/main/src/translators/index.ts)
 - Find practical integrations with express, react and more in the [examples section](https://github.com/elmouradiaminedev/diagonjs/tree/main/examples).
 - Explore the [test section](https://github.com/ArthurSonzogni/Diagon/tree/main/test) in the Diagon C++ repository. It contains input and output samples.
-- Experience Diagonjs in action using the [online interpreter](https://arthursonzogni.com/Diagon/). 
+- Experience Diagonjs in action using the [online interpreter](https://arthursonzogni.com/Diagon/).
 
 ## 💖 Thanks
 
