@@ -8,6 +8,7 @@ DIST_DIR="dist"
 clone_diagon_source() {
   if [ ! -d "$SOURCE_DIR" ]; then
     git clone https://github.com/ArthurSonzogni/Diagon.git "$SOURCE_DIR"
+    rm -rf "$SOURCE_DIR/.git"
   fi
 }
 
