@@ -12,6 +12,7 @@
 [![codecov](https://codecov.io/gh/elmouradiaminedev/diagonjs/graph/badge.svg?token=TYVEPNWRD3)](https://codecov.io/gh/elmouradiaminedev/diagonjs)
 
 </div>
+
 Craft captivating ASCII art from your Markdown expression with ease, powered by [Diagon](https://github.com/ArthurSonzogni/Diagon).
 
 ## 🚀 Features
