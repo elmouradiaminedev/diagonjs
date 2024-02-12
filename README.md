@@ -10,6 +10,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/diagonjs)](https://www.npmjs.com/package/diagonjs)
 ![CI status](https://github.com/elmouradiaminedev/diagonjs/actions/workflows/ci.yml/badge.svg)
 [![codecov](https://codecov.io/gh/elmouradiaminedev/diagonjs/graph/badge.svg?token=TYVEPNWRD3)](https://codecov.io/gh/elmouradiaminedev/diagonjs)
+[![TypeScript](https://badgen.net/badge/icon/TypeScript?icon=typescript&label)](https://www.typescriptlang.org/)
 
 </div>
 
@@ -21,6 +22,7 @@ Craft captivating ASCII art from your Markdown expression with ease, powered by 
 - Flexible translation with customizable options including styles like Unicode, ASCII, Latex, and more.
 - Support for both Node.js and browser environments.
 - Compatible with CommonJS (CJS) and ECMAScript Module (ESM) environments.
+- Fully typed for enhanced developer experience.
 
 ## ⚙️ Install
 
