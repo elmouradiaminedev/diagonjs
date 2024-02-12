@@ -1,6 +1,6 @@
 # Diagonjs Express App
 
-This is a basic Express app that consumes DiagonJS for mathematical expression translation.
+This is a basic Express app that consumes Diagonjs for mathematical expression translation.
 
 ## Prerequisites
 
