@@ -8,9 +8,10 @@ function App() {
   const [output, setOutput] = useState("");
 
   useEffect(() => {
-    Diagon.init().then((instance) => {
+    (async () => {
+      const instance = await Diagon.init();
       setDiagon(instance);
-    });
+    })();
   }, []);
 
   return (

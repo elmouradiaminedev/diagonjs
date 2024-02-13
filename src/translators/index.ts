@@ -189,8 +189,10 @@ export type DiagonType = {
   translate: Translator;
 };
 
-export const init = async (): Promise<DiagonType> => {
-  await _init();
+export const init = async ({
+  wasmUrl,
+}: { wasmUrl?: string } = {}): Promise<DiagonType> => {
+  await _init({ wasmUrl });
 
   return {
     translate: {
