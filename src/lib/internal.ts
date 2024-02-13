@@ -26,23 +26,14 @@ let diagonModule: Awaited<ReturnType<typeof DiagonModule>> | undefined;
 
 let _translate: TranslationFunction;
 
-let initLock: Promise<void> | null = null;
-
 export const _init = async ({ wasmUrl }: { wasmUrl?: string } = {}) => {
-  if (initLock) {
-    await initLock;
-  }
-
   if (diagonModule) {
     return;
   }
 
-  let lockResolver = () => {};
-  initLock = new Promise<void>((resolve) => (lockResolver = resolve));
-
   let wasmBinary;
 
-  if (typeof window !== "undefined" || wasmUrl) {
+  if (typeof globalThis.window !== "undefined" || wasmUrl) {
     const response = await fetch(
       wasmUrl ??
         `https://cdn.jsdelivr.net/npm/diagonjs@${version}/dist/diagon.js-1.1.wasm`,
@@ -60,8 +51,6 @@ export const _init = async ({ wasmUrl }: { wasmUrl?: string } = {}) => {
     "string",
     "string",
   ]);
-  initLock = null;
-  lockResolver();
 };
 
 const _stringifyOptions = (options: TranslationOptions): string =>
