@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/elmouradiaminedev/diagonjs/compare/v1.6.0...v1.6.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* add locks to diagon init function ([1310253](https://github.com/elmouradiaminedev/diagonjs/commit/1310253c5e0c9b9ddfd6b263f7926db46324cfa5))
+
 # [1.6.0](https://github.com/elmouradiaminedev/diagonjs/compare/v1.5.2...v1.6.0) (2024-02-12)
 
 
