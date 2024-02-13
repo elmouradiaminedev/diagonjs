@@ -86,7 +86,7 @@ diagon.translate.sequence(
 
 ## 📚 Documentation
 
-- Dive deeper into the source code by exploring the [translators directory](https://github.com/elmouradiaminedev/diagonjs/blob/main/src/translators/index.ts)
+- Dive deeper into the source code by exploring the [translators](https://github.com/elmouradiaminedev/diagonjs/blob/main/src/translators/index.ts)
 - Find practical integrations with express, react and more in the [examples section](https://github.com/elmouradiaminedev/diagonjs/tree/main/examples).
 - Explore the [test section](https://github.com/ArthurSonzogni/Diagon/tree/main/test) in the Diagon C++ repository. It contains input and output samples.
 - Experience Diagonjs in action using the [online interpreter](https://arthursonzogni.com/Diagon/).
