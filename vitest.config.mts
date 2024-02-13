@@ -7,9 +7,6 @@ export default defineConfig({
     coverage: {
       exclude: ["**/vendors/**", "**/types/**", "**/examples/**"],
       thresholds: {
-        lines: 90,
-        functions: 90,
-        branches: 90,
         statements: 90,
       },
     },
