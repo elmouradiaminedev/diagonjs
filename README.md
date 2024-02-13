@@ -50,7 +50,9 @@ const diagon = await Diagon.init();
 
 ### Use a translator
 
-Once Diagon.js is initialized, you can use its translators to interpret and transform expressions. Below is an example using the math translator:
+Once Diagon.js is initialized, you can use its translators to interpret and transform expressions.
+
+Below is an example using the math expression translator:
 
 ```js
 diagon.translate.math("f(x) = 1 + x / (1 + x)", { style: "Unicode" });
@@ -60,28 +62,26 @@ diagon.translate.math("f(x) = 1 + x / (1 + x)", { style: "Unicode" });
 //            1 + x
 ```
 
-### Web Integration
-
-If you're incorporating Diagonjs into a web application, ensure that the diagon wasm file is correctly copied to the build folder by your bundler. Here's an example with Vite configuration:
+And here's an example employing the sequence diagram translator:
 
 ```js
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { viteStaticCopy } from "vite-plugin-static-copy";
+diagon.translate.sequence(
+  "Alice -> Bob: Hello Bob!\nAlice <- Bob: Hello Alice!",
+  { asciiOnly: false },
+);
 
-export default defineConfig({
-  plugins: [
-    react(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: "**/**.wasm",
-          dest: "./",
-        },
-      ],
-    }),
-  ],
-});
+// ┌─────┐       ┌───┐
+// │Alice│       │Bob│
+// └──┬──┘       └─┬─┘
+//    │            │
+//    │ Hello Bob! │
+//    │───────────>│
+//    │            │
+//    │Hello Alice!│
+//    │<───────────│
+// ┌──┴──┐       ┌─┴─┐
+// │Alice│       │Bob│
+// └─────┘       └───┘
 ```
 
 ## 📚 Documentation
