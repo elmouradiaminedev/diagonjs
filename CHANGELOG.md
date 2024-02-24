@@ -1,3 +1,33 @@
+# 1.0.0 (2024-02-24)
+
+
+### Bug Fixes
+
+* add locks to diagon init function ([80ade0a](https://github.com/elmouradiaminedev/diagonjs/commit/80ade0a87944ed42745d76d44bb78c1f2c337826))
+* add main branch to semantic release config ([0b93bb2](https://github.com/elmouradiaminedev/diagonjs/commit/0b93bb27484241288a68b090f076f953daab32bb))
+* **build:** remove redundant code in final generated build ([e83628b](https://github.com/elmouradiaminedev/diagonjs/commit/e83628b1413a34962a791886318697cd8f55236c))
+* bump upload artifact to v4 ([ae8d717](https://github.com/elmouradiaminedev/diagonjs/commit/ae8d71782a255014086694b5cf82ccecae425080))
+* change versioning to semantic ([26e791d](https://github.com/elmouradiaminedev/diagonjs/commit/26e791d08b8cd5654fc1cac8181946ce35da0fc9))
+* **ci:** install semantic git library ([afde2ee](https://github.com/elmouradiaminedev/diagonjs/commit/afde2ee3ed38f4806d690b7eafca975c9b62cfa0))
+* dist folder not packaged in npm ([5f6f68b](https://github.com/elmouradiaminedev/diagonjs/commit/5f6f68bfcfc642a6c809cae94f3c85f37ff2ec59))
+* ensure diagon translate function is properly exported ([8bd2b0d](https://github.com/elmouradiaminedev/diagonjs/commit/8bd2b0d880681fe12dd2434c6b55b5e07663442e))
+* generating cjs and esm not required for it work ([0821b43](https://github.com/elmouradiaminedev/diagonjs/commit/0821b43f49f4c215d7e6c2ec7aec67490722e2b3))
+* install semantic changelog library ([37d1a52](https://github.com/elmouradiaminedev/diagonjs/commit/37d1a52ff71e76312861dabd66452201cb596b9d))
+* options failed to be processed by cpp translate ([4093fcc](https://github.com/elmouradiaminedev/diagonjs/commit/4093fcce9daa5c285af2eedf74b2e890189a100f))
+* tests failing due to export change ([2c0be19](https://github.com/elmouradiaminedev/diagonjs/commit/2c0be190edb6427bfbc945f503a7becdb2427a06))
+
+
+### Features
+
+* add  sequence expression translation ([2326577](https://github.com/elmouradiaminedev/diagonjs/commit/2326577b37bf371d7813a75d46bfab6efea257ae))
+* add math expression translation ([27916b2](https://github.com/elmouradiaminedev/diagonjs/commit/27916b265d3de7b5ad7082add24edb2ebffd4ba7))
+* add support for grammar translation ([b821932](https://github.com/elmouradiaminedev/diagonjs/commit/b8219328bb760099c763963b3fbcdcd57799aeb4))
+* add support to frame & graphDag translation ([7e3ed12](https://github.com/elmouradiaminedev/diagonjs/commit/7e3ed1217331fdc5c22f32687e5d117ef7830d70))
+* add support to table expression translation ([c68e9d6](https://github.com/elmouradiaminedev/diagonjs/commit/c68e9d6fd85b4240f6e4ba1845dcd6b64b721788))
+* add tree translator ([850853e](https://github.com/elmouradiaminedev/diagonjs/commit/850853e7c4e8d6ae392a60f14cf5cfb592a33d62))
+* asynchornous loading of diagon module ([38c7059](https://github.com/elmouradiaminedev/diagonjs/commit/38c7059c5f7f557667c86ec08f198900b6ddc231))
+* load wasm file through cdn in browser environment ([02d3c1d](https://github.com/elmouradiaminedev/diagonjs/commit/02d3c1db4c68f8eedaa78c3c23c990127844a3c5))
+
 ## [1.6.1](https://github.com/elmouradiaminedev/diagonjs/compare/v1.6.0...v1.6.1) (2024-02-13)
 
 
